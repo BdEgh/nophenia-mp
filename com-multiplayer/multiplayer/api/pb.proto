@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package Api;
+
+enum EAction {
+  DELETE = 0;
+  SET = 1;
+  MERGE = 2;
+}
+
+message TPosition {
+  repeated float vector = 1;
+}
+
+message TVelocity {
+  repeated float vector = 1;
+}
+
+message TRotation {
+  repeated float vector = 1;
+}
+
+message TPing {
+  int64 timestamp = 1;
+  int32 ping_id = 2;
+}
+
+message TAnimation {
+  string name = 1;
+  float speed = 2;
+  bool playing = 3;
+}
+
+message TClientState {
+  int32 world_hash = 0;
+  TPosition position = 1;
+  TVelocity velocity = 2;
+  TRotation rotation = 3;
+  TAnimation animation = 4;
+}
+
+message TSignedClientState {
+  uint32 uid = 1;
+  TClientState state = 2;
+  EAction action = 3;
+}
+
+message TSignedClientMessage {
+  uint32 uid = 1;
+  string msg = 2;
+}
+
+message TClientData {
+  oneof payload {
+    TSignedClientMessage chat_message = 1;
+    TPing ping = 2;
+    TSignedClientState signed_state = 3;
+    bool sync_request = 4;
+  }
+}
+
+/////////////////
+// Server part //
+/////////////////
+
+message TPlayersState {
+  repeated TSignedClientState signed_state = 1;
+  int32 your_uid = 0;
+}
+
+message TServerData {
+  oneof payload {
+    TPlayersState players = 1;
+    TSignedClientMessage chat_message = 2;
+    bool state_request = 3;
+    TPing ping = 4;
+  }
+}

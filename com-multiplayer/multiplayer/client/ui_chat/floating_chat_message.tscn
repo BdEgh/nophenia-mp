@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://bxias2ru3wqys"]
+
+[ext_resource type="Script" uid="uid://j6qvnuf45ky5" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_chat/floating_chat_message.gd" id="1_floating"]
+
+[node name="MessageLabel" type="Label3D" unique_id=2083034633]
+billboard = 1
+no_depth_test = true
+text = "Sample Text"
+font_size = 22
+outline_size = 6
+autowrap_mode = 3
+width = 200.0
+script = ExtResource("1_floating")

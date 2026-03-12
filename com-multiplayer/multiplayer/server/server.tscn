@@ -1,0 +1,111 @@
+[gd_scene format=3 uid="uid://c3n8k5m2qaqr7"]
+
+[ext_resource type="Script" uid="uid://3b3crx7tctf2" path="res://mods-unpacked/com-multiplayer/multiplayer/server/server.gd" id="1_s4nhi"]
+[ext_resource type="Script" uid="uid://dot1uuaw5morm" path="res://mods-unpacked/com-multiplayer/multiplayer/server/server_api.gd" id="2_4q2n6"]
+
+[node name="Server" type="Control" unique_id=1493541777]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_s4nhi")
+metadata/_edit_use_anchors_ = true
+
+[node name="ServerApi" type="Node" parent="." unique_id=960055487]
+unique_name_in_owner = true
+script = ExtResource("2_4q2n6")
+
+[node name="Panel" type="Panel" parent="." unique_id=866804642]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=879347185]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="Panel/VBoxContainer" unique_id=1676057385]
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+text = "Network Server"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Panel/VBoxContainer" unique_id=83611776]
+layout_mode = 2
+
+[node name="HostLabel" type="Label" parent="Panel/VBoxContainer" unique_id=1159224407]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "Host:"
+
+[node name="HostInput" type="LineEdit" parent="Panel/VBoxContainer" unique_id=1237843255]
+unique_name_in_owner = true
+layout_mode = 2
+text = "127.0.0.1"
+placeholder_text = "Server host address"
+
+[node name="PortLabel" type="Label" parent="Panel/VBoxContainer" unique_id=390831882]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "Port:"
+
+[node name="PortInput" type="SpinBox" parent="Panel/VBoxContainer" unique_id=992262145]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 1024.0
+max_value = 65535.0
+value = 52424.0
+
+[node name="HSeparator2" type="HSeparator" parent="Panel/VBoxContainer" unique_id=627943565]
+layout_mode = 2
+
+[node name="StartButton" type="Button" parent="Panel/VBoxContainer" unique_id=1871388178]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Start Server"
+
+[node name="HSeparator3" type="HSeparator" parent="Panel/VBoxContainer" unique_id=90444929]
+layout_mode = 2
+
+[node name="StatusLabel" type="Label" parent="Panel/VBoxContainer" unique_id=1327308371]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "Status: Stopped"
+horizontal_alignment = 1
+
+[node name="HSeparator4" type="HSeparator" parent="Panel/VBoxContainer" unique_id=1086958163]
+layout_mode = 2
+
+[node name="LogLabel" type="Label" parent="Panel/VBoxContainer" unique_id=2025651798]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "Server Log:"
+
+[node name="LogScroll" type="ScrollContainer" parent="Panel/VBoxContainer" unique_id=1096484184]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="LogText" type="RichTextLabel" parent="Panel/VBoxContainer/LogScroll" unique_id=615935806]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+scroll_following = true

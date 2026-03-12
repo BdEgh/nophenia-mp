@@ -1,0 +1,167 @@
+[gd_scene format=3 uid="uid://cnw54p66s5or6"]
+
+[ext_resource type="Texture2D" uid="uid://buv217vyrxvqy" path="res://texture/phone_ui.png" id="1_7notq"]
+[ext_resource type="FontFile" uid="uid://dho0yytyts0c3" path="res://resource/font/menu_large.ttf" id="2_aeyns"]
+[ext_resource type="Script" uid="uid://cvoed8ynaakov" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/info.gd" id="3_aeyns"]
+[ext_resource type="Script" uid="uid://bneelvmn45klm" path="res://gdscript/ui/scroll_arrow.gd" id="3_vt6v5"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vt6v5"]
+load_path = "res://.godot/imported/phone_ui.png-6f8d1b36a0ca9a61b33ac95561151449.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w2ken"]
+atlas = SubResource("CompressedTexture2D_vt6v5")
+region = Rect2(238, 39, 19, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5me3p"]
+atlas = ExtResource("1_7notq")
+region = Rect2(2, 104, 138, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xjxgp"]
+atlas = ExtResource("1_7notq")
+region = Rect2(141, 66, 9, 8)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_o3720"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w2ken"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lf1sj"]
+atlas = ExtResource("1_7notq")
+region = Rect2(39, 114, 17, 10)
+
+[node name="MultiplayerInfo" type="Control" unique_id=1205321076]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/title = "Credits"
+metadata/focus = NodePath("margin_container/v_box_container2/nine_patch_rect2/margin_container")
+metadata/right_text = "menu_nav_ok"
+metadata/hide_title = false
+
+[node name="margin_container" type="MarginContainer" parent="." unique_id=1782239598]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 30
+
+[node name="v_box_container2" type="VBoxContainer" parent="margin_container" unique_id=1360436352]
+layout_mode = 2
+
+[node name="h_box_container" type="HBoxContainer" parent="margin_container/v_box_container2" unique_id=104909606]
+layout_mode = 2
+
+[node name="pencil" type="TextureRect" parent="margin_container/v_box_container2/h_box_container" unique_id=466591778]
+layout_mode = 2
+texture = SubResource("AtlasTexture_w2ken")
+
+[node name="label" type="Label" parent="margin_container/v_box_container2/h_box_container" unique_id=900255073]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "MP Info"
+
+[node name="info_ext" type="Label" parent="margin_container/v_box_container2/h_box_container" unique_id=1122900006 groups=["accent_color_invert"]]
+unique_name_in_owner = true
+layout_mode = 2
+text = "<pb>"
+horizontal_alignment = 2
+
+[node name="nine_patch_rect2" type="NinePatchRect" parent="margin_container/v_box_container2" unique_id=1340463927]
+layout_mode = 2
+size_flags_vertical = 3
+texture = SubResource("AtlasTexture_5me3p")
+
+[node name="nine_patch_rect" type="NinePatchRect" parent="margin_container/v_box_container2/nine_patch_rect2" unique_id=598163075 groups=["accent_color_invert"]]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_xjxgp")
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 2
+patch_margin_bottom = 2
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="margin_container" type="MarginContainer" parent="margin_container/v_box_container2/nine_patch_rect2" unique_id=2102159213]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 3
+
+[node name="info" type="RichTextLabel" parent="margin_container/v_box_container2/nine_patch_rect2/margin_container" unique_id=402635590]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_colors/font_selected_color = Color(0.095172964, 0.3977613, 0.30632764, 1)
+theme_override_colors/selection_color = Color(0.78, 0.15599999, 0.3432001, 0.5882353)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 0.392157)
+theme_override_constants/line_separation = -2
+theme_override_fonts/normal_font = ExtResource("2_aeyns")
+theme_override_font_sizes/normal_font_size = 17
+theme_override_styles/focus = SubResource("StyleBoxEmpty_o3720")
+bbcode_enabled = true
+text = "
+
+
+ [color=000000b0]✩₊˚.⋆☾𓃦☽⋆⁺₊✧[/color]
+
+"
+selection_enabled = true
+script = ExtResource("3_aeyns")
+
+[node name="v_box_container3" type="VBoxContainer" parent="margin_container" unique_id=1739900797]
+layout_mode = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="h_separator2" type="HSeparator" parent="margin_container/v_box_container3" unique_id=378550508]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 24
+theme_override_styles/separator = SubResource("StyleBoxEmpty_w2ken")
+
+[node name="up" type="TextureRect" parent="margin_container/v_box_container3" unique_id=85515736 node_paths=PackedStringArray("_scroll_box")]
+modulate = Color(1, 1, 1, 0.78431374)
+layout_mode = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_lf1sj")
+stretch_mode = 3
+flip_v = true
+script = ExtResource("3_vt6v5")
+_scroll_box = NodePath("../../v_box_container2/nine_patch_rect2/margin_container/info")
+
+[node name="h_separator" type="HSeparator" parent="margin_container/v_box_container3" unique_id=1179193884]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_w2ken")
+
+[node name="down" type="TextureRect" parent="margin_container/v_box_container3" unique_id=1967387270 node_paths=PackedStringArray("_scroll_box")]
+modulate = Color(1, 1, 1, 0.78431374)
+layout_mode = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_lf1sj")
+stretch_mode = 3
+script = ExtResource("3_vt6v5")
+_scroll_box = NodePath("../../v_box_container2/nine_patch_rect2/margin_container/info")
+_is_down = true

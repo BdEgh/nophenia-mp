@@ -1,0 +1,167 @@
+[gd_scene format=3 uid="uid://drtdpc4nyv3w3"]
+
+[ext_resource type="Script" uid="uid://ctuf3r1mdwosq" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_chat/chat.gd" id="1_4sest"]
+[ext_resource type="Texture2D" uid="uid://buv217vyrxvqy" path="res://texture/phone_ui.png" id="1_g32oh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_chat_input"]
+bg_color = Color(0, 0, 0, 0.7019608)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 0.86231637, 0.70534384, 0.6)
+border_blend = true
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_size = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_send_button"]
+bg_color = Color(0.24658787, 0.2465879, 0.24658787, 0.6901961)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.8627451, 0.7058824, 0.6)
+border_blend = true
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4sest"]
+bg_color = Color(0.086629294, 0.086629234, 0.08662925, 0.6901961)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.8627451, 0.7058824, 0.6)
+border_blend = true
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yxpje"]
+bg_color = Color(0.446777, 0.44677705, 0.44677693, 0.6901961)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.8627451, 0.7058824, 0.6)
+border_blend = true
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ynkhd"]
+atlas = ExtResource("1_g32oh")
+region = Rect2(237, 39, 20, 20)
+margin = Rect2(4, 0, 4, 0)
+filter_clip = true
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_input"]
+
+[node name="ChatUI" type="Control" unique_id=1766575649]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -293.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+script = ExtResource("1_4sest")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=372779718]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.3529412)
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=815126705]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=690652197]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer" unique_id=679805878]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="ChatContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer" unique_id=1110695344]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+alignment = 2
+
+[node name="InputArea" type="PanelContainer" parent="MarginContainer/VBoxContainer" unique_id=1808231203]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_chat_input")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/InputArea" unique_id=1551339002]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/InputArea/MarginContainer" unique_id=446917327]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="SendButton" type="Button" parent="MarginContainer/VBoxContainer/InputArea/MarginContainer/HBoxContainer" unique_id=1191450166]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_send_button")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_4sest")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yxpje")
+icon = SubResource("AtlasTexture_ynkhd")
+
+[node name="MessageInput" type="LineEdit" parent="MarginContainer/VBoxContainer/InputArea/MarginContainer/HBoxContainer" unique_id=883879443]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.99604887, 0.9907989, 0.9802901, 1)
+theme_override_colors/font_placeholder_color = Color(1, 1, 1, 0.27450982)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxEmpty_input")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_input")
+placeholder_text = "Type something..."
+max_length = 100
+keep_editing_on_text_submit = true
+caret_blink = true
+
+[node name="ColorRect2" type="ColorRect" parent="." unique_id=543323976]
+visible = false
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 290.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.22864196, 0.1947799, 0.51075923, 1)

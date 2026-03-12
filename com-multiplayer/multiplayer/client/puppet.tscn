@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://c8vx7m2n3qp4k"]
+
+[ext_resource type="Script" uid="uid://detcdm64sv41t" path="res://mods-unpacked/com-multiplayer/multiplayer/client/puppet_patcher.gd" id="1_evxye"]
+
+[node name="Pup" type="Node" unique_id=305554034]
+script = ExtResource("1_evxye")
+
+[node name="NameLabel" type="Label3D" parent="." unique_id=1340079718]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+billboard = 1
+text = "Player"
+outline_size = 8

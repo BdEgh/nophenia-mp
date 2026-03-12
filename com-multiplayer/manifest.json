@@ -1,0 +1,19 @@
+{
+	"name": "multiplayer",
+	"namespace": "com",
+	"version_number": "0.0.1",
+	"description": "made with affection for this little game <3",
+	"website_url": "...",
+	"dependencies": [],
+	"extra": {
+		"godot": {
+			"authors": ["bde"],
+			"optional_dependencies": [],
+			"load_before": [],
+			"incompatibilities": [],
+			"compatible_mod_loader_version": ["7.0.1"],
+			"compatible_game_version": ["0.0.1"],
+			"config_schema": {}
+		}
+	}
+}
