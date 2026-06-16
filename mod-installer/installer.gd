@@ -88,8 +88,15 @@ func _replace_color(text: String, color: String) -> String:
 		replacement = "[rainbow]"
 	return regex.sub(text, replacement)
 
+func _fetch_exec(path: String) -> String:
+	if FileAccess.file_exists(path.path_join("nophenia.exe")):
+		return path.path_join("nophenia.exe")
+	elif FileAccess.file_exists(path.path_join("nophenia.x86_64")):
+		return path.path_join("nophenia.x86_64")
+	return ""
+
 func _on_orig_game_line_text_changed(new_text: String) -> void:
-	if FileAccess.file_exists(new_text.path_join("nophenia.exe")) or FileAccess.file_exists(new_text.path_join("nophenia.x86_64")):
+	if _fetch_exec(new_text) != "":
 		star_0.text = _replace_color(star_0.text, "white")
 		valid_orig = true
 	else:
@@ -148,7 +155,7 @@ func _extract() -> bool:
 		var arguments := PackedStringArray([
 			"--headless",
 			"--include=res://.godot/**",
-			"--extract=%s" % orig_game_line.text.path_join("nophenia.x86_64"),
+			"--extract=%s" % _fetch_exec(orig_game_line.text),
 			"--output=%s" % patched_game_line.text
 		])
 		status = OS.execute(exec_path, arguments)
@@ -176,7 +183,7 @@ func _create_desktop_shortcut() -> void:
 		DirAccess.copy_absolute(ProjectSettings.globalize_path("res://assets/game-icon.png"), icon_file)
 		var desk = OS.get_environment("HOME").path_join("Desktop")
 		var lnk = desk.path_join("nophenia-mp.desktop")
-		var exec_path = patched_game_line.text.path_join("nophenia.x86_64")
+		var exec_path = _fetch_exec(patched_game_line.text)
 		OS.execute("chmod", ["+x", exec_path])
 		var content = "[Desktop Entry]\nType=Application\nName=nophenia-mp\nExec=%s\nPath=%s\nIcon=%s\n" % [exec_path, patched_game_line.text, icon_file]
 		var file = FileAccess.open(lnk, FileAccess.WRITE)

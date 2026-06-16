@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cnw54p66s5or6"]
 
 [ext_resource type="Texture2D" uid="uid://buv217vyrxvqy" path="res://texture/phone_ui.png" id="1_7notq"]
+[ext_resource type="PackedScene" uid="uid://cklnynrgg1w20" path="res://resource/pause_menu_phone_option.tscn" id="1_vt6v5"]
 [ext_resource type="FontFile" uid="uid://dho0yytyts0c3" path="res://resource/font/menu_large.ttf" id="2_aeyns"]
 [ext_resource type="Script" uid="uid://cvoed8ynaakov" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/info.gd" id="3_aeyns"]
 [ext_resource type="Script" uid="uid://bneelvmn45klm" path="res://gdscript/ui/scroll_arrow.gd" id="3_vt6v5"]
@@ -39,6 +40,57 @@ metadata/title = "Credits"
 metadata/focus = NodePath("margin_container/v_box_container2/nine_patch_rect2/margin_container")
 metadata/right_text = "menu_nav_ok"
 metadata/hide_title = false
+
+[node name="v_box_container" type="VBoxContainer" parent="." unique_id=1108597300]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 48.0
+offset_right = 636.0
+offset_bottom = 480.0
+theme_override_constants/separation = 6
+
+[node name="option_display" parent="v_box_container" unique_id=312022841 instance=ExtResource("1_vt6v5")]
+layout_mode = 2
+text = "menu_option_fullscreen"
+_is_option = true
+_config_option = "fullscreen"
+exclude_steamdeck = true
+
+[node name="option_widescreen" parent="v_box_container" unique_id=393149372 instance=ExtResource("1_vt6v5")]
+layout_mode = 2
+text = "menu_option_widescreen"
+_is_option = true
+_config_option = "widescreen"
+
+[node name="option_vsync" parent="v_box_container" unique_id=1719586034 instance=ExtResource("1_vt6v5")]
+layout_mode = 2
+text = "menu_option_vsync"
+_is_option = true
+_config_option = "vsync"
+
+[node name="option_antialiasing" parent="v_box_container" unique_id=526151526 instance=ExtResource("1_vt6v5")]
+layout_mode = 2
+text = "menu_option_aa"
+_is_option = true
+_config_option = "antialiasing"
+
+[node name="option_filter" parent="v_box_container" unique_id=734497098 instance=ExtResource("1_vt6v5")]
+layout_mode = 2
+text = "menu_option_filter"
+_is_option = true
+_config_option = "screen_filter"
+
+[node name="margin_container_opt" type="MarginContainer" parent="." unique_id=366703949]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 48
+theme_override_constants/margin_right = 4
 
 [node name="margin_container" type="MarginContainer" parent="." unique_id=1782239598]
 layout_mode = 1

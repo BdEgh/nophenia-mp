@@ -1,0 +1,167 @@
+[gd_scene format=3 uid="uid://b4gnncb2os23l"]
+
+[ext_resource type="Texture2D" uid="uid://buv217vyrxvqy" path="res://texture/phone_ui.png" id="1_62nds"]
+[ext_resource type="Script" uid="uid://dtqep73nssuam" path="res://gdscript/ui/phone_button.gd" id="2_fpjg7"]
+[ext_resource type="Shader" uid="uid://cwl71jfhkvigs" path="res://gdshader/ui_invert.gdshader" id="3_kfh4a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j8voh"]
+atlas = ExtResource("1_62nds")
+region = Rect2(183.35132, 39.301872, 24.634705, 21.830757)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v0d3x"]
+resource_local_to_scene = true
+shader = ExtResource("3_kfh4a")
+shader_parameter/invert = false
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8nfyy"]
+atlas = ExtResource("1_62nds")
+region = Rect2(71, 0, 6, 11)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_8nfyy"]
+size = Vector2(0, 0)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hx20v"]
+content_margin_top = 6.0
+content_margin_bottom = 4.0
+texture = ExtResource("1_62nds")
+texture_margin_left = 1.0
+texture_margin_top = 1.0
+texture_margin_right = 1.0
+texture_margin_bottom = 1.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(135, 52, 13, 10)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8nfyy"]
+texture = ExtResource("1_62nds")
+texture_margin_left = 1.0
+texture_margin_top = 1.0
+texture_margin_right = 1.0
+texture_margin_bottom = 1.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(135, 41, 13, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hx20v"]
+atlas = ExtResource("1_62nds")
+region = Rect2(71, 0, 6, 11)
+
+[node name="option_mods" type="Button" unique_id=1218338344]
+custom_minimum_size = Vector2(128, 19)
+focus_neighbor_top = NodePath("../../../../../../option_language")
+mouse_default_cursor_shape = 3
+shortcut_in_tooltip = false
+text = "Mods"
+icon = SubResource("AtlasTexture_j8voh")
+flat = true
+script = ExtResource("2_fpjg7")
+
+[node name="bg" type="ColorRect" parent="." unique_id=1580186420]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.0392157)
+
+[node name="option_box" type="HBoxContainer" parent="." unique_id=235095691]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="preview_tex" type="TextureRect" parent="option_box" unique_id=655997752]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_v0d3x")
+custom_minimum_size = Vector2(25, 0)
+layout_mode = 2
+size_flags_vertical = 0
+stretch_mode = 3
+
+[node name="check_box" type="CheckBox" parent="option_box" unique_id=1214467306]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+
+[node name="display_title_box" type="Control" parent="option_box" unique_id=1332611057]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="display_title" type="Label" parent="option_box/display_title_box" unique_id=1941282451]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 0
+vertical_alignment = 1
+
+[node name="slider_option" type="MarginContainer" parent="." unique_id=620741367]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 4
+
+[node name="h_box_container" type="HBoxContainer" parent="slider_option" unique_id=1031015345]
+layout_mode = 2
+alignment = 1
+
+[node name="left" type="TextureRect" parent="slider_option/h_box_container" unique_id=15205413]
+layout_mode = 2
+texture = SubResource("AtlasTexture_8nfyy")
+stretch_mode = 2
+flip_h = true
+
+[node name="slider" type="HSlider" parent="slider_option/h_box_container" unique_id=1413021715 groups=["accent_color_invert"]]
+unique_name_in_owner = true
+modulate = Color(0.6784314, 0.6666666, 0.47843134, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 3
+theme_override_icons/grabber = SubResource("PlaceholderTexture2D_8nfyy")
+theme_override_icons/grabber_highlight = SubResource("PlaceholderTexture2D_8nfyy")
+theme_override_icons/grabber_disabled = SubResource("PlaceholderTexture2D_8nfyy")
+theme_override_styles/slider = SubResource("StyleBoxTexture_hx20v")
+theme_override_styles/grabber_area = SubResource("StyleBoxTexture_8nfyy")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxTexture_8nfyy")
+step = 10.0
+
+[node name="slider_value" type="Label" parent="slider_option/h_box_container/slider" unique_id=235806831]
+unique_name_in_owner = true
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = -4.5
+offset_right = 24.0
+offset_bottom = 4.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.9, 1)
+text = "<gd>"
+horizontal_alignment = 1
+
+[node name="right" type="TextureRect" parent="slider_option/h_box_container" unique_id=627890772]
+layout_mode = 2
+texture = SubResource("AtlasTexture_hx20v")
+stretch_mode = 2
+
+[connection signal="toggled" from="." to="." method="_on_toggled"]
+[connection signal="focus_exited" from="slider_option/h_box_container/slider" to="." method="_on_slider_focus_exited"]
+[connection signal="value_changed" from="slider_option/h_box_container/slider" to="." method="_on_slider_value_changed"]
