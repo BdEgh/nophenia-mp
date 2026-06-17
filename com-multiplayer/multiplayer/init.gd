@@ -19,7 +19,7 @@ func _ready() -> void:
     
     _load_config()
 
-    add_to_group("mp_init")
+    add_to_group("mp")
     get_tree().node_added.connect(_on_node_added)
     get_tree().node_removed.connect(_on_node_removed)
     _patch_existing(get_tree().root)

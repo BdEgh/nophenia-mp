@@ -65,6 +65,8 @@ func _ready():
     plinktimer = get_node("plinktimer")
     #plinktimer.timeout.connect(_on_plinktimer_timeout)
 
+    _setup_unique_material()
+
 func _physics_process(delta: float):
     time_since_last_update += delta
     
@@ -261,7 +263,7 @@ func _find_look_at_target():
     var best_score: float = -1.0
     
     var targets: Array
-    var puppet_manager = get_node_or_null("/root/ModLoader/com-multiplayer-multiplayer/NetworkClient/PuppetManager")
+    var puppet_manager = get_tree().get_first_node_in_group("mp").get_node_or_null("NetworkClient/PuppetManager")
     if puppet_manager and puppet_manager.has_method("get_all_puppets"):
         targets = puppet_manager.get_all_puppets()
     var nia = game.find("player")
@@ -298,3 +300,26 @@ func _calc_look_at_target_score(candidate: Node3D) -> float:
     var distance_score = 1.0 - (distance / look_at_range)
     var angle_score = 1.0 - (angle / look_at_angle)
     return distance_score * 0.6 + angle_score * 0.4
+
+var _mat_next_pass: StandardMaterial3D
+
+func _setup_unique_material():
+    var shared_mat = game.loadres("mat_player")
+    if not shared_mat:
+        return
+    
+    var unique_mat: StandardMaterial3D = shared_mat.duplicate()
+    if shared_mat.next_pass:
+        unique_mat.next_pass = shared_mat.next_pass.duplicate()
+    _mat_next_pass = unique_mat.next_pass
+    var skeleton = chara.get_node("Armature/Skeleton3D")
+    for mesh in skeleton.find_children("*", "MeshInstance3D", true, false):
+        for i in mesh.get_surface_override_material_count():
+            if mesh.get_active_material(i) == shared_mat:
+                mesh.set_surface_override_material(i, unique_mat)
+
+func damage():
+    if _mat_next_pass:
+        _mat_next_pass.albedo_color = Color("80131cff")
+    audio.play_snd_spatial(game.loadres("damage"), head.global_position, 4.0, -1.0, 0.7)
+    audio.play_snd_spatial(game.loadres("nia_damage"), head.global_position, 4.0, -1.0, 0.1)

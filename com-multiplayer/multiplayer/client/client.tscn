@@ -26,6 +26,7 @@ script = ExtResource("1_sn87b")
 [node name="PlayerSync" type="Node" parent="." unique_id=1812019948 node_paths=PackedStringArray("client")]
 script = ExtResource("3_kyvqp")
 client = NodePath("../ClientApi")
+update_rate = 0.1
 
 [node name="PuppetManager" type="Node" parent="." unique_id=1389354055 node_paths=PackedStringArray("client")]
 script = ExtResource("4_e5r0x")

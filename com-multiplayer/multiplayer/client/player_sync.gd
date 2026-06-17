@@ -22,6 +22,7 @@ var _last_animation: String = ""
 var _last_animation_speed: float = 1.0
 var _visual_root: Node3D = null
 var _was_howling: bool = false
+var _was_damaging: bool = false
 
 func _ready():
     if not nia:
@@ -58,6 +59,11 @@ func _physics_process(_delta):
     if is_howling and not _was_howling:
         send_action("HOWL")
     _was_howling = is_howling
+    
+    var is_damaging = game._damaging
+    if is_damaging and not _was_damaging:
+        send_action("DAMAGE")
+    _was_damaging = is_damaging
 
 func _check_and_send_updates(force: bool):
     if not nia or not client:

@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://buo7u7h1uu5l3"]
+
+[ext_resource type="Texture2D" uid="uid://bbqvkipp451ku" path="res://mods-unpacked/bands.png" id="1_jau8o"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jau8o"]
+atlas = ExtResource("1_jau8o")
+region = Rect2(1, 27, 17, 11)
+
+[node name="band_high" type="TextureRect" unique_id=1934316130]
+texture = SubResource("AtlasTexture_jau8o")

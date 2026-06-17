@@ -68,6 +68,9 @@ func _handle_puppet_action(puppet, action: String):
         "HOWL":
             if puppet.nia_instance.has_method("howl"):
                 puppet.nia_instance.howl()
+        "DAMAGE":
+            if puppet.nia_instance.has_method("damage"):
+                puppet.nia_instance.damage()
         _:
             pass
 

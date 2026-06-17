@@ -9,10 +9,9 @@ var chat_bubble_scene = load(get_script().resource_path.get_base_dir() + "/chat_
 @export var client_api: Node
 @export var puppet_manager: Node
 
+var toggling := false
+
 func _ready():
-    send_button.pressed.connect(_on_send_pressed)
-    message_input.text_submitted.connect(_on_message_submitted)
-    
     visible = false
     
     if client_api:
@@ -21,25 +20,27 @@ func _ready():
         ModLoaderLog.warning("client_api not found", self.name)
 
 func _input(event):
-    if event is InputEventKey and event.pressed:
+    if event is InputEventKey and event.pressed and !event.echo:
         if !visible and (event.keycode == KEY_T or event.keycode == KEY_ENTER):
             toggle_chat()
-        if visible and event.keycode == KEY_ESCAPE:
+        elif visible and event.keycode == KEY_ESCAPE:
             toggle_chat()
+            get_viewport().set_input_as_handled()
 
 func toggle_chat():
+    if toggling:
+        return
+    
+    toggling = true
     var nia = game.find("player")
     var camera
     if nia:
         camera = nia.get_node("cam_box/cam_arm/cam_arm_fix/view")
     
     if !visible:
-        if nia.is_freecam:
-            return
         Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
         visible = true
-        nia.is_freecam = true
-        nia._screenshot_cd = true
+        _set_player_input_enabled(nia, false)
         if camera:
             var cam_arm = nia.get_node("cam_box/cam_arm")
             var move_multiplier = (cam_arm.spring_length - 1.2) / 2 + 1.0
@@ -54,9 +55,19 @@ func toggle_chat():
             _animate_camera(camera, 0.0)
         await create_tween().tween_property(self, "modulate:a", 0.0, 0.5).from(1.0).set_trans(Tween.TRANS_CIRC).finished
         visible = false
-        nia.is_freecam = false
-        nia._screenshot_cd = false
+        _set_player_input_enabled(nia, true)
         game.active_stage.anomaly_occurring = false
+    
+    toggling = false
+
+func _set_player_input_enabled(nia: Node, enabled: bool) -> void:
+    nia.set_process_unhandled_input(enabled)
+    nia.is_paused = not enabled
+    if !enabled:
+        nia.velocity = Vector3.ZERO
+        var anim_tree = nia.get_node_or_null("anim_tree")
+        if anim_tree:
+            anim_tree.set("parameters/idle_walk_run/blend_position", Vector2.ZERO)
 
 func _animate_camera(camera: Node3D, target_x: float):
     create_tween().tween_property(camera, "position:x", target_x, 0.4).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
@@ -80,19 +91,12 @@ func _on_player_message(player_id: int, message: String):
     
     add_message(message, sender_name)
 
-func _on_send_pressed():
-    _send_message()
-
-func _on_message_submitted(_text: String):
-    _send_message()
-
 func _send_message():
     var text = message_input.text.strip_edges()
     if text.is_empty():
         return
     
     message_input.text = ""
-    
     if client_api:
         client_api.send_chat_message(text)
         add_message(text, "You")
@@ -101,3 +105,9 @@ func _send_message():
     
     await get_tree().create_timer(0.1).timeout
     scroll_container.scroll_vertical = int(scroll_container.get_v_scroll_bar().max_value)
+
+func _on_send_button_pressed() -> void:
+    _send_message()
+
+func _on_message_input_text_submitted(_new_text: String) -> void:
+    _send_message()

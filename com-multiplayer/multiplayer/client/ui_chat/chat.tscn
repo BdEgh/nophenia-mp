@@ -165,3 +165,6 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(0.22864196, 0.1947799, 0.51075923, 1)
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/InputArea/MarginContainer/HBoxContainer/SendButton" to="." method="_on_send_button_pressed"]
+[connection signal="text_submitted" from="MarginContainer/VBoxContainer/InputArea/MarginContainer/HBoxContainer/MessageInput" to="." method="_on_message_input_text_submitted"]
