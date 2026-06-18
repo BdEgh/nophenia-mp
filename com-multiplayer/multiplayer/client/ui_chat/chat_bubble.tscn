@@ -28,6 +28,7 @@ layout_mode = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 39)
 layout_mode = 2
+focus_mode = 2
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.63529414)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.63529414)
@@ -50,6 +51,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_qmu22")
 bbcode_enabled = true
 fit_content = true
 autowrap_mode = 0
+selection_enabled = true
 
 [node name="RightSpacer" type="Control" parent="." unique_id=444444444]
 unique_name_in_owner = true

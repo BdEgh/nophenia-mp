@@ -10,14 +10,41 @@ var chat_bubble_scene = load(get_script().resource_path.get_base_dir() + "/chat_
 @export var puppet_manager: Node
 
 var toggling := false
+var emoji_dir: String = get_script().resource_path.get_base_dir() + "/emoji"
+var emoji_paths := {}
+var emoji_regex := RegEx.new()
 
 func _ready():
     visible = false
-    
+    _load_emoji()
     if client_api:
         client_api.player_message.connect(_on_player_message)
     else:
         ModLoaderLog.warning("client_api not found", self.name)
+
+func _load_emoji():
+    emoji_regex.compile(":([a-z_]+):")
+    var dir = DirAccess.open(emoji_dir)
+    if not dir:
+        return
+    for file in dir.get_files():
+        emoji_paths[file.get_basename()] = emoji_dir + "/" + file
+        if file.get_basename().begins_with("emiwa_"):
+            emoji_paths[file.get_basename().trim_prefix("emiwa_")] = emoji_dir + "/" + file
+
+func _unwrap_emoji(text: String) -> String:
+    var result := ""
+    var pos := 0
+    for m in emoji_regex.search_all(text):
+        result += text.substr(pos, m.get_start() - pos)
+        var path = emoji_paths.get(m.get_string(1))
+        if path:
+            result += "[img height=32]%s[/img]" % path
+        else:
+            result += m.get_string(0)
+        pos = m.get_end()
+    result += text.substr(pos)
+    return result
 
 func _input(event):
     if event is InputEventKey and event.pressed and !event.echo:
@@ -76,7 +103,7 @@ func add_message(text: String, sender: String = "You"):
     var bubble = chat_bubble_scene.instantiate()
     
     chat_container.add_child(bubble)
-    bubble.set_message(text, sender)
+    bubble.set_message(_unwrap_emoji(text), sender)
 
 func _on_player_message(player_id: int, message: String):
     if message.begins_with("DO:"):
