@@ -277,7 +277,7 @@ func _find_look_at_target():
     
     var targets: Array
     var mp_client = get_tree().get_first_node_in_group("mp").network_client
-    var puppet_manager = mp_client.get_node_or_null("PuppetManager")
+    var puppet_manager = mp_client.get_node("PuppetManager")
     if puppet_manager and puppet_manager.has_method("get_all_puppets"):
         targets = puppet_manager.get_all_puppets()
     var nia = game.find("player")

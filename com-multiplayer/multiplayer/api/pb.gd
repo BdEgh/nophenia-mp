@@ -1216,43 +1216,25 @@ class TVisibility:
     func _init():
         var service
         
-        __full = PBField.new("full", PB_DATA_TYPE.BOOL, PB_RULE.OPTIONAL, 1, true, DEFAULT_VALUES_3[PB_DATA_TYPE.BOOL])
-        service = PBServiceField.new()
-        service.field = __full
-        data[__full.tag] = service
-        
         var __shown_default: Array[String] = []
-        __shown = PBField.new("shown", PB_DATA_TYPE.STRING, PB_RULE.REPEATED, 2, true, __shown_default)
+        __shown = PBField.new("shown", PB_DATA_TYPE.STRING, PB_RULE.REPEATED, 1, true, __shown_default)
         service = PBServiceField.new()
         service.field = __shown
         data[__shown.tag] = service
         
         var __hidden_default: Array[String] = []
-        __hidden = PBField.new("hidden", PB_DATA_TYPE.STRING, PB_RULE.REPEATED, 3, true, __hidden_default)
+        __hidden = PBField.new("hidden", PB_DATA_TYPE.STRING, PB_RULE.REPEATED, 2, true, __hidden_default)
         service = PBServiceField.new()
         service.field = __hidden
         data[__hidden.tag] = service
         
     var data = {}
     
-    var __full: PBField
-    func has_full() -> bool:
-        if __full.value != null:
-            return true
-        return false
-    func get_full() -> bool:
-        return __full.value
-    func clear_full() -> void:
-        data[1].state = PB_SERVICE_STATE.UNFILLED
-        __full.value = DEFAULT_VALUES_3[PB_DATA_TYPE.BOOL]
-    func set_full(value : bool) -> void:
-        __full.value = value
-    
     var __shown: PBField
     func get_shown() -> Array[String]:
         return __shown.value
     func clear_shown() -> void:
-        data[2].state = PB_SERVICE_STATE.UNFILLED
+        data[1].state = PB_SERVICE_STATE.UNFILLED
         __shown.value.clear()
     func add_shown(value : String) -> void:
         __shown.value.append(value)
@@ -1261,7 +1243,7 @@ class TVisibility:
     func get_hidden() -> Array[String]:
         return __hidden.value
     func clear_hidden() -> void:
-        data[3].state = PB_SERVICE_STATE.UNFILLED
+        data[2].state = PB_SERVICE_STATE.UNFILLED
         __hidden.value.clear()
     func add_hidden(value : String) -> void:
         __hidden.value.append(value)

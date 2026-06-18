@@ -12,6 +12,7 @@ var MultiplayerClientProto = load(get_script().resource_path.get_base_dir() + "/
 @export var rotation_threshold: float = 0.01
 
 var _update_timer: Timer
+var _resync_timer: Timer
 
 var _last_visibility: Dictionary = {}
 var _last_position: Vector3 = Vector3.ZERO
@@ -40,6 +41,18 @@ func _ready():
     client.connected_to_server.connect(_send_visibility_full)
     
     add_to_group("player_sync")
+    
+    _resync_timer = Timer.new()
+    _resync_timer.wait_time = 0.5
+    _resync_timer.one_shot = true
+    _resync_timer.timeout.connect(_send_visibility_full)
+    add_child(_resync_timer)
+    var mp_client = get_tree().get_first_node_in_group("mp").network_client
+    var puppet_manager = mp_client.get_node("PuppetManager")
+    puppet_manager.puppet_spawned.connect(_on_puppet_spawned)
+
+func _on_puppet_spawned(_player_id: int) -> void:
+    _resync_timer.start()
 
 func _physics_process(_delta):
     if not nia:
@@ -89,7 +102,7 @@ func _check_and_send_updates(force: bool):
         _last_animation = current_animation
         _last_animation_speed = current_animation_speed
     
-    _send_visibility_diff(_last_visibility, false)
+    _send_visibility_diff(_last_visibility)
 
 func _fetch_visibility() -> Dictionary:
     var current: Dictionary = {}
@@ -97,7 +110,7 @@ func _fetch_visibility() -> Dictionary:
         current[str(nia.get_path_to(node))] = node.visible
     return current
 
-func _send_visibility_diff(against: Dictionary, full: bool):
+func _send_visibility_diff(against: Dictionary):
     var current = _fetch_visibility()
     var shown: Array = []
     var hidden: Array = []
@@ -113,10 +126,10 @@ func _send_visibility_diff(against: Dictionary, full: bool):
         return
     
     _last_visibility = current
-    client.send_visibility(shown, hidden, full)
+    client.send_visibility(shown, hidden)
 
 func _send_visibility_full():
-    _send_visibility_diff({}, true)
+    _send_visibility_diff({})
 
 func _send_state_update(pos: Vector3, vel: Vector3, rot: Vector3, anim: String, anim_speed: float):
     var state = Api.TClientState.new()

@@ -52,9 +52,8 @@ message TSignedClientMessage {
 }
 
 message TVisibility {
-  bool full = 1;
-  repeated string shown  = 2;
-  repeated string hidden = 3;
+  repeated string shown = 1;
+  repeated string hidden = 2;
 }
 
 message TClientData {

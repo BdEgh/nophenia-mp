@@ -33,8 +33,8 @@ func change_stage(_stage: String = ""):
     game.change_stage(_stage)
 
 func change_stage_rand():
-    var mp_root = get_tree().get_first_node_in_group("mp")
-    seed(mp_root.rng_seed if mp_root else 0)
+    var rng_seed = get_tree().get_first_node_in_group("mp").rng_seed
+    seed(rng_seed)
     var pool = game._traverse_random.duplicate()
     pool.shuffle()
     game.to_entrance = 0

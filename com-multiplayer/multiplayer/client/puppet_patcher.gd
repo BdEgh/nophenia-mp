@@ -54,9 +54,8 @@ func _remove_unwanted_nodes(node: Node):
         "cam_box",
         "remote_transform_3d",
         "freecam_idle_timer",
-		"fall_velocity"
+        "fall_velocity"
     ]
-    
     for node_name in nodes_to_remove:
         var child = node.get_node_or_null(node_name)
         if child:

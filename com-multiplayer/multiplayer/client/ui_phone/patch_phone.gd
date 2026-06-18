@@ -20,8 +20,8 @@ func _add_option(option, screen):
     var menu_control = screen_view.get_node("menu")
     
     options_vbox.add_child(option)
-    var exitgame_option = options_vbox.get_node_or_null("option_exitgame")
-    options_vbox.move_child(option, exitgame_option.get_index())
+    var cat_option = options_vbox.get_node_or_null("option_cat")
+    options_vbox.move_child(option, cat_option.get_index())
     
     menu_control.add_child(screen)
     screen.layout_mode = 1
@@ -37,7 +37,8 @@ func _add_multiplayer_button():
     var info_label = multiplayer_screen.get_node("margin_container/v_box_container2/nine_patch_rect2/margin_container/info")
     if info_label:
         info_label.client = client
-        info_label.puppet_manager = get_node("../PuppetManager")
+        var mp_client = get_tree().get_first_node_in_group("mp").network_client
+        info_label.puppet_manager = mp_client.get_node("PuppetManager")
     
     _add_option(option_multiplayer, multiplayer_screen)
 
