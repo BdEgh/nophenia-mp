@@ -3,6 +3,7 @@ extends Node
 var PhysSkel = load(get_script().resource_path.get_base_dir() + "/actions/phys_skel.tscn")
 var HaloAttachment = load(get_script().resource_path.get_base_dir() + "/items/halo/halo_attachment.tscn")
 var HaloFollower = load(get_script().resource_path.get_base_dir() + "/items/halo/halo_follower.tscn")
+var EyeFixMat = load(get_script().resource_path.get_base_dir() + "/player_mat_with_vertex_color_fix.tres")
 
 var nia: player
 var plinktimer: Timer
@@ -10,6 +11,8 @@ var skeleton: Skeleton3D
 
 var hair_ribbon: MeshInstance3D
 var head: MeshInstance3D
+var _head_mat: Material
+var _orig_next_pass: Material
 var ribbon: MeshInstance3D
 var scarf: MeshInstance3D
 var tail_ribbon: MeshInstance3D
@@ -51,6 +54,9 @@ func _ready() -> void:
     cheese = nia.get_node("cheese_position/grilled_cheeze") # on -> off
     cheese.visible = false
     mouth.visible = true
+    _head_mat = head.get_active_material(0)
+    if _head_mat:
+        _orig_next_pass = _head_mat.next_pass
     
     phys_skel = PhysSkel.instantiate()
     skeleton.add_child(phys_skel)
@@ -108,6 +114,20 @@ func change_jump_height(height: float) -> void:
 func halo_toggle():
     halo_fol.visible = not halo_fol.visible
 
+var _surprised := false
+func surprised_toggle():
+    _surprised = not _surprised
+    if _surprised:
+        head.set_blend_shape_value(7, 1.0)
+        if _head_mat:
+            if _orig_next_pass is StandardMaterial3D:
+                EyeFixMat.set_shader_parameter("albedo", _orig_next_pass.albedo_color)
+            _head_mat.next_pass = EyeFixMat
+    else:
+        head.set_blend_shape_value(7, 0.0)
+        if _head_mat:
+            _head_mat.next_pass = _orig_next_pass
+
 var _eyes_closed := false
 func eyes_toggle():
     if _eyes_closed:
@@ -123,6 +143,8 @@ func cheese_toggle():
     cheese.visible = not cheese.visible
 
 func _unhandled_input(event: InputEvent) -> void:
+    if event is InputEventKey and event.pressed and event.keycode == KEY_3:
+        surprised_toggle()
     if event is InputEventKey and event.pressed and event.keycode == KEY_4:
         toggle_roaches()
     if event is InputEventKey and event.pressed and event.keycode == KEY_5:

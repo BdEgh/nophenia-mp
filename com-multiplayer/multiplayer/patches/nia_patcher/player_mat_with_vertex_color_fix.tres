@@ -1,0 +1,21 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://rwqsgv86l4mh"]
+
+[ext_resource type="Shader" uid="uid://bhd6riltpobst" path="res://mods-unpacked/com-multiplayer/multiplayer/patches/nia_patcher/vertex_color_fix.gdshader" id="1_a4uyo"]
+[ext_resource type="Texture2D" uid="uid://clllylvr1p6ve" path="res://texture/player.png" id="2_2a5pt"]
+
+[resource]
+render_priority = -1
+shader = ExtResource("1_a4uyo")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/texture_albedo = ExtResource("2_2a5pt")
+shader_parameter/albedo_texture_size = Vector2i(614, 614)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = Vector4(1, 0, 0, 0)
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/eye_uv_rect = Vector4(0.145, 0.88, 0.35, 0.985)
