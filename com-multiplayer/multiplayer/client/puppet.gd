@@ -276,7 +276,8 @@ func _find_look_at_target():
     var best_score: float = -1.0
     
     var targets: Array
-    var puppet_manager = get_tree().get_first_node_in_group("mp").get_node_or_null("NetworkClient/PuppetManager")
+    var mp_client = get_tree().get_first_node_in_group("mp").network_client
+    var puppet_manager = mp_client.get_node_or_null("PuppetManager")
     if puppet_manager and puppet_manager.has_method("get_all_puppets"):
         targets = puppet_manager.get_all_puppets()
     var nia = game.find("player")
@@ -285,6 +286,8 @@ func _find_look_at_target():
     
     for target in targets:
         if target != self:
+            if global_position.distance_to(target.global_position) > 8.0:
+                continue
             var score = _calc_look_at_target_score(target)
             if score > best_score:
                 best_score = score

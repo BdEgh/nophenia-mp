@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://cpn828gm6mpqf"]
+
+[node name="halo_attachment" type="BoneAttachment3D" unique_id=378525233]
+transform = Transform3D(0.9999203, -0.012739432, 0.0007002858, -0.00073492376, -0.12193829, -1.0153816, 0.0136725195, 1.0347692, -0.099227116, 0, 0, 0)
+bone_name = "Head"
+bone_idx = 4
+
+[node name="halo_marker" type="Marker3D" parent="." unique_id=2012363624]
+transform = Transform3D(0.00999854, -2.3283064e-10, 2.910383e-10, 0, 0.010042583, -2.3283064e-10, 2.3283064e-10, -2.3283064e-10, 0.009957414, 0, 0, 0)

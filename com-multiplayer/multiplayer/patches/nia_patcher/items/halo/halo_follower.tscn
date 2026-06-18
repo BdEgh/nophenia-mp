@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://dxhdhs8ovd8va"]
+
+[ext_resource type="Script" uid="uid://di6r3mhy2h6sy" path="res://mods-unpacked/com-multiplayer/multiplayer/patches/nia_patcher/items/halo/halo.gd" id="1_vjsb5"]
+[ext_resource type="Script" uid="uid://c72sn4sy7ordc" path="res://mods-unpacked/com-multiplayer/multiplayer/patches/nia_patcher/simple_movement/controller.gd" id="2_daknj"]
+[ext_resource type="Script" uid="uid://ddae72c88ly0d" path="res://mods-unpacked/com-multiplayer/multiplayer/patches/nia_patcher/simple_movement/moves/movement_pattern_base.gd" id="3_bxctk"]
+[ext_resource type="Script" uid="uid://belrmcidwbf8m" path="res://mods-unpacked/com-multiplayer/multiplayer/patches/nia_patcher/simple_movement/moves/sinwave.gd" id="4_h0qcn"]
+[ext_resource type="Script" uid="uid://c8w0ndqg36noa" path="res://mods-unpacked/com-multiplayer/multiplayer/patches/nia_patcher/simple_movement/moves/rotation.gd" id="5_bynjt"]
+
+[sub_resource type="Resource" id="Resource_vmrqg"]
+script = ExtResource("4_h0qcn")
+amplitude = 0.05
+metadata/_custom_type_script = "uid://belrmcidwbf8m"
+
+[sub_resource type="Resource" id="Resource_yb6ca"]
+script = ExtResource("5_bynjt")
+degrees_per_second = 30.0
+metadata/_custom_type_script = "uid://c8w0ndqg36noa"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m3ijy"]
+albedo_color = Color(0.64113814, 0.47230333, 5.7756904e-07, 1)
+metallic = 0.89
+metallic_specular = 1.0
+roughness = 0.0
+emission_enabled = true
+emission = Color(0.7469447, 0.60743487, 0, 1)
+emission_energy_multiplier = 6.0
+
+[node name="halo_follower" type="Node3D" unique_id=693956083]
+transform = Transform3D(-0.9997952, 0.007839289, 0.00011737488, 0.008693445, 0.99598247, -0.07092494, -0.0007653841, -0.08729019, -0.99733746, 0, 0, 0)
+script = ExtResource("1_vjsb5")
+
+[node name="halo_movement" type="Node3D" parent="." unique_id=930171787]
+transform = Transform3D(1, -2.9467628e-10, 5.820766e-11, 8.767529e-10, 1, 0, 0, 7.450581e-09, 0.99999994, 0, 0, 0)
+script = ExtResource("2_daknj")
+move_enabled = true
+movement_patterns = Array[ExtResource("3_bxctk")]([SubResource("Resource_vmrqg"), SubResource("Resource_yb6ca")])
+
+[node name="torus" type="CSGTorus3D" parent="halo_movement" unique_id=1357375824]
+transform = Transform3D(0.1813721, 0.1975227, 0.9651419, 0.037547257, 0.97538495, -0.20831198, -0.98265177, 0.073727176, 0.1701806, 0, 0.532, 0.07)
+inner_radius = 0.125
+outer_radius = 0.15
+sides = 24
+ring_sides = 24
+material = SubResource("StandardMaterial3D_m3ijy")

@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://dgravqx5oper1" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/patch_phone.gd" id="1_b27s5"]
 [ext_resource type="PackedScene" uid="uid://drtdpc4nyv3w3" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_chat/chat.tscn" id="1_nlodm"]
 [ext_resource type="Script" uid="uid://bflwwcu3dq72h" path="res://mods-unpacked/com-multiplayer/multiplayer/client/client_api.gd" id="1_sn87b"]
+[ext_resource type="Script" uid="uid://bt46hjd17o5sm" path="res://mods-unpacked/com-multiplayer/multiplayer/patches/nia_patcher/nia_patcher.gd" id="1_tohbr"]
 [ext_resource type="Script" uid="uid://dh0aqr8wjfv8k" path="res://mods-unpacked/com-multiplayer/multiplayer/client/player_sync.gd" id="3_kyvqp"]
 [ext_resource type="Script" uid="uid://chitco7k3077c" path="res://mods-unpacked/com-multiplayer/multiplayer/client/puppet_manager.gd" id="4_e5r0x"]
 [ext_resource type="PackedScene" uid="uid://c8vx7m2n3qp4k" path="res://mods-unpacked/com-multiplayer/multiplayer/client/puppet.tscn" id="5_nlodm"]
@@ -36,3 +37,6 @@ layer = 3
 [node name="ChatUI" parent="ChatUILayer" unique_id=1766575649 node_paths=PackedStringArray("client_api", "puppet_manager") instance=ExtResource("1_nlodm")]
 client_api = NodePath("../../ClientApi")
 puppet_manager = NodePath("../../PuppetManager")
+
+[node name="node" type="Node" parent="." unique_id=325574426]
+script = ExtResource("1_tohbr")

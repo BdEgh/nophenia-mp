@@ -63,6 +63,9 @@ func _handle_puppet_action(puppet, action: String):
         "DAMAGE":
             if puppet.nia_instance.has_method("damage"):
                 puppet.nia_instance.damage()
+        "RAGDOLL":
+            if puppet.nia_instance.has_method("ragdoll"):
+                puppet.nia_instance.ragdoll()
         _:
             pass
 
@@ -83,7 +86,7 @@ func _spawn_puppet(player_id: int, state):
             var spawn_pos = Vector3(pos_data[0], pos_data[1], pos_data[2])
             puppet.teleport_to(spawn_pos)
     puppet.apply_state(state)
-    
+
     puppets[player_id] = puppet
     puppet_spawned.emit(player_id)
     ModLoaderLog.info("Spawned puppet for player %d" % player_id, self.name)
