@@ -106,6 +106,9 @@ func apply_state(state):
         if rot_data.size() >= 3:
             target_rotation = Vector3(rot_data[0], rot_data[1], rot_data[2])
     
+    if state.has_visibility():
+        _apply_visibility(state.get_visibility())
+
     if state.has_animation():
         var anim = state.get_animation()
         var anim_name = anim.get_name()
@@ -122,6 +125,16 @@ func apply_state(state):
             if anim_speed != animation_speed:
                 animation_speed = anim_speed
                 animation_tree.set("parameters/TimeScale/scale", anim_speed)
+
+func _apply_visibility(visibility):
+    for path in visibility.get_hidden():
+        var node = get_node_or_null(path)
+        if node:
+            node.visible = false
+    for path in visibility.get_shown():
+        var node = get_node_or_null(path)
+        if node:
+            node.visible = true
 
 func teleport_to(pos: Vector3):
     global_position = pos

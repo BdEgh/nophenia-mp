@@ -82,26 +82,26 @@ func _disconnect_player(peer_id: int):
     players.erase(peer_id)
 
 func _set_player(peer_id: int, signed_state):
-    players[peer_id] = signed_state.get_state()
+    var source = signed_state.get_state()
+    if players.get(peer_id) == null:
+        players[peer_id] = source
+        return
+    _merge_state(source, players[peer_id])
 
-#func _merge_player(peer_id: int, signed_state):
-    #if peer_id in players and players[peer_id]:
-        #_merge_state(signed_state.get_state(), players[peer_id])
+func _merge_state(source, target):
+    for tag in source.data:
+        var field = source.data[tag].field
+        if field.value == null:
+            continue
+        if field.rule == Api.PB_RULE.REPEATED and field.value.size() == 0:
+            continue
+        if field.rule != Api.PB_RULE.REPEATED and field.value == Api.DEFAULT_VALUES_3[field.type]:
+            continue
+        target.data[tag].field.value = field.value
+        target.data[tag].state = source.data[tag].state
 
 func _on_peer_disconnected(peer_id: int):
     _disconnect_player(peer_id)
-
-## TEMPORARY, NEED A PROPER REFLECTION
-#func _merge_state(source, target):
-    #target.__world_hash.value = source.__world_hash.value
-    #if source.has_position():
-        #target.__position.value = source.__position.value
-    #if source.has_velocity():
-        #target.__velocity.value = source.__velocity.value
-    #if source.has_appearance():
-        #target.__appearance.value = source.__appearance.value
-    #if source.has_animation():
-        #target.__animation.value = source.__animation.value
 
 func _sync_state(peer_id: int, signed_state):
     var action = signed_state.get_action()

@@ -5,14 +5,13 @@ signal puppet_spawned(player_id: int)
 signal puppet_removed(player_id: int)
 signal puppets_cleared()
 
-var Api = load((get_script().resource_path.get_base_dir() + "/../api/pb.gd").simplify_path())
 var MultiplayerClientProto = load(get_script().resource_path.get_base_dir() + "/client_api.gd")
 
 const NAMES = [
     "cheese", "milk", "tea",
     "coffee", "fish", "pumpkin",
     "melon", "apple", "banana",
-    "grape", "honey", "sugar",
+    "berry", "honey", "sugar",
     "kiwi", "mango", "orange"
 ]
 
@@ -24,13 +23,6 @@ var all_players: Dictionary = {}  # player_id -> world_hash
 var puppets: Dictionary = {}  # player_id -> MultiplayerPuppet instance
 
 func _ready():
-    if not client:
-        ModLoaderLog.error("No network_client assigned!", self.name)
-        return
-    if not puppet_scene:
-        ModLoaderLog.error("No puppet_scene assigned!", self.name)
-        return
-    
     if not spawn_parent:
         spawn_parent = get_parent()
     
@@ -84,6 +76,7 @@ func _spawn_puppet(player_id: int, state):
     var puppet = puppet_scene.instantiate()
     puppet.id = player_id
     puppet.name = NAMES[player_id % len(NAMES)]
+    spawn_parent.add_child(puppet)
     if state.has_position():
         var pos_data = state.get_position().get_vector()
         if pos_data.size() >= 3:
@@ -91,7 +84,6 @@ func _spawn_puppet(player_id: int, state):
             puppet.teleport_to(spawn_pos)
     puppet.apply_state(state)
     
-    spawn_parent.add_child(puppet)
     puppets[player_id] = puppet
     puppet_spawned.emit(player_id)
     ModLoaderLog.info("Spawned puppet for player %d" % player_id, self.name)

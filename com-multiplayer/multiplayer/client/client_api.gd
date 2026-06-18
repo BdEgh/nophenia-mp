@@ -125,3 +125,13 @@ func send_state_update(message):
     signed_state.__state.value = message
     
     socket.send_data(data.to_bytes())
+
+func send_visibility(shown: Array, hidden: Array, full: bool):
+    var state = Api.TClientState.new()
+    var visibility = state.new_visibility()
+    visibility.set_full(full)
+    for path in shown:
+        visibility.add_shown(path)
+    for path in hidden:
+        visibility.add_hidden(path)
+    send_state_update(state)

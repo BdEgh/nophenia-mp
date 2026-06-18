@@ -10,11 +10,10 @@ var MultiplayerClientProto = load(get_script().resource_path.get_base_dir() + "/
 @export var position_threshold: float = 0.2
 @export var velocity_threshold: float = 0.01
 @export var rotation_threshold: float = 0.01
-@export var full_update_rate: float = 100
 
-var _full_state_timer: Timer
 var _update_timer: Timer
 
+var _last_visibility: Dictionary = {}
 var _last_position: Vector3 = Vector3.ZERO
 var _last_velocity: Vector3 = Vector3.ZERO
 var _last_rotation: Vector3 = Vector3.ZERO
@@ -25,13 +24,6 @@ var _was_howling: bool = false
 var _was_damaging: bool = false
 
 func _ready():
-    if not nia:
-        ModLoaderLog.error("No player assigned!", self.name)
-        return
-    if not client:
-        ModLoaderLog.error("No network_client assigned!", self.name)
-        return
-    
     if nia.has_node("chara"):
         _visual_root = nia.get_node("chara")
     
@@ -45,11 +37,9 @@ func _ready():
     _update_timer.timeout.connect(_check_and_send_updates.bind(false))
     add_child(_update_timer)
     
-    _full_state_timer = Timer.new()
-    _full_state_timer.wait_time = full_update_rate
-    _full_state_timer.autostart = true
-    _full_state_timer.timeout.connect(_check_and_send_updates.bind(true))
-    add_child(_full_state_timer)
+    client.connected_to_server.connect(_send_visibility_full)
+    
+    add_to_group("player_sync")
 
 func _physics_process(_delta):
     if not nia:
@@ -66,9 +56,6 @@ func _physics_process(_delta):
     _was_damaging = is_damaging
 
 func _check_and_send_updates(force: bool):
-    if not nia or not client:
-        return
-    
     if not client.socket or not client.socket.connected():
         return
     
@@ -100,6 +87,35 @@ func _check_and_send_updates(force: bool):
         _last_rotation = current_rotation
         _last_animation = current_animation
         _last_animation_speed = current_animation_speed
+    
+    _send_visibility_diff(_last_visibility, false)
+
+func _fetch_visibility() -> Dictionary:
+    var current: Dictionary = {}
+    for node in nia.find_children("*", "Node3D", true, false):
+        current[str(nia.get_path_to(node))] = node.visible
+    return current
+
+func _send_visibility_diff(against: Dictionary, full: bool):
+    var current = _fetch_visibility()
+    var shown: Array = []
+    var hidden: Array = []
+    for path in current:
+        if against.has(path) and against[path] == current[path]:
+            continue
+        if current[path]:
+            shown.append(path)
+        else:
+            hidden.append(path)
+    
+    if shown.is_empty() and hidden.is_empty():
+        return
+    
+    _last_visibility = current
+    client.send_visibility(shown, hidden, full)
+
+func _send_visibility_full():
+    _send_visibility_diff({}, true)
 
 func _send_state_update(pos: Vector3, vel: Vector3, rot: Vector3, anim: String, anim_speed: float):
     var state = Api.TClientState.new()

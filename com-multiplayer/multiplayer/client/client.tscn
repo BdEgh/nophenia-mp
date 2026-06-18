@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://bx4nak2p7qn8r"]
 
+[ext_resource type="Script" uid="uid://dkaohhi50h2u6" path="res://mods-unpacked/com-multiplayer/multiplayer/patches/stage_patcher.gd" id="1_3u3ou"]
 [ext_resource type="Script" uid="uid://dgravqx5oper1" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/patch_phone.gd" id="1_b27s5"]
 [ext_resource type="PackedScene" uid="uid://drtdpc4nyv3w3" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_chat/chat.tscn" id="1_nlodm"]
 [ext_resource type="Script" uid="uid://bflwwcu3dq72h" path="res://mods-unpacked/com-multiplayer/multiplayer/client/client_api.gd" id="1_sn87b"]
@@ -9,19 +10,12 @@
 
 [node name="Cleint" type="Node" unique_id=1384647490]
 
+[node name="StagePatcher" type="Node" parent="." unique_id=1837625260]
+script = ExtResource("1_3u3ou")
+
 [node name="PhonePatcher" type="Node" parent="." unique_id=729583012 node_paths=PackedStringArray("client")]
 script = ExtResource("1_b27s5")
 client = NodePath("../ClientApi")
-
-[node name="ChatUILayer" type="CanvasLayer" parent="." unique_id=1588510827]
-layer = 3
-
-[node name="ChatUI" parent="ChatUILayer" unique_id=1766575649 node_paths=PackedStringArray("client_api", "puppet_manager") instance=ExtResource("1_nlodm")]
-client_api = NodePath("../../ClientApi")
-puppet_manager = NodePath("../../PuppetManager")
-
-[node name="ClientApi" type="Node" parent="." unique_id=1122944525]
-script = ExtResource("1_sn87b")
 
 [node name="PlayerSync" type="Node" parent="." unique_id=1812019948 node_paths=PackedStringArray("client")]
 script = ExtResource("3_kyvqp")
@@ -32,3 +26,13 @@ update_rate = 0.1
 script = ExtResource("4_e5r0x")
 client = NodePath("../ClientApi")
 puppet_scene = ExtResource("5_nlodm")
+
+[node name="ClientApi" type="Node" parent="." unique_id=1122944525]
+script = ExtResource("1_sn87b")
+
+[node name="ChatUILayer" type="CanvasLayer" parent="." unique_id=1588510827]
+layer = 3
+
+[node name="ChatUI" parent="ChatUILayer" unique_id=1766575649 node_paths=PackedStringArray("client_api", "puppet_manager") instance=ExtResource("1_nlodm")]
+client_api = NodePath("../../ClientApi")
+puppet_manager = NodePath("../../PuppetManager")

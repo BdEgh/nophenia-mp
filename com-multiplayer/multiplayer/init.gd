@@ -31,7 +31,7 @@ func _ready() -> void:
 func _load_config() -> void:
     var cfg := ConfigFile.new()
     cfg.load(_SETTINGS_PATH)
-    address = cfg.get_value("multiplayer", "address", "wss://super-cirno.duckdns.org:42424")
+    address = cfg.get_value("multiplayer", "address", "ws://127.0.0.1:52424") # "wss://super-cirno.duckdns.org:42424")
     auto_connect = cfg.get_value("multiplayer", "auto_connect", false)
     server_port = cfg.get_value("multiplayer", "server_port", 42424)
     rng_seed = cfg.get_value("game", "seed", 1337)

@@ -37,6 +37,7 @@ message TClientState {
   TVelocity velocity = 2;
   TRotation rotation = 3;
   TAnimation animation = 4;
+  TVisibility visibility = 5;
 }
 
 message TSignedClientState {
@@ -48,6 +49,12 @@ message TSignedClientState {
 message TSignedClientMessage {
   uint32 uid = 1;
   string msg = 2;
+}
+
+message TVisibility {
+  bool full = 1;
+  repeated string shown  = 2;
+  repeated string hidden = 3;
 }
 
 message TClientData {

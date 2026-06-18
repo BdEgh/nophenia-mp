@@ -954,6 +954,12 @@ class TClientState:
         service.func_ref = Callable(self, "new_animation")
         data[__animation.tag] = service
         
+        __visibility = PBField.new("visibility", PB_DATA_TYPE.MESSAGE, PB_RULE.OPTIONAL, 5, true, DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE])
+        service = PBServiceField.new()
+        service.field = __visibility
+        service.func_ref = Callable(self, "new_visibility")
+        data[__visibility.tag] = service
+        
     var data = {}
     
     var __world_hash: PBField
@@ -1024,6 +1030,20 @@ class TClientState:
     func new_animation() -> TAnimation:
         __animation.value = TAnimation.new()
         return __animation.value
+    
+    var __visibility: PBField
+    func has_visibility() -> bool:
+        if __visibility.value != null:
+            return true
+        return false
+    func get_visibility() -> TVisibility:
+        return __visibility.value
+    func clear_visibility() -> void:
+        data[5].state = PB_SERVICE_STATE.UNFILLED
+        __visibility.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
+    func new_visibility() -> TVisibility:
+        __visibility.value = TVisibility.new()
+        return __visibility.value
     
     func _to_string() -> String:
         return PBPacker.message_to_string(data)
@@ -1170,6 +1190,81 @@ class TSignedClientMessage:
         __msg.value = DEFAULT_VALUES_3[PB_DATA_TYPE.STRING]
     func set_msg(value : String) -> void:
         __msg.value = value
+    
+    func _to_string() -> String:
+        return PBPacker.message_to_string(data)
+        
+    func to_bytes() -> PackedByteArray:
+        return PBPacker.pack_message(data)
+        
+    func from_bytes(bytes : PackedByteArray, offset : int = 0, limit : int = -1) -> int:
+        var cur_limit = bytes.size()
+        if limit != -1:
+            cur_limit = limit
+        var result = PBPacker.unpack_message(data, bytes, offset, cur_limit)
+        if result == cur_limit:
+            if PBPacker.check_required(data):
+                if limit == -1:
+                    return PB_ERR.NO_ERRORS
+            else:
+                return PB_ERR.REQUIRED_FIELDS
+        elif limit == -1 && result > 0:
+            return PB_ERR.PARSE_INCOMPLETE
+        return result
+    
+class TVisibility:
+    func _init():
+        var service
+        
+        __full = PBField.new("full", PB_DATA_TYPE.BOOL, PB_RULE.OPTIONAL, 1, true, DEFAULT_VALUES_3[PB_DATA_TYPE.BOOL])
+        service = PBServiceField.new()
+        service.field = __full
+        data[__full.tag] = service
+        
+        var __shown_default: Array[String] = []
+        __shown = PBField.new("shown", PB_DATA_TYPE.STRING, PB_RULE.REPEATED, 2, true, __shown_default)
+        service = PBServiceField.new()
+        service.field = __shown
+        data[__shown.tag] = service
+        
+        var __hidden_default: Array[String] = []
+        __hidden = PBField.new("hidden", PB_DATA_TYPE.STRING, PB_RULE.REPEATED, 3, true, __hidden_default)
+        service = PBServiceField.new()
+        service.field = __hidden
+        data[__hidden.tag] = service
+        
+    var data = {}
+    
+    var __full: PBField
+    func has_full() -> bool:
+        if __full.value != null:
+            return true
+        return false
+    func get_full() -> bool:
+        return __full.value
+    func clear_full() -> void:
+        data[1].state = PB_SERVICE_STATE.UNFILLED
+        __full.value = DEFAULT_VALUES_3[PB_DATA_TYPE.BOOL]
+    func set_full(value : bool) -> void:
+        __full.value = value
+    
+    var __shown: PBField
+    func get_shown() -> Array[String]:
+        return __shown.value
+    func clear_shown() -> void:
+        data[2].state = PB_SERVICE_STATE.UNFILLED
+        __shown.value.clear()
+    func add_shown(value : String) -> void:
+        __shown.value.append(value)
+    
+    var __hidden: PBField
+    func get_hidden() -> Array[String]:
+        return __hidden.value
+    func clear_hidden() -> void:
+        data[3].state = PB_SERVICE_STATE.UNFILLED
+        __hidden.value.clear()
+    func add_hidden(value : String) -> void:
+        __hidden.value.append(value)
     
     func _to_string() -> String:
         return PBPacker.message_to_string(data)
