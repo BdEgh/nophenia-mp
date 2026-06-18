@@ -50,10 +50,11 @@ func _physics_process(_delta):
         send_action("HOWL")
     _was_howling = is_howling
     
-    var is_damaging = game._damaging
-    if is_damaging and not _was_damaging:
-        send_action("DAMAGE")
-    _was_damaging = is_damaging
+    if "_damaging" in game:
+        var is_damaging = game._damaging
+        if is_damaging and not _was_damaging:
+            send_action("DAMAGE")
+        _was_damaging = is_damaging
 
 func _check_and_send_updates(force: bool):
     if not client.socket or not client.socket.connected():

@@ -7,7 +7,18 @@ var default_text: String
 var self_id: int
 
 func _ready() -> void:
-    default_text = text
+    default_text = \
+"
+
+
+[center][color=000000b0]𖡼.𖤣𖥧𖡼.𖤣𖥧
+[url=https://www.youtube.com/watch?v=bdXPhRj10jQ]Believing in
+a lie
+That we'll
+leave behind[/url]
+𖡼.𖤣𖥧𖡼.𖤣𖥧[/color][/center]
+
+"
     
     var nia = game.find("player")
     if nia:
