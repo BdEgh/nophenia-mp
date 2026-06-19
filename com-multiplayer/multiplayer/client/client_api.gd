@@ -20,6 +20,7 @@ signal self_id(id: int)
 
 var socket
 var _ping_timer: Timer
+var last_ping := -1
 
 func _ready():
     _setup_websocket_client()
@@ -45,6 +46,7 @@ func _setup_ping_timer():
 
 func disconnect_from_server():
     _ping_timer.stop()
+    last_ping = -1
     socket.disconnect_from_server()
 
 ## Websocket Signals
@@ -53,16 +55,19 @@ func _on_connection_established():
     ModLoaderLog.info("Connected to server", self.name)
     connected_to_server.emit()
     _send_sync_request()
-    
+    _send_ping()
     _ping_timer.start()
 
 func _on_connection_failed():
     ModLoaderLog.error("Failed to connect to server", self.name)
+    _ping_timer.stop()
+    last_ping = -1
     connection_failed.emit()
 
 func _on_connection_closed():
     ModLoaderLog.warning("Disconnected from server", self.name)
     _ping_timer.stop()
+    last_ping = -1
     disconnected_from_server.emit()
 
 func _emit_player_state(peer_id: int, signed_state):
@@ -108,6 +113,7 @@ func _on_data_received(_stub: int, data: PackedByteArray):
         var ping = message.get_ping()
         ping.get_ping_id()
         var delta = Time.get_ticks_msec() - ping.get_timestamp()
+        last_ping = delta
         ModLoaderLog.info("Ping response in %d ms" % delta, self.name)
     else:
         pass

@@ -11,6 +11,9 @@
 
 [node name="Cleint" type="Node" unique_id=1384647490]
 
+[node name="PlayerPatcher" type="Node" parent="." unique_id=325574426]
+script = ExtResource("1_tohbr")
+
 [node name="StagePatcher" type="Node" parent="." unique_id=1837625260]
 script = ExtResource("1_3u3ou")
 
@@ -37,6 +40,3 @@ layer = 3
 [node name="ChatUI" parent="ChatUILayer" unique_id=1766575649 node_paths=PackedStringArray("client_api", "puppet_manager") instance=ExtResource("1_nlodm")]
 client_api = NodePath("../../ClientApi")
 puppet_manager = NodePath("../../PuppetManager")
-
-[node name="node" type="Node" parent="." unique_id=325574426]
-script = ExtResource("1_tohbr")

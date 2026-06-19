@@ -55,21 +55,18 @@ func _input(event):
             get_viewport().set_input_as_handled()
 
 func toggle_chat():
-    if toggling:
+    if toggling or game.nia.is_paused:
         return
     
     toggling = true
-    var nia = game.find("player")
-    var camera
-    if nia:
-        camera = nia.get_node("cam_box/cam_arm/cam_arm_fix/view")
+    var camera = game.nia.get_node("cam_box/cam_arm/cam_arm_fix/view")
     
     if !visible:
         Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
         visible = true
-        _set_player_input_enabled(nia, false)
+        _set_player_input_enabled(false)
         if camera:
-            var cam_arm = nia.get_node("cam_box/cam_arm")
+            var cam_arm = game.nia.get_node("cam_box/cam_arm")
             var move_multiplier = (cam_arm.spring_length - 1.2) / 2 + 1.0
             _animate_camera(camera, -0.65 * move_multiplier)
         await create_tween().tween_property(self, "modulate:a", 1.0, 0.5).from(0.0).set_trans(Tween.TRANS_CIRC).finished
@@ -82,17 +79,17 @@ func toggle_chat():
             _animate_camera(camera, 0.0)
         await create_tween().tween_property(self, "modulate:a", 0.0, 0.5).from(1.0).set_trans(Tween.TRANS_CIRC).finished
         visible = false
-        _set_player_input_enabled(nia, true)
+        _set_player_input_enabled(true)
         game.active_stage.anomaly_occurring = false
     
     toggling = false
 
-func _set_player_input_enabled(nia: Node, enabled: bool) -> void:
-    nia.set_process_unhandled_input(enabled)
-    nia.is_paused = not enabled
+func _set_player_input_enabled(enabled: bool) -> void:
+    game.nia.set_process_unhandled_input(enabled)
+    game.nia.is_paused = not enabled
     if !enabled:
-        nia.velocity = Vector3.ZERO
-        var anim_tree = nia.get_node_or_null("anim_tree")
+        game.nia.velocity = Vector3.ZERO
+        var anim_tree = game.nia.get_node_or_null("anim_tree")
         if anim_tree:
             anim_tree.set("parameters/idle_walk_run/blend_position", Vector2.ZERO)
 

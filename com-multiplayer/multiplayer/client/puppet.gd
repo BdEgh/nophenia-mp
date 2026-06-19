@@ -280,9 +280,7 @@ func _find_look_at_target():
     var puppet_manager = mp_client.get_node("PuppetManager")
     if puppet_manager and puppet_manager.has_method("get_all_puppets"):
         targets = puppet_manager.get_all_puppets()
-    var nia = game.find("player")
-    if nia:
-        targets.append(nia)
+    targets.append(game.nia)
     
     for target in targets:
         if target != self:

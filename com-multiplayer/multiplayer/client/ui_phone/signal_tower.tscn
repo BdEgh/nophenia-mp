@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://dyd6uqn8g1t60"]
+
+[ext_resource type="Texture2D" uid="uid://dnae3sgjohuiv" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/icons/band_high.tres" id="1_my1y5"]
+
+[node name="no_signal_tower" type="TextureRect" unique_id=950037921]
+custom_minimum_size = Vector2(0, 14)
+size_flags_vertical = 5
+texture = ExtResource("1_my1y5")
+stretch_mode = 2

@@ -20,12 +20,10 @@ leave behind[/url]
 
 "
     
-    var nia = game.find("player")
-    if nia:
-        var pause_menu = nia.get_node("pause_menu")
-        if pause_menu:
-            meta_clicked.connect(pause_menu._on_credit_names_meta_clicked)
-            meta_hover_started.connect(pause_menu._on_credit_names_meta_hover_started)
+    var pause_menu = game.nia.get_node("pause_menu")
+    if pause_menu:
+        meta_clicked.connect(pause_menu._on_credit_names_meta_clicked)
+        meta_hover_started.connect(pause_menu._on_credit_names_meta_hover_started)
     
     if client:
         client.self_id.connect(_on_self_id)

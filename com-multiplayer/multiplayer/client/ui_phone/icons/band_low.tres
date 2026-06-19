@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://xhaia6xwu6wu"]
+
+[ext_resource type="Texture2D" uid="uid://bbqvkipp451ku" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/icons/bands.png" id="1_1ijos"]
+
+[resource]
+atlas = ExtResource("1_1ijos")
+region = Rect2(1, 1, 17, 11)

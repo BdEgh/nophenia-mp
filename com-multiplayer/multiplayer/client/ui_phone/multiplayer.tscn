@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://buv217vyrxvqy" path="res://texture/phone_ui.png" id="1_7notq"]
 [ext_resource type="PackedScene" uid="uid://cklnynrgg1w20" path="res://resource/pause_menu_phone_option.tscn" id="1_vt6v5"]
-[ext_resource type="FontFile" uid="uid://dho0yytyts0c3" path="res://resource/font/menu_large.ttf" id="2_aeyns"]
+[ext_resource type="FontFile" uid="uid://d31x1lcitgbpf" path="res://resource/font/menu_large.ttf" id="2_aeyns"]
 [ext_resource type="Script" uid="uid://cvoed8ynaakov" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/info.gd" id="3_aeyns"]
 [ext_resource type="Script" uid="uid://bneelvmn45klm" path="res://gdscript/ui/scroll_arrow.gd" id="3_vt6v5"]
 

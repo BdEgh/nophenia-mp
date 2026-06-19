@@ -4,12 +4,13 @@ extends Node
 var Api = load((get_script().resource_path.get_base_dir() + "/../api/pb.gd").simplify_path())
 var MultiplayerClientProto = load(get_script().resource_path.get_base_dir() + "/client_api.gd")
 
-@export var nia: CharacterBody3D
 @export var client: Node
 @export var update_rate: float = 0.15
 @export var position_threshold: float = 0.2
 @export var velocity_threshold: float = 0.01
 @export var rotation_threshold: float = 0.01
+
+var nia: CharacterBody3D
 
 var _update_timer: Timer
 var _resync_timer: Timer
@@ -25,6 +26,7 @@ var _was_howling: bool = false
 var _was_damaging: bool = false
 
 func _ready():
+    nia = game.nia
     if nia.has_node("chara"):
         _visual_root = nia.get_node("chara")
     

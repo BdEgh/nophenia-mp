@@ -32,7 +32,7 @@ var trans_saturation: Node
 var default_saturation: float = 1.0
 
 func _ready() -> void:
-    nia = game.find("player")
+    nia = game.nia
     
     skeleton = nia.get_node("chara/Armature/Skeleton3D")
     plinktimer = nia.get_node("plinktimer")

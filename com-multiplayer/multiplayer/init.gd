@@ -67,7 +67,7 @@ func _check_if_player(node: Node, _added: bool) -> void:
         _attach_client()
 
 func _attach_client() -> void:
-    var nia = game.find("player")
+    var nia = game.nia
     
     if nia and network_client == null:
         var map = game.active_stage
@@ -79,12 +79,10 @@ func _attach_client() -> void:
         var client_api = network_client.get_node("ClientApi")
         var sync = network_client.get_node("PlayerSync")
         var puppet_manager = network_client.get_node("PuppetManager")
-        var phone_patcher = network_client.get_node("PhonePatcher")
         
         client_api.url = address
         sync.nia = nia
         puppet_manager.spawn_parent = map
-        phone_patcher.nia = nia
         
         add_child(network_client)
     
