@@ -1,10 +1,14 @@
 #class_name MultiplayerPuppet
 extends CharacterBody3D
 
+var SharedPatcher = load(get_script().resource_path.get_base_dir() + "/patches/nia_patcher/shared_patcher.gd")
+
 @export var interpolation_speed: float = 10.0
 @export var rotation_speed: float = 15.0
 @export var extrapolation_enabled: bool = true
 @export var max_extrapolation_time: float = 0.3
+
+var shared_patcher: Node
 
 var target_position: Vector3 = Vector3.ZERO
 var target_velocity: Vector3 = Vector3.ZERO
@@ -33,6 +37,8 @@ var headtimer: Timer
 var plinktimer: Timer
 
 func _ready():
+    shared_patcher = SharedPatcher.new()
+    
     target_position = global_position
     target_rotation = rotation
     
@@ -66,6 +72,8 @@ func _ready():
     #plinktimer.timeout.connect(_on_plinktimer_timeout)
 
     _setup_unique_material()
+    add_child(shared_patcher)
+    shared_patcher.apply_patches(self)
 
 func _physics_process(delta: float):
     time_since_last_update += delta

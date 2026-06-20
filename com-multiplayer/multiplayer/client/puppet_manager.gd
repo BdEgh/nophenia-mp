@@ -56,16 +56,35 @@ func _on_player_message(player_id: int, message: String):
             _handle_puppet_action(puppet, action)
 
 func _handle_puppet_action(puppet, action: String):
+    var nia = puppet.nia_instance
+    var sp = nia.shared_patcher
     match action:
         "HOWL":
-            if puppet.nia_instance.has_method("howl"):
-                puppet.nia_instance.howl()
+            if nia.has_method("howl"):
+                nia.howl()
         "DAMAGE":
-            if puppet.nia_instance.has_method("damage"):
-                puppet.nia_instance.damage()
+            if nia.has_method("damage"):
+                nia.damage()
+        "WOW":
+            sp.set_surprised(true)
+        "UNWOW":
+            sp.set_surprised(false)
+        "HALO":
+            sp.set_halo(true)
+        "UNHALO":
+            sp.set_halo(false)
+        "YUMENIKKI":
+            sp.set_eyes_closed(true)
+        "UNYUMENIKKI":
+            sp.set_eyes_closed(false)
+        "CHEESE":
+            sp.set_cheese(true)
+        "UNCHEESE":
+            sp.set_cheese(false)
+        "DIZZY":
+            sp.dizzy()
         "RAGDOLL":
-            if puppet.nia_instance.has_method("ragdoll"):
-                puppet.nia_instance.ragdoll()
+            sp.ragdoll()
         _:
             pass
 

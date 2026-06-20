@@ -64,8 +64,10 @@ func _physics_process(_delta):
     var is_sitting = nia.is_sitting
     if is_sitting and not _was_sitting:
         pass # todo collision stuff
+        send_action("SIT")
     elif not is_sitting and _was_sitting:
         pass # todo collision stuff
+        send_action("UNSIT")
     _was_sitting = is_sitting
     
     var is_howling = nia._howling

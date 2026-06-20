@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" format=3 uid="uid://rwqsgv86l4mh"]
 
-[ext_resource type="Shader" uid="uid://bhd6riltpobst" path="res://mods-unpacked/com-multiplayer/multiplayer/patches/nia_patcher/vertex_color_fix.gdshader" id="1_a4uyo"]
+[ext_resource type="Shader" uid="uid://bhd6riltpobst" path="res://mods-unpacked/com-multiplayer/multiplayer/client/patches/nia_patcher/vertex_color_fix.gdshader" id="1_a4uyo"]
 [ext_resource type="Texture2D" uid="uid://clllylvr1p6ve" path="res://texture/player.png" id="2_2a5pt"]
 
 [resource]

@@ -1,18 +1,19 @@
 [gd_scene format=3 uid="uid://bx4nak2p7qn8r"]
 
-[ext_resource type="Script" uid="uid://dkaohhi50h2u6" path="res://mods-unpacked/com-multiplayer/multiplayer/patches/stage_patcher.gd" id="1_3u3ou"]
+[ext_resource type="Script" uid="uid://dkaohhi50h2u6" path="res://mods-unpacked/com-multiplayer/multiplayer/client/patches/stage_patcher.gd" id="1_3u3ou"]
 [ext_resource type="Script" uid="uid://dgravqx5oper1" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/patch_phone.gd" id="1_b27s5"]
 [ext_resource type="PackedScene" uid="uid://drtdpc4nyv3w3" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_chat/chat.tscn" id="1_nlodm"]
 [ext_resource type="Script" uid="uid://bflwwcu3dq72h" path="res://mods-unpacked/com-multiplayer/multiplayer/client/client_api.gd" id="1_sn87b"]
-[ext_resource type="Script" uid="uid://bt46hjd17o5sm" path="res://mods-unpacked/com-multiplayer/multiplayer/patches/nia_patcher/nia_patcher.gd" id="1_tohbr"]
+[ext_resource type="Script" uid="uid://bt46hjd17o5sm" path="res://mods-unpacked/com-multiplayer/multiplayer/client/patches/nia_patcher/nia_patcher.gd" id="1_tohbr"]
 [ext_resource type="Script" uid="uid://dh0aqr8wjfv8k" path="res://mods-unpacked/com-multiplayer/multiplayer/client/player_sync.gd" id="3_kyvqp"]
 [ext_resource type="Script" uid="uid://chitco7k3077c" path="res://mods-unpacked/com-multiplayer/multiplayer/client/puppet_manager.gd" id="4_e5r0x"]
 [ext_resource type="PackedScene" uid="uid://c8vx7m2n3qp4k" path="res://mods-unpacked/com-multiplayer/multiplayer/client/puppet.tscn" id="5_nlodm"]
 
 [node name="Cleint" type="Node" unique_id=1384647490]
 
-[node name="PlayerPatcher" type="Node" parent="." unique_id=325574426]
+[node name="PlayerPatcher" type="Node" parent="." unique_id=325574426 node_paths=PackedStringArray("player_sync")]
 script = ExtResource("1_tohbr")
+player_sync = NodePath("../PlayerSync")
 
 [node name="StagePatcher" type="Node" parent="." unique_id=1837625260]
 script = ExtResource("1_3u3ou")
