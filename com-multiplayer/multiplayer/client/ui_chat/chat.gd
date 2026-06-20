@@ -49,13 +49,15 @@ func _unwrap_emoji(text: String) -> String:
 func _input(event):
     if event is InputEventKey and event.pressed and !event.echo:
         if !visible and (event.keycode == KEY_T or event.keycode == KEY_ENTER):
+            if game.nia.is_paused:
+                return
             toggle_chat()
         elif visible and event.keycode == KEY_ESCAPE:
             toggle_chat()
             get_viewport().set_input_as_handled()
 
 func toggle_chat():
-    if toggling or game.nia.is_paused:
+    if toggling:
         return
     
     toggling = true

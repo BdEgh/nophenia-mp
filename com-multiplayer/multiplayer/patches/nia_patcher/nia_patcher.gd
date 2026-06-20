@@ -143,6 +143,8 @@ func cheese_toggle():
     cheese.visible = not cheese.visible
 
 func _unhandled_input(event: InputEvent) -> void:
+    if game.nia.is_paused:
+        return
     if event is InputEventKey and event.pressed and event.keycode == KEY_3:
         surprised_toggle()
     if event is InputEventKey and event.pressed and event.keycode == KEY_4:

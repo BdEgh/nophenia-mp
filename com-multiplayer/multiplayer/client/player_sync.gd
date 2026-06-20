@@ -22,6 +22,7 @@ var _last_rotation: Vector3 = Vector3.ZERO
 var _last_animation: String = ""
 var _last_animation_speed: float = 1.0
 var _visual_root: Node3D = null
+var _was_sitting: bool = false
 var _was_howling: bool = false
 var _was_damaging: bool = false
 
@@ -59,6 +60,13 @@ func _on_puppet_spawned(_player_id: int) -> void:
 func _physics_process(_delta):
     if not nia:
         return
+    
+    var is_sitting = nia.is_sitting
+    if is_sitting and not _was_sitting:
+        pass # todo collision stuff
+    elif not is_sitting and _was_sitting:
+        pass # todo collision stuff
+    _was_sitting = is_sitting
     
     var is_howling = nia._howling
     if is_howling and not _was_howling:

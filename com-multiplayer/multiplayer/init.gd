@@ -4,18 +4,18 @@ var network_client_res := load(get_script().resource_path.get_base_dir() + "/cli
 var network_server_res := load(get_script().resource_path.get_base_dir() + "/server/server.tscn")
 var patched_interactable_res := load(get_script().resource_path.get_base_dir() + "/patches/interactable/patched_interactable.gd")
 
+var network_server : Node
 var network_client : Node
 
-var auto_connect := false
-var address := "ws://127.0.0.1"
-var server_port := 42424
-var rng_seed := 0
+var mp_cfg_res := load(get_script().resource_path.get_base_dir() + "/mp_cfg.gd")
+var mp_cfg = mp_cfg_res.new()
 
-const _SETTINGS_PATH := "mp.cfg"
+const _SETTINGS_PATH := "user://mp.cfg"
 
 func _ready() -> void:
     if "--server" in OS.get_cmdline_args():
-        add_child(network_server_res.instantiate())
+        network_server = network_server_res.instantiate()
+        add_child(network_server)
     
     _load_config()
 
@@ -24,25 +24,23 @@ func _ready() -> void:
     get_tree().node_removed.connect(_on_node_removed)
     _patch_existing(get_tree().root)
 
-    seed(rng_seed)
-    ModLoaderLog.info("RNG seed: %d" % rng_seed, self.name)
+    seed(mp_cfg.rng_seed)
+    ModLoaderLog.info("RNG seed: %d" % mp_cfg.rng_seed, self.name)
     ModLoaderLog.info("Multiplayer is ready to start", self.name)
 
 func _load_config() -> void:
     var cfg := ConfigFile.new()
-    cfg.load(_SETTINGS_PATH)
-    address = cfg.get_value("multiplayer", "address", "ws://127.0.0.1:52424") # "wss://super-cirno.duckdns.org:42424")
-    auto_connect = cfg.get_value("multiplayer", "auto_connect", false)
-    server_port = cfg.get_value("multiplayer", "server_port", 42424)
-    rng_seed = cfg.get_value("game", "seed", 1337)
-    ModLoaderLog.info("Loaded server URL from config: %s" % [address], self.name)
+    if cfg.load(_SETTINGS_PATH) != OK:
+        return
+    for _prop in mp_cfg.get_script().get_script_property_list():
+        if cfg.has_section_key("setting", _prop.name):
+            mp_cfg.set(_prop.name, cfg.get_value("setting", _prop.name))
+    ModLoaderLog.info("Loaded server URL from config: %s" % [mp_cfg.address], self.name)
 
-func _save_config() -> void:
+func save_config() -> void:
     var cfg := ConfigFile.new()
-    cfg.set_value("multiplayer", "auto_connect", auto_connect)
-    cfg.set_value("multiplayer", "address",      address)
-    cfg.set_value("multiplayer", "server_port",  server_port)
-    cfg.set_value("game",        "seed",         rng_seed)
+    for _prop in mp_cfg.get_script().get_script_property_list():
+        cfg.set_value("setting", _prop.name, mp_cfg.get(_prop.name))
     cfg.save(_SETTINGS_PATH)
 
 func _patch_existing(node: Node) -> void:
@@ -77,12 +75,7 @@ func _attach_client() -> void:
         network_client = network_client_res.instantiate()
         
         var client_api = network_client.get_node("ClientApi")
-        var sync = network_client.get_node("PlayerSync")
-        var puppet_manager = network_client.get_node("PuppetManager")
-        
-        client_api.url = address
-        sync.nia = nia
-        puppet_manager.spawn_parent = map
+        client_api.url = mp_cfg.address
         
         add_child(network_client)
     

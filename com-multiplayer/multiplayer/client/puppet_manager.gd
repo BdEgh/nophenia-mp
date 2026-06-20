@@ -17,14 +17,14 @@ const NAMES = [
 
 @export var client: Node
 @export var puppet_scene: PackedScene
-@export var spawn_parent: Node3D
+
+var stage_node: stage
 
 var all_players: Dictionary = {}  # player_id -> world_hash
 var puppets: Dictionary = {}  # player_id -> MultiplayerPuppet instance
 
 func _ready():
-    if not spawn_parent:
-        spawn_parent = get_parent()
+    stage_node = game.active_stage
     
     client.player_set.connect(_on_player_set)
     client.player_delete.connect(_on_player_delete)
@@ -79,7 +79,7 @@ func _spawn_puppet(player_id: int, state):
     var puppet = puppet_scene.instantiate()
     puppet.id = player_id
     puppet.name = NAMES[player_id % len(NAMES)]
-    spawn_parent.add_child(puppet)
+    stage_node.add_child(puppet)
     if state.has_position():
         var pos_data = state.get_position().get_vector()
         if pos_data.size() >= 3:

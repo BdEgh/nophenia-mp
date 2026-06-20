@@ -1,10 +1,9 @@
 [gd_scene format=3 uid="uid://cnw54p66s5or6"]
 
-[ext_resource type="Texture2D" uid="uid://buv217vyrxvqy" path="res://texture/phone_ui.png" id="1_7notq"]
-[ext_resource type="PackedScene" uid="uid://cklnynrgg1w20" path="res://resource/pause_menu_phone_option.tscn" id="1_vt6v5"]
-[ext_resource type="FontFile" uid="uid://d31x1lcitgbpf" path="res://resource/font/menu_large.ttf" id="2_aeyns"]
-[ext_resource type="Script" uid="uid://cvoed8ynaakov" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/info.gd" id="3_aeyns"]
-[ext_resource type="Script" uid="uid://bneelvmn45klm" path="res://gdscript/ui/scroll_arrow.gd" id="3_vt6v5"]
+[ext_resource type="Texture2D" uid="uid://buv217vyrxvqy" path="res://texture/phone_ui.png" id="1_x20xe"]
+[ext_resource type="FontFile" uid="uid://d31x1lcitgbpf" path="res://resource/font/menu_large.ttf" id="2_kqaq2"]
+[ext_resource type="Script" uid="uid://cvoed8ynaakov" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/info.gd" id="3_i2xnm"]
+[ext_resource type="Script" uid="uid://bneelvmn45klm" path="res://gdscript/ui/scroll_arrow.gd" id="4_22brd"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vt6v5"]
 load_path = "res://.godot/imported/phone_ui.png-6f8d1b36a0ca9a61b33ac95561151449.ctex"
@@ -14,11 +13,11 @@ atlas = SubResource("CompressedTexture2D_vt6v5")
 region = Rect2(238, 39, 19, 19)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5me3p"]
-atlas = ExtResource("1_7notq")
+atlas = ExtResource("1_x20xe")
 region = Rect2(2, 104, 138, 8)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xjxgp"]
-atlas = ExtResource("1_7notq")
+atlas = ExtResource("1_x20xe")
 region = Rect2(141, 66, 9, 8)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_o3720"]
@@ -26,7 +25,7 @@ region = Rect2(141, 66, 9, 8)
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w2ken"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lf1sj"]
-atlas = ExtResource("1_7notq")
+atlas = ExtResource("1_x20xe")
 region = Rect2(39, 114, 17, 10)
 
 [node name="MultiplayerInfo" type="Control" unique_id=1205321076]
@@ -36,61 +35,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-metadata/title = "Credits"
+metadata/title = "Multiplayer"
 metadata/focus = NodePath("margin_container/v_box_container2/nine_patch_rect2/margin_container")
 metadata/right_text = "menu_nav_ok"
 metadata/hide_title = false
-
-[node name="v_box_container" type="VBoxContainer" parent="." unique_id=1108597300]
-layout_mode = 0
-offset_left = 4.0
-offset_top = 48.0
-offset_right = 636.0
-offset_bottom = 480.0
-theme_override_constants/separation = 6
-
-[node name="option_display" parent="v_box_container" unique_id=312022841 instance=ExtResource("1_vt6v5")]
-layout_mode = 2
-text = "menu_option_fullscreen"
-_is_option = true
-_config_option = "fullscreen"
-exclude_steamdeck = true
-
-[node name="option_widescreen" parent="v_box_container" unique_id=393149372 instance=ExtResource("1_vt6v5")]
-layout_mode = 2
-text = "menu_option_widescreen"
-_is_option = true
-_config_option = "widescreen"
-
-[node name="option_vsync" parent="v_box_container" unique_id=1719586034 instance=ExtResource("1_vt6v5")]
-layout_mode = 2
-text = "menu_option_vsync"
-_is_option = true
-_config_option = "vsync"
-
-[node name="option_antialiasing" parent="v_box_container" unique_id=526151526 instance=ExtResource("1_vt6v5")]
-layout_mode = 2
-text = "menu_option_aa"
-_is_option = true
-_config_option = "antialiasing"
-
-[node name="option_filter" parent="v_box_container" unique_id=734497098 instance=ExtResource("1_vt6v5")]
-layout_mode = 2
-text = "menu_option_filter"
-_is_option = true
-_config_option = "screen_filter"
-
-[node name="margin_container_opt" type="MarginContainer" parent="." unique_id=366703949]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 48
-theme_override_constants/margin_right = 4
 
 [node name="margin_container" type="MarginContainer" parent="." unique_id=1782239598]
 layout_mode = 1
@@ -168,7 +116,7 @@ theme_override_colors/selection_color = Color(0.78, 0.15599999, 0.3432001, 0.588
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
 theme_override_colors/font_shadow_color = Color(1, 1, 1, 0.392157)
 theme_override_constants/line_separation = -2
-theme_override_fonts/normal_font = ExtResource("2_aeyns")
+theme_override_fonts/normal_font = ExtResource("2_kqaq2")
 theme_override_font_sizes/normal_font_size = 17
 theme_override_styles/focus = SubResource("StyleBoxEmpty_o3720")
 bbcode_enabled = true
@@ -179,7 +127,7 @@ text = "
 
 "
 selection_enabled = true
-script = ExtResource("3_aeyns")
+script = ExtResource("3_i2xnm")
 
 [node name="v_box_container3" type="VBoxContainer" parent="margin_container" unique_id=1739900797]
 layout_mode = 2
@@ -199,7 +147,7 @@ mouse_filter = 2
 texture = SubResource("AtlasTexture_lf1sj")
 stretch_mode = 3
 flip_v = true
-script = ExtResource("3_vt6v5")
+script = ExtResource("4_22brd")
 _scroll_box = NodePath("../../v_box_container2/nine_patch_rect2/margin_container/info")
 
 [node name="h_separator" type="HSeparator" parent="margin_container/v_box_container3" unique_id=1179193884]
@@ -214,6 +162,6 @@ layout_mode = 2
 mouse_filter = 2
 texture = SubResource("AtlasTexture_lf1sj")
 stretch_mode = 3
-script = ExtResource("3_vt6v5")
+script = ExtResource("4_22brd")
 _scroll_box = NodePath("../../v_box_container2/nine_patch_rect2/margin_container/info")
 _is_down = true

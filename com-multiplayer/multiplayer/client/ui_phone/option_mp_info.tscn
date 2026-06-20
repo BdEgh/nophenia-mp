@@ -1,20 +1,20 @@
-[gd_scene format=3 uid="uid://b4gnncb2os23l"]
+[gd_scene format=3 uid="uid://b38cn73g00dsy"]
 
-[ext_resource type="Texture2D" uid="uid://buv217vyrxvqy" path="res://texture/phone_ui.png" id="1_62nds"]
-[ext_resource type="Script" uid="uid://dtqep73nssuam" path="res://gdscript/ui/phone_button.gd" id="2_fpjg7"]
-[ext_resource type="Shader" uid="uid://cwl71jfhkvigs" path="res://gdshader/ui_invert.gdshader" id="3_kfh4a"]
+[ext_resource type="Texture2D" uid="uid://buv217vyrxvqy" path="res://texture/phone_ui.png" id="1_ghlpe"]
+[ext_resource type="Script" uid="uid://dtqep73nssuam" path="res://gdscript/ui/phone_button.gd" id="2_qpttt"]
+[ext_resource type="Shader" uid="uid://cwl71jfhkvigs" path="res://gdshader/ui_invert.gdshader" id="3_o8i17"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_j8voh"]
-atlas = ExtResource("1_62nds")
-region = Rect2(183.35132, 39.301872, 24.634705, 21.830757)
+atlas = ExtResource("1_ghlpe")
+region = Rect2(149, 18, 19, 19)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_v0d3x"]
 resource_local_to_scene = true
-shader = ExtResource("3_kfh4a")
+shader = ExtResource("3_o8i17")
 shader_parameter/invert = false
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8nfyy"]
-atlas = ExtResource("1_62nds")
+atlas = ExtResource("1_ghlpe")
 region = Rect2(71, 0, 6, 11)
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_8nfyy"]
@@ -23,7 +23,7 @@ size = Vector2(0, 0)
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hx20v"]
 content_margin_top = 6.0
 content_margin_bottom = 4.0
-texture = ExtResource("1_62nds")
+texture = ExtResource("1_ghlpe")
 texture_margin_left = 1.0
 texture_margin_top = 1.0
 texture_margin_right = 1.0
@@ -33,7 +33,7 @@ axis_stretch_vertical = 1
 region_rect = Rect2(135, 52, 13, 10)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8nfyy"]
-texture = ExtResource("1_62nds")
+texture = ExtResource("1_ghlpe")
 texture_margin_left = 1.0
 texture_margin_top = 1.0
 texture_margin_right = 1.0
@@ -43,18 +43,17 @@ axis_stretch_vertical = 1
 region_rect = Rect2(135, 41, 13, 10)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hx20v"]
-atlas = ExtResource("1_62nds")
+atlas = ExtResource("1_ghlpe")
 region = Rect2(71, 0, 6, 11)
 
-[node name="option_mods" type="Button" unique_id=1218338344]
+[node name="option_mp_info" type="Button" unique_id=1218338344]
 custom_minimum_size = Vector2(128, 19)
-focus_neighbor_top = NodePath("../../../../../../option_language")
 mouse_default_cursor_shape = 3
 shortcut_in_tooltip = false
-text = "Mods"
+text = "MP Info"
 icon = SubResource("AtlasTexture_j8voh")
 flat = true
-script = ExtResource("2_fpjg7")
+script = ExtResource("2_qpttt")
 
 [node name="bg" type="ColorRect" parent="." unique_id=1580186420]
 layout_mode = 1

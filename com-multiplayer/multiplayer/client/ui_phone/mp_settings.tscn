@@ -1,0 +1,194 @@
+[gd_scene format=3 uid="uid://b035laq51pfsa"]
+
+[ext_resource type="PackedScene" uid="uid://cklnynrgg1w20" path="res://resource/pause_menu_phone_option.tscn" id="1_fl340"]
+[ext_resource type="Script" uid="uid://yw0b5r8dhbwl" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/mp_settings.gd" id="1_txyjr"]
+[ext_resource type="Texture2D" uid="uid://buv217vyrxvqy" path="res://texture/phone_ui.png" id="2_hrwg5"]
+[ext_resource type="PackedScene" uid="uid://b6ktgxpymiywa" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/option_text.tscn" id="3_txyjr"]
+[ext_resource type="Shader" uid="uid://cwl71jfhkvigs" path="res://gdshader/ui_invert.gdshader" id="4_ijoox"]
+[ext_resource type="Script" uid="uid://coyio8aii0u5v" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/phone_button_text.gd" id="4_umhcn"]
+[ext_resource type="Script" uid="uid://bneelvmn45klm" path="res://gdscript/ui/scroll_arrow.gd" id="5_lndxn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hrwg5"]
+resource_local_to_scene = true
+shader = ExtResource("4_ijoox")
+shader_parameter/invert = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_txyjr"]
+resource_local_to_scene = true
+shader = ExtResource("4_ijoox")
+shader_parameter/invert = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ijoox"]
+resource_local_to_scene = true
+shader = ExtResource("4_ijoox")
+shader_parameter/invert = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lndxn"]
+resource_local_to_scene = true
+shader = ExtResource("4_ijoox")
+shader_parameter/invert = false
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hrwg5"]
+atlas = ExtResource("2_hrwg5")
+region = Rect2(39, 114, 17, 10)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_txyjr"]
+
+[node name="mp_settings" type="Control" unique_id=142424075]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_txyjr")
+metadata/title = "MP Settings"
+metadata/last_focus = NodePath("margin_container/scroll_container/v_box_container/option_col")
+metadata/right_text = "menu_nav_apply"
+metadata/focus = NodePath("margin_container/scroll_container/v_box_container")
+metadata/left_text = "Reset"
+
+[node name="margin_container" type="MarginContainer" parent="." unique_id=1765423701]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 48
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 25
+
+[node name="scroll_container" type="ScrollContainer" parent="margin_container" unique_id=256396407]
+layout_mode = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="v_box_container" type="VBoxContainer" parent="margin_container/scroll_container" unique_id=846906702]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="option_autoconnect" parent="margin_container/scroll_container/v_box_container" unique_id=2081589790 instance=ExtResource("1_fl340")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Connect"
+script = ExtResource("4_umhcn")
+_is_option = true
+_is_text = false
+_config_option = "auto_connect"
+
+[node name="option_address" parent="margin_container/scroll_container/v_box_container" unique_id=1100168431 instance=ExtResource("3_txyjr")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Address"
+_is_text = true
+_config_option = "address"
+
+[node name="preview_tex" parent="margin_container/scroll_container/v_box_container/option_address/v_box_container/option_box" parent_id_path=PackedInt32Array(1100168431, 584397762) index="0" unique_id=2069315580]
+material = SubResource("ShaderMaterial_hrwg5")
+
+[node name="display_title" parent="margin_container/scroll_container/v_box_container/option_address/v_box_container/option_box/display_title_box" parent_id_path=PackedInt32Array(1100168431, 1337163063) index="0" unique_id=1810180602]
+size_flags_vertical = 0
+
+[node name="option_name" parent="margin_container/scroll_container/v_box_container" unique_id=1286730078 instance=ExtResource("3_txyjr")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Name"
+_is_text = true
+_config_option = "player_name"
+
+[node name="preview_tex" parent="margin_container/scroll_container/v_box_container/option_name/v_box_container/option_box" parent_id_path=PackedInt32Array(1286730078, 584397762) index="0" unique_id=2069315580]
+material = SubResource("ShaderMaterial_txyjr")
+
+[node name="display_title" parent="margin_container/scroll_container/v_box_container/option_name/v_box_container/option_box/display_title_box" parent_id_path=PackedInt32Array(1286730078, 1337163063) index="0" unique_id=1810180602]
+size_flags_vertical = 0
+
+[node name="option_start_server" parent="margin_container/scroll_container/v_box_container" unique_id=868351892 instance=ExtResource("1_fl340")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Start Server"
+script = ExtResource("4_umhcn")
+_is_option = true
+_is_text = false
+_config_option = "start_server"
+
+[node name="option_port" parent="margin_container/scroll_container/v_box_container" unique_id=825545085 instance=ExtResource("3_txyjr")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Server Port"
+_is_text = true
+_config_option = "server_port"
+
+[node name="preview_tex" parent="margin_container/scroll_container/v_box_container/option_port/v_box_container/option_box" parent_id_path=PackedInt32Array(825545085, 584397762) index="0" unique_id=2069315580]
+material = SubResource("ShaderMaterial_ijoox")
+
+[node name="display_title" parent="margin_container/scroll_container/v_box_container/option_port/v_box_container/option_box/display_title_box" parent_id_path=PackedInt32Array(825545085, 1337163063) index="0" unique_id=1810180602]
+size_flags_vertical = 0
+
+[node name="option_seed" parent="margin_container/scroll_container/v_box_container" unique_id=984473993 instance=ExtResource("3_txyjr")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "RNG Seed"
+_is_text = true
+_config_option = "rng_seed"
+
+[node name="preview_tex" parent="margin_container/scroll_container/v_box_container/option_seed/v_box_container/option_box" parent_id_path=PackedInt32Array(984473993, 584397762) index="0" unique_id=2069315580]
+material = SubResource("ShaderMaterial_lndxn")
+
+[node name="display_title" parent="margin_container/scroll_container/v_box_container/option_seed/v_box_container/option_box/display_title_box" parent_id_path=PackedInt32Array(984473993, 1337163063) index="0" unique_id=1810180602]
+size_flags_vertical = 0
+
+[node name="option_col" parent="margin_container/scroll_container/v_box_container" unique_id=1159056380 instance=ExtResource("1_fl340")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Collision With Players"
+script = ExtResource("4_umhcn")
+_is_option = true
+_is_text = false
+_config_option = "collision"
+
+[node name="v_box_container" type="VBoxContainer" parent="." unique_id=928899774]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = 48.0
+offset_right = 8.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="up" type="TextureRect" parent="v_box_container" unique_id=754397484 node_paths=PackedStringArray("_scroll_box")]
+modulate = Color(1, 1, 1, 0.78431374)
+layout_mode = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_hrwg5")
+stretch_mode = 2
+flip_v = true
+script = ExtResource("5_lndxn")
+_scroll_box = NodePath("../../margin_container/scroll_container")
+
+[node name="h_separator" type="HSeparator" parent="v_box_container" unique_id=2112436805]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_txyjr")
+
+[node name="down" type="TextureRect" parent="v_box_container" unique_id=1277847084 node_paths=PackedStringArray("_scroll_box")]
+modulate = Color(1, 1, 1, 0.78431374)
+layout_mode = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_hrwg5")
+stretch_mode = 2
+script = ExtResource("5_lndxn")
+_scroll_box = NodePath("../../margin_container/scroll_container")
+_is_down = true
+
+[editable path="margin_container/scroll_container/v_box_container/option_address"]
+[editable path="margin_container/scroll_container/v_box_container/option_name"]
+[editable path="margin_container/scroll_container/v_box_container/option_port"]
+[editable path="margin_container/scroll_container/v_box_container/option_seed"]

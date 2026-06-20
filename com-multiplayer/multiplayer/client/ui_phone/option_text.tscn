@@ -1,0 +1,155 @@
+[gd_scene format=3 uid="uid://b6ktgxpymiywa"]
+
+[ext_resource type="Texture2D" uid="uid://buv217vyrxvqy" path="res://texture/phone_ui.png" id="1_ruvke"]
+[ext_resource type="Script" uid="uid://coyio8aii0u5v" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/phone_button_text.gd" id="2_3t52j"]
+[ext_resource type="Shader" uid="uid://cwl71jfhkvigs" path="res://gdshader/ui_invert.gdshader" id="3_r6pw4"]
+[ext_resource type="FontFile" uid="uid://d31x1lcitgbpf" path="res://resource/font/menu_large.ttf" id="3_ruvke"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_3t52j"]
+resource_local_to_scene = false
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sk0b0"]
+atlas = ExtResource("1_ruvke")
+region = Rect2(169, 20, 17, 17)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jskkd"]
+resource_local_to_scene = true
+shader = ExtResource("3_r6pw4")
+shader_parameter/invert = false
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r6pw4"]
+atlas = ExtResource("1_ruvke")
+region = Rect2(2, 104, 138, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_psj4g"]
+atlas = ExtResource("1_ruvke")
+region = Rect2(141, 66, 9, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3t52j"]
+atlas = ExtResource("1_ruvke")
+region = Rect2(69, 0, 8, 11)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2oqt2"]
+content_margin_top = 1.0
+content_margin_bottom = 1.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4k3t0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0uof3"]
+content_margin_top = 1.0
+content_margin_bottom = 1.0
+
+[node name="option_text" type="Button" unique_id=1286730078]
+custom_minimum_size = Vector2(130, 19)
+offset_right = 25.0
+offset_bottom = 32.0
+toggle_mode = true
+button_group = SubResource("ButtonGroup_3t52j")
+shortcut_in_tooltip = false
+icon = SubResource("AtlasTexture_sk0b0")
+flat = true
+script = ExtResource("2_3t52j")
+
+[node name="v_box_container" type="VBoxContainer" parent="." unique_id=1912877742]
+layout_mode = 0
+offset_right = 57.0
+offset_bottom = 49.0
+theme_override_constants/separation = 4
+
+[node name="option_box" type="HBoxContainer" parent="v_box_container" unique_id=584397762]
+layout_mode = 2
+
+[node name="preview_tex" type="TextureRect" parent="v_box_container/option_box" unique_id=2069315580]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_jskkd")
+custom_minimum_size = Vector2(25, 12.815)
+layout_mode = 2
+size_flags_vertical = 0
+stretch_mode = 3
+
+[node name="check_box" type="CheckBox" parent="v_box_container/option_box" unique_id=1626268315]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+
+[node name="display_title_box" type="Control" parent="v_box_container/option_box" unique_id=1337163063]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="display_title" type="Label" parent="v_box_container/option_box/display_title_box" unique_id=1810180602]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "<gd>"
+vertical_alignment = 1
+
+[node name="text_option" type="MarginContainer" parent="v_box_container" unique_id=846117961]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="nine_patch_rect2" type="NinePatchRect" parent="v_box_container/text_option" unique_id=419132580]
+layout_mode = 2
+size_flags_vertical = 3
+texture = SubResource("AtlasTexture_r6pw4")
+
+[node name="nine_patch_rect" type="NinePatchRect" parent="v_box_container/text_option/nine_patch_rect2" unique_id=1556752299 groups=["accent_color_invert"]]
+layout_mode = 0
+offset_right = 124.0
+offset_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_psj4g")
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 2
+patch_margin_bottom = 2
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="h_box_container" type="HBoxContainer" parent="v_box_container/text_option" unique_id=556860021]
+custom_minimum_size = Vector2(122, 0)
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="right" type="TextureRect" parent="v_box_container/text_option/h_box_container" unique_id=2063352974]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_3t52j")
+stretch_mode = 2
+
+[node name="line_edit" type="LineEdit" parent="v_box_container/text_option/h_box_container" unique_id=1066464904]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_uneditable_color = Color(0, 0, 0, 0.5019608)
+theme_override_colors/font_selected_color = Color(0.095172964, 0.3977613, 0.30632764, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+theme_override_colors/font_placeholder_color = Color(0, 0, 0, 0.6)
+theme_override_colors/caret_color = Color(0, 0, 0, 0.7529412)
+theme_override_colors/selection_color = Color(0.78, 0.15599999, 0.3432001, 0.5882353)
+theme_override_colors/clear_button_color = Color(0, 0, 0, 1)
+theme_override_colors/clear_button_color_pressed = Color(0.09411765, 0.39607844, 0.30588236, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("3_ruvke")
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("StyleBoxEmpty_2oqt2")
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_4k3t0")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_0uof3")
+caret_blink = true
+
+[connection signal="toggled" from="." to="." method="_on_toggled"]
+[connection signal="focus_entered" from="v_box_container/text_option/h_box_container/line_edit" to="." method="_on_line_edit_focus_entered"]
+[connection signal="text_changed" from="v_box_container/text_option/h_box_container/line_edit" to="." method="_on_line_edit_text_changed"]
