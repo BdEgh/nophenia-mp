@@ -5,7 +5,6 @@ package Api;
 enum EAction {
   DELETE = 0;
   SET = 1;
-  MERGE = 2;
 }
 
 message TPosition {
@@ -33,18 +32,21 @@ message TAnimation {
 }
 
 message TClientState {
-  int32 world_hash = 0;
-  TPosition position = 1;
-  TVelocity velocity = 2;
-  TRotation rotation = 3;
-  TAnimation animation = 4;
-  TVisibility visibility = 5;
+  int32 world_hash = 1;
+  TPosition position = 2;
+  TVelocity velocity = 3;
+  TRotation rotation = 4;
+  TAnimation animation = 5;
+  TVisibility visibility = 6;
 }
 
 message TSignedClientState {
-  uint32 uid = 1;
-  TClientState state = 2;
-  EAction action = 3;
+  TClientState state = 1;
+  EAction action = 2;
+
+  // server only
+  uint32 uid = 3;
+  string name = 4;
 }
 
 message TSignedClientMessage {
@@ -58,11 +60,12 @@ message TVisibility {
 }
 
 message TClientData {
+  string name = 1;
   oneof payload {
-    TSignedClientMessage chat_message = 1;
-    TPing ping = 2;
-    TSignedClientState signed_state = 3;
-    bool sync_request = 4;
+    TSignedClientMessage chat_message = 2;
+    TPing ping = 3;
+    TSignedClientState signed_state = 4;
+    bool sync_request = 5;
   }
 }
 
@@ -72,7 +75,7 @@ message TClientData {
 
 message TPlayersState {
   repeated TSignedClientState signed_state = 1;
-  int32 your_uid = 0;
+  int32 your_uid = 2;
 }
 
 message TServerData {

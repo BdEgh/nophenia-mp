@@ -11,8 +11,13 @@ var band_medium = load(get_script().resource_path.get_base_dir() + "/icons/band_
 var band_high = load(get_script().resource_path.get_base_dir() + "/icons/band_high.tres")
 var hosting = load(get_script().resource_path.get_base_dir() + "/icons/hosting.tres")
 
-@export var client: Node
+@export var client: Node:
+    set(value):
+        client = value
+        if _info_label:
+            _info_label.set_client(value)
 
+var _info_label: RichTextLabel
 var _refresh_timer: Timer
 var _sp_band_tower: TextureRect
 var _online_band_tower: TextureRect
@@ -56,8 +61,7 @@ func _add_icons():
 func _on_pause_menu_visibility_changed(pause_menu):
     if not pause_menu.visible:
         return
-    var mp_client = get_tree().get_first_node_in_group("mp").network_client
-    var ping = mp_client.get_node("ClientApi").last_ping
+    var ping = client.last_ping if client else -1
     if ping == -1 or ping > 1000:
         return
     _show_connected_status()
@@ -78,8 +82,7 @@ func _update_hosting_icon():
         _hosting.visible = false
 
 func _update_signal_tower():
-    var mp_client = get_tree().get_first_node_in_group("mp").network_client
-    var ping = mp_client.get_node("ClientApi").last_ping
+    var ping = client.last_ping if client else -1
     if ping == -1 or ping > 1000:
         _online_band_tower.visible = false
         _sp_band_tower.visible = true
@@ -152,8 +155,9 @@ func _add_mp_info_button():
     multiplayer_screen.visible = false
     var info_label = multiplayer_screen.get_node("margin_container/v_box_container2/nine_patch_rect2/margin_container/info")
     if info_label:
+        _info_label = info_label
         info_label.client = client
-        var mp_client = get_tree().get_first_node_in_group("mp").network_client
+        var mp_client = get_tree().get_first_node_in_group("mp").client
         info_label.puppet_manager = mp_client.get_node("PuppetManager")
     
     _add_option(option_multiplayer, multiplayer_screen)

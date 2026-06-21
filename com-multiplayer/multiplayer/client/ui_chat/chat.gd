@@ -6,7 +6,13 @@ extends Control
 @onready var scroll_container = %ScrollContainer
 
 var chat_bubble_scene = load(get_script().resource_path.get_base_dir() + "/chat_bubble.tscn")
-@export var client_api: Node
+@export var client: Node:
+    set(value):
+        if value == client:
+            return
+        _disconnect_client()
+        client = value
+        _connect_client()
 @export var puppet_manager: Node
 
 var toggling := false
@@ -17,10 +23,16 @@ var emoji_regex := RegEx.new()
 func _ready():
     visible = false
     _load_emoji()
-    if client_api:
-        client_api.player_message.connect(_on_player_message)
-    else:
-        ModLoaderLog.warning("client_api not found", self.name)
+
+func _connect_client() -> void:
+    if client == null or client.player_message.is_connected(_on_player_message):
+        return
+    client.player_message.connect(_on_player_message)
+
+func _disconnect_client() -> void:
+    if client == null or not client.player_message.is_connected(_on_player_message):
+        return
+    client.player_message.disconnect(_on_player_message)
 
 func _load_emoji():
     emoji_regex.compile(":([a-z_]+):")
@@ -108,11 +120,12 @@ func _on_player_message(player_id: int, message: String):
     if message.begins_with("DO:"):
         return
     
-    var sender_name = player_id
+    var sender_name = str(player_id)
     if puppet_manager:
-        sender_name = puppet_manager.NAMES[player_id % len(puppet_manager.NAMES)]
         var puppet = puppet_manager.get_puppet(player_id)
         if puppet:
+            if puppet.player_name != "":
+                sender_name = puppet.player_name
             puppet.show_chat_message(message)
     
     add_message(message, sender_name)
@@ -123,11 +136,11 @@ func _send_message():
         return
     
     message_input.text = ""
-    if client_api:
-        client_api.send_chat_message(text)
+    if client:
+        client.send_chat_message(text)
         add_message(text, "You")
     else:
-        ModLoaderLog.warning("cannot send message - client_api not found", self.name)
+        ModLoaderLog.warning("cannot send message - client not found", self.name)
     
     await get_tree().create_timer(0.1).timeout
     scroll_container.scroll_vertical = int(scroll_container.get_v_scroll_bar().max_value)

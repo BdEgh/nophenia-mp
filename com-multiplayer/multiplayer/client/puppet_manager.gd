@@ -7,15 +7,15 @@ signal puppets_cleared()
 
 var MultiplayerClientProto = load(get_script().resource_path.get_base_dir() + "/client_api.gd")
 
-const NAMES = [
-    "cheese", "milk", "tea",
-    "coffee", "fish", "pumpkin",
-    "melon", "apple", "banana",
-    "berry", "honey", "sugar",
-    "kiwi", "mango", "orange"
-]
-
-@export var client: Node
+@export var client: Node:
+    set(value):
+        if value == client:
+            return
+        _disconnect_client()
+        client = value
+        if client == null:
+            clear_all_puppets()
+        _connect_client()
 @export var puppet_scene: PackedScene
 
 var stage_node: stage
@@ -25,19 +25,35 @@ var puppets: Dictionary = {}  # player_id -> MultiplayerPuppet instance
 
 func _ready():
     stage_node = game.active_stage
-    
+
+func _connect_client() -> void:
+    if client == null or client.player_set.is_connected(_on_player_set):
+        return
     client.player_set.connect(_on_player_set)
     client.player_delete.connect(_on_player_delete)
     client.player_message.connect(_on_player_message)
     client.disconnected_from_server.connect(_on_disconnected)
 
-func _on_player_set(player_id: int, state):
-    all_players[player_id] = state.get_world_hash()
+func _disconnect_client() -> void:
+    if client == null or not client.player_set.is_connected(_on_player_set):
+        return
+    client.player_set.disconnect(_on_player_set)
+    client.player_delete.disconnect(_on_player_delete)
+    client.player_message.disconnect(_on_player_message)
+    client.disconnected_from_server.disconnect(_on_disconnected)
+
+func _on_player_set(player_id: int, state, player_name: String):
+    if state.get_world_hash():
+        all_players[player_id] = state.get_world_hash()
     if puppets.has(player_id) and puppets[player_id]:
+        if state.get_world_hash() and state.get_world_hash() != game.active_stage.stage_name.hash():
+            _on_player_delete(player_id)
+            return
         var puppet = puppets[player_id]
+        puppet.set_player_name(_resolve_name(player_id, player_name))
         puppet.apply_state(state)
-    else:
-        _spawn_puppet(player_id, state)
+    elif state.get_world_hash():
+        _spawn_puppet(player_id, state, player_name)
 
 func _on_player_delete(player_id: int):
     if puppets.has(player_id):
@@ -91,14 +107,20 @@ func _handle_puppet_action(puppet, action: String):
 func _on_disconnected():
     clear_all_puppets()
 
-func _spawn_puppet(player_id: int, state):
+func _resolve_name(player_id: int, player_name: String) -> String:
+    if player_name != "":
+        return player_name
+    return str(player_id)
+
+func _spawn_puppet(player_id: int, state, player_name: String):
     if state.get_world_hash() != game.active_stage.stage_name.hash():
         return
     
     var puppet = puppet_scene.instantiate()
     puppet.id = player_id
-    puppet.name = NAMES[player_id % len(NAMES)]
+    puppet.name = str(player_id)
     stage_node.add_child(puppet)
+    puppet.set_player_name(_resolve_name(player_id, player_name))
     if state.has_position():
         var pos_data = state.get_position().get_vector()
         if pos_data.size() >= 3:

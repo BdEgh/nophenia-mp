@@ -11,6 +11,8 @@ var socket
 var _ping_timer: Timer
 
 var players := {}  # key: uid, value: TClientState
+var _raw_names := {}  # key: uid, value: String
+var _names := {}  # key: uid, value: Patched String
 var _last_ping_times: Dictionary = {}  # key: uid, value: unix timestamp
 
 func _ready() -> void:
@@ -39,8 +41,7 @@ func _check_ping_timeouts():
         ModLoaderLog.warning("Player %d timed out (no requests for %.0f ms)" % [peer_id, ping_timeout], self.name)
         _disconnect_player(peer_id)
 
-func start_server(host: String = "127.0.0.1", port: int = 42425):
-    socket.host = host
+func start_server(port: int = 42424):
     socket.port = port
     socket.start_server()
 
@@ -67,6 +68,7 @@ func _send_other_players_data(peer_id: int):
         var signed_state = msg.add_signed_state()
         signed_state.set_action(Api.EAction.SET)
         signed_state.set_uid(player_id)
+        signed_state.set_name(_names.get(player_id, ""))
         signed_state.__state.value = players[player_id]
 
     socket.send_data(data.to_bytes(), peer_id)
@@ -80,6 +82,26 @@ func _disconnect_player(peer_id: int):
     
     _last_ping_times.erase(peer_id)
     players.erase(peer_id)
+    _raw_names.erase(peer_id)
+    _names.erase(peer_id)
+    _make_uniq_names()
+
+func _make_uniq_names() -> void:
+    var used := {}
+    var peer_ids := _raw_names.keys()
+    peer_ids.sort()
+    for peer_id in peer_ids:
+        var raw_name = _raw_names[peer_id]
+        var uniq_name = raw_name
+        var suffix = 2
+        while used.has(uniq_name):
+            uniq_name = "%s(%d)" % [raw_name, suffix]
+            suffix += 1
+        used[uniq_name] = true
+        _names[peer_id] = uniq_name
+    # todo: cursed. find a better way
+    for peer_id in socket.get_connected_peers():
+        _send_other_players_data(peer_id)
 
 func _set_player(peer_id: int, signed_state):
     var source = signed_state.get_state()
@@ -117,6 +139,7 @@ func _sync_state(peer_id: int, signed_state):
     var data = Api.TServerData.new()
     var player = data.new_players()
     signed_state.set_uid(peer_id)
+    signed_state.set_name(_names.get(peer_id, ""))
     player.__signed_state.value.append(signed_state)
     socket.send_data(data.to_bytes(), -peer_id)
 
@@ -124,6 +147,9 @@ func _on_data_received(peer_id: int, data: PackedByteArray):
     _last_ping_times[peer_id] = Time.get_ticks_msec()
     var message = Api.TClientData.new()
     message.from_bytes(data)
+    if message.get_name() != "" and _raw_names.get(peer_id) != message.get_name():
+        _raw_names[peer_id] = message.get_name()
+        _make_uniq_names()
     if message.has_signed_state():
         _sync_state(peer_id, message.get_signed_state())
     elif message.has_chat_message():

@@ -647,8 +647,7 @@ class PBPacker:
 
 enum EAction {
     DELETE = 0,
-    SET = 1,
-    MERGE = 2
+    SET = 1
 }
 
 class TPosition:
@@ -943,36 +942,36 @@ class TClientState:
     func _init():
         var service
         
-        __world_hash = PBField.new("world_hash", PB_DATA_TYPE.INT32, PB_RULE.OPTIONAL, 0, true, DEFAULT_VALUES_3[PB_DATA_TYPE.INT32])
+        __world_hash = PBField.new("world_hash", PB_DATA_TYPE.INT32, PB_RULE.OPTIONAL, 1, true, DEFAULT_VALUES_3[PB_DATA_TYPE.INT32])
         service = PBServiceField.new()
         service.field = __world_hash
         data[__world_hash.tag] = service
         
-        __position = PBField.new("position", PB_DATA_TYPE.MESSAGE, PB_RULE.OPTIONAL, 1, true, DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE])
+        __position = PBField.new("position", PB_DATA_TYPE.MESSAGE, PB_RULE.OPTIONAL, 2, true, DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE])
         service = PBServiceField.new()
         service.field = __position
         service.func_ref = Callable(self, "new_position")
         data[__position.tag] = service
         
-        __velocity = PBField.new("velocity", PB_DATA_TYPE.MESSAGE, PB_RULE.OPTIONAL, 2, true, DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE])
+        __velocity = PBField.new("velocity", PB_DATA_TYPE.MESSAGE, PB_RULE.OPTIONAL, 3, true, DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE])
         service = PBServiceField.new()
         service.field = __velocity
         service.func_ref = Callable(self, "new_velocity")
         data[__velocity.tag] = service
         
-        __rotation = PBField.new("rotation", PB_DATA_TYPE.MESSAGE, PB_RULE.OPTIONAL, 3, true, DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE])
+        __rotation = PBField.new("rotation", PB_DATA_TYPE.MESSAGE, PB_RULE.OPTIONAL, 4, true, DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE])
         service = PBServiceField.new()
         service.field = __rotation
         service.func_ref = Callable(self, "new_rotation")
         data[__rotation.tag] = service
         
-        __animation = PBField.new("animation", PB_DATA_TYPE.MESSAGE, PB_RULE.OPTIONAL, 4, true, DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE])
+        __animation = PBField.new("animation", PB_DATA_TYPE.MESSAGE, PB_RULE.OPTIONAL, 5, true, DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE])
         service = PBServiceField.new()
         service.field = __animation
         service.func_ref = Callable(self, "new_animation")
         data[__animation.tag] = service
         
-        __visibility = PBField.new("visibility", PB_DATA_TYPE.MESSAGE, PB_RULE.OPTIONAL, 5, true, DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE])
+        __visibility = PBField.new("visibility", PB_DATA_TYPE.MESSAGE, PB_RULE.OPTIONAL, 6, true, DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE])
         service = PBServiceField.new()
         service.field = __visibility
         service.func_ref = Callable(self, "new_visibility")
@@ -988,7 +987,7 @@ class TClientState:
     func get_world_hash() -> int:
         return __world_hash.value
     func clear_world_hash() -> void:
-        data[0].state = PB_SERVICE_STATE.UNFILLED
+        data[1].state = PB_SERVICE_STATE.UNFILLED
         __world_hash.value = DEFAULT_VALUES_3[PB_DATA_TYPE.INT32]
     func set_world_hash(value : int) -> void:
         __world_hash.value = value
@@ -1001,7 +1000,7 @@ class TClientState:
     func get_position() -> TPosition:
         return __position.value
     func clear_position() -> void:
-        data[1].state = PB_SERVICE_STATE.UNFILLED
+        data[2].state = PB_SERVICE_STATE.UNFILLED
         __position.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
     func new_position() -> TPosition:
         __position.value = TPosition.new()
@@ -1015,7 +1014,7 @@ class TClientState:
     func get_velocity() -> TVelocity:
         return __velocity.value
     func clear_velocity() -> void:
-        data[2].state = PB_SERVICE_STATE.UNFILLED
+        data[3].state = PB_SERVICE_STATE.UNFILLED
         __velocity.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
     func new_velocity() -> TVelocity:
         __velocity.value = TVelocity.new()
@@ -1029,7 +1028,7 @@ class TClientState:
     func get_rotation() -> TRotation:
         return __rotation.value
     func clear_rotation() -> void:
-        data[3].state = PB_SERVICE_STATE.UNFILLED
+        data[4].state = PB_SERVICE_STATE.UNFILLED
         __rotation.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
     func new_rotation() -> TRotation:
         __rotation.value = TRotation.new()
@@ -1043,7 +1042,7 @@ class TClientState:
     func get_animation() -> TAnimation:
         return __animation.value
     func clear_animation() -> void:
-        data[4].state = PB_SERVICE_STATE.UNFILLED
+        data[5].state = PB_SERVICE_STATE.UNFILLED
         __animation.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
     func new_animation() -> TAnimation:
         __animation.value = TAnimation.new()
@@ -1057,7 +1056,7 @@ class TClientState:
     func get_visibility() -> TVisibility:
         return __visibility.value
     func clear_visibility() -> void:
-        data[5].state = PB_SERVICE_STATE.UNFILLED
+        data[6].state = PB_SERVICE_STATE.UNFILLED
         __visibility.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
     func new_visibility() -> TVisibility:
         __visibility.value = TVisibility.new()
@@ -1088,36 +1087,28 @@ class TSignedClientState:
     func _init():
         var service
         
-        __uid = PBField.new("uid", PB_DATA_TYPE.UINT32, PB_RULE.OPTIONAL, 1, true, DEFAULT_VALUES_3[PB_DATA_TYPE.UINT32])
-        service = PBServiceField.new()
-        service.field = __uid
-        data[__uid.tag] = service
-        
-        __state = PBField.new("state", PB_DATA_TYPE.MESSAGE, PB_RULE.OPTIONAL, 2, true, DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE])
+        __state = PBField.new("state", PB_DATA_TYPE.MESSAGE, PB_RULE.OPTIONAL, 1, true, DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE])
         service = PBServiceField.new()
         service.field = __state
         service.func_ref = Callable(self, "new_state")
         data[__state.tag] = service
         
-        __action = PBField.new("action", PB_DATA_TYPE.ENUM, PB_RULE.OPTIONAL, 3, true, DEFAULT_VALUES_3[PB_DATA_TYPE.ENUM])
+        __action = PBField.new("action", PB_DATA_TYPE.ENUM, PB_RULE.OPTIONAL, 2, true, DEFAULT_VALUES_3[PB_DATA_TYPE.ENUM])
         service = PBServiceField.new()
         service.field = __action
         data[__action.tag] = service
         
+        __uid = PBField.new("uid", PB_DATA_TYPE.UINT32, PB_RULE.OPTIONAL, 3, true, DEFAULT_VALUES_3[PB_DATA_TYPE.UINT32])
+        service = PBServiceField.new()
+        service.field = __uid
+        data[__uid.tag] = service
+        
+        __name = PBField.new("name", PB_DATA_TYPE.STRING, PB_RULE.OPTIONAL, 4, true, DEFAULT_VALUES_3[PB_DATA_TYPE.STRING])
+        service = PBServiceField.new()
+        service.field = __name
+        data[__name.tag] = service
+        
     var data = {}
-    
-    var __uid: PBField
-    func has_uid() -> bool:
-        if __uid.value != null:
-            return true
-        return false
-    func get_uid() -> int:
-        return __uid.value
-    func clear_uid() -> void:
-        data[1].state = PB_SERVICE_STATE.UNFILLED
-        __uid.value = DEFAULT_VALUES_3[PB_DATA_TYPE.UINT32]
-    func set_uid(value : int) -> void:
-        __uid.value = value
     
     var __state: PBField
     func has_state() -> bool:
@@ -1127,7 +1118,7 @@ class TSignedClientState:
     func get_state() -> TClientState:
         return __state.value
     func clear_state() -> void:
-        data[2].state = PB_SERVICE_STATE.UNFILLED
+        data[1].state = PB_SERVICE_STATE.UNFILLED
         __state.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
     func new_state() -> TClientState:
         __state.value = TClientState.new()
@@ -1141,10 +1132,36 @@ class TSignedClientState:
     func get_action():
         return __action.value
     func clear_action() -> void:
-        data[3].state = PB_SERVICE_STATE.UNFILLED
+        data[2].state = PB_SERVICE_STATE.UNFILLED
         __action.value = DEFAULT_VALUES_3[PB_DATA_TYPE.ENUM]
     func set_action(value) -> void:
         __action.value = value
+    
+    var __uid: PBField
+    func has_uid() -> bool:
+        if __uid.value != null:
+            return true
+        return false
+    func get_uid() -> int:
+        return __uid.value
+    func clear_uid() -> void:
+        data[3].state = PB_SERVICE_STATE.UNFILLED
+        __uid.value = DEFAULT_VALUES_3[PB_DATA_TYPE.UINT32]
+    func set_uid(value : int) -> void:
+        __uid.value = value
+    
+    var __name: PBField
+    func has_name() -> bool:
+        if __name.value != null:
+            return true
+        return false
+    func get_name() -> String:
+        return __name.value
+    func clear_name() -> void:
+        data[4].state = PB_SERVICE_STATE.UNFILLED
+        __name.value = DEFAULT_VALUES_3[PB_DATA_TYPE.STRING]
+    func set_name(value : String) -> void:
+        __name.value = value
     
     func _to_string() -> String:
         return PBPacker.message_to_string(data)
@@ -1291,30 +1308,48 @@ class TClientData:
     func _init():
         var service
         
-        __chat_message = PBField.new("chat_message", PB_DATA_TYPE.MESSAGE, PB_RULE.OPTIONAL, 1, true, DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE])
+        __name = PBField.new("name", PB_DATA_TYPE.STRING, PB_RULE.OPTIONAL, 1, true, DEFAULT_VALUES_3[PB_DATA_TYPE.STRING])
+        service = PBServiceField.new()
+        service.field = __name
+        data[__name.tag] = service
+        
+        __chat_message = PBField.new("chat_message", PB_DATA_TYPE.MESSAGE, PB_RULE.OPTIONAL, 2, true, DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE])
         service = PBServiceField.new()
         service.field = __chat_message
         service.func_ref = Callable(self, "new_chat_message")
         data[__chat_message.tag] = service
         
-        __ping = PBField.new("ping", PB_DATA_TYPE.MESSAGE, PB_RULE.OPTIONAL, 2, true, DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE])
+        __ping = PBField.new("ping", PB_DATA_TYPE.MESSAGE, PB_RULE.OPTIONAL, 3, true, DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE])
         service = PBServiceField.new()
         service.field = __ping
         service.func_ref = Callable(self, "new_ping")
         data[__ping.tag] = service
         
-        __signed_state = PBField.new("signed_state", PB_DATA_TYPE.MESSAGE, PB_RULE.OPTIONAL, 3, true, DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE])
+        __signed_state = PBField.new("signed_state", PB_DATA_TYPE.MESSAGE, PB_RULE.OPTIONAL, 4, true, DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE])
         service = PBServiceField.new()
         service.field = __signed_state
         service.func_ref = Callable(self, "new_signed_state")
         data[__signed_state.tag] = service
         
-        __sync_request = PBField.new("sync_request", PB_DATA_TYPE.BOOL, PB_RULE.OPTIONAL, 4, true, DEFAULT_VALUES_3[PB_DATA_TYPE.BOOL])
+        __sync_request = PBField.new("sync_request", PB_DATA_TYPE.BOOL, PB_RULE.OPTIONAL, 5, true, DEFAULT_VALUES_3[PB_DATA_TYPE.BOOL])
         service = PBServiceField.new()
         service.field = __sync_request
         data[__sync_request.tag] = service
         
     var data = {}
+    
+    var __name: PBField
+    func has_name() -> bool:
+        if __name.value != null:
+            return true
+        return false
+    func get_name() -> String:
+        return __name.value
+    func clear_name() -> void:
+        data[1].state = PB_SERVICE_STATE.UNFILLED
+        __name.value = DEFAULT_VALUES_3[PB_DATA_TYPE.STRING]
+    func set_name(value : String) -> void:
+        __name.value = value
     
     var __chat_message: PBField
     func has_chat_message() -> bool:
@@ -1324,16 +1359,16 @@ class TClientData:
     func get_chat_message() -> TSignedClientMessage:
         return __chat_message.value
     func clear_chat_message() -> void:
-        data[1].state = PB_SERVICE_STATE.UNFILLED
+        data[2].state = PB_SERVICE_STATE.UNFILLED
         __chat_message.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
     func new_chat_message() -> TSignedClientMessage:
-        data[1].state = PB_SERVICE_STATE.FILLED
+        data[2].state = PB_SERVICE_STATE.FILLED
         __ping.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
-        data[2].state = PB_SERVICE_STATE.UNFILLED
-        __signed_state.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
         data[3].state = PB_SERVICE_STATE.UNFILLED
-        __sync_request.value = DEFAULT_VALUES_3[PB_DATA_TYPE.BOOL]
+        __signed_state.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
         data[4].state = PB_SERVICE_STATE.UNFILLED
+        __sync_request.value = DEFAULT_VALUES_3[PB_DATA_TYPE.BOOL]
+        data[5].state = PB_SERVICE_STATE.UNFILLED
         __chat_message.value = TSignedClientMessage.new()
         return __chat_message.value
     
@@ -1345,16 +1380,16 @@ class TClientData:
     func get_ping() -> TPing:
         return __ping.value
     func clear_ping() -> void:
-        data[2].state = PB_SERVICE_STATE.UNFILLED
+        data[3].state = PB_SERVICE_STATE.UNFILLED
         __ping.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
     func new_ping() -> TPing:
         __chat_message.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
-        data[1].state = PB_SERVICE_STATE.UNFILLED
-        data[2].state = PB_SERVICE_STATE.FILLED
+        data[2].state = PB_SERVICE_STATE.UNFILLED
+        data[3].state = PB_SERVICE_STATE.FILLED
         __signed_state.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
-        data[3].state = PB_SERVICE_STATE.UNFILLED
-        __sync_request.value = DEFAULT_VALUES_3[PB_DATA_TYPE.BOOL]
         data[4].state = PB_SERVICE_STATE.UNFILLED
+        __sync_request.value = DEFAULT_VALUES_3[PB_DATA_TYPE.BOOL]
+        data[5].state = PB_SERVICE_STATE.UNFILLED
         __ping.value = TPing.new()
         return __ping.value
     
@@ -1366,16 +1401,16 @@ class TClientData:
     func get_signed_state() -> TSignedClientState:
         return __signed_state.value
     func clear_signed_state() -> void:
-        data[3].state = PB_SERVICE_STATE.UNFILLED
+        data[4].state = PB_SERVICE_STATE.UNFILLED
         __signed_state.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
     func new_signed_state() -> TSignedClientState:
         __chat_message.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
-        data[1].state = PB_SERVICE_STATE.UNFILLED
-        __ping.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
         data[2].state = PB_SERVICE_STATE.UNFILLED
-        data[3].state = PB_SERVICE_STATE.FILLED
+        __ping.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
+        data[3].state = PB_SERVICE_STATE.UNFILLED
+        data[4].state = PB_SERVICE_STATE.FILLED
         __sync_request.value = DEFAULT_VALUES_3[PB_DATA_TYPE.BOOL]
-        data[4].state = PB_SERVICE_STATE.UNFILLED
+        data[5].state = PB_SERVICE_STATE.UNFILLED
         __signed_state.value = TSignedClientState.new()
         return __signed_state.value
     
@@ -1387,16 +1422,16 @@ class TClientData:
     func get_sync_request() -> bool:
         return __sync_request.value
     func clear_sync_request() -> void:
-        data[4].state = PB_SERVICE_STATE.UNFILLED
+        data[5].state = PB_SERVICE_STATE.UNFILLED
         __sync_request.value = DEFAULT_VALUES_3[PB_DATA_TYPE.BOOL]
     func set_sync_request(value : bool) -> void:
         __chat_message.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
-        data[1].state = PB_SERVICE_STATE.UNFILLED
-        __ping.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
         data[2].state = PB_SERVICE_STATE.UNFILLED
-        __signed_state.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
+        __ping.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
         data[3].state = PB_SERVICE_STATE.UNFILLED
-        data[4].state = PB_SERVICE_STATE.FILLED
+        __signed_state.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
+        data[4].state = PB_SERVICE_STATE.UNFILLED
+        data[5].state = PB_SERVICE_STATE.FILLED
         __sync_request.value = value
     
     func _to_string() -> String:
@@ -1431,7 +1466,7 @@ class TPlayersState:
         service.func_ref = Callable(self, "add_signed_state")
         data[__signed_state.tag] = service
         
-        __your_uid = PBField.new("your_uid", PB_DATA_TYPE.INT32, PB_RULE.OPTIONAL, 0, true, DEFAULT_VALUES_3[PB_DATA_TYPE.INT32])
+        __your_uid = PBField.new("your_uid", PB_DATA_TYPE.INT32, PB_RULE.OPTIONAL, 2, true, DEFAULT_VALUES_3[PB_DATA_TYPE.INT32])
         service = PBServiceField.new()
         service.field = __your_uid
         data[__your_uid.tag] = service
@@ -1457,7 +1492,7 @@ class TPlayersState:
     func get_your_uid() -> int:
         return __your_uid.value
     func clear_your_uid() -> void:
-        data[0].state = PB_SERVICE_STATE.UNFILLED
+        data[2].state = PB_SERVICE_STATE.UNFILLED
         __your_uid.value = DEFAULT_VALUES_3[PB_DATA_TYPE.INT32]
     func set_your_uid(value : int) -> void:
         __your_uid.value = value

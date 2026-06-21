@@ -3,6 +3,7 @@ extends Node
 @export var id: int = 0
 var nia_instance: Node3D
 var name_label: Label3D
+var player_name: String = ""
 var floating_message_scene: PackedScene
 
 func teleport_to(pos: Vector3):
@@ -30,8 +31,13 @@ func _init() -> void:
 
 func _ready() -> void:
     name_label = get_node("NameLabel")
-    name_label.text = name
+    name_label.text = player_name
     name_label.reparent(nia_instance, false)
+
+func set_player_name(value: String) -> void:
+    player_name = value
+    if name_label:
+        name_label.text = value
 
 func show_chat_message(message: String):
     if message.begins_with("DO:"):

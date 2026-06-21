@@ -5,7 +5,13 @@ var Api = load((get_script().resource_path.get_base_dir() + "/../api/pb.gd").sim
 var MultiplayerClientProto = load(get_script().resource_path.get_base_dir() + "/client_api.gd")
 
 @export var nia: CharacterBody3D
-@export var client: Node
+@export var client: Node:
+    set(value):
+        if value == client:
+            return
+        _disconnect_client()
+        client = value
+        _connect_client()
 @export var update_rate: float = 0.15
 @export var position_threshold: float = 0.2
 @export var velocity_threshold: float = 0.01
@@ -40,8 +46,6 @@ func _ready():
     _update_timer.timeout.connect(_check_and_send_updates.bind(false))
     add_child(_update_timer)
     
-    client.connected_to_server.connect(_send_visibility_full)
-    
     add_to_group("player_sync")
     
     _resync_timer = Timer.new()
@@ -49,9 +53,26 @@ func _ready():
     _resync_timer.one_shot = true
     _resync_timer.timeout.connect(_send_visibility_full)
     add_child(_resync_timer)
-    var mp_client = get_tree().get_first_node_in_group("mp").network_client
+    var mp_client = get_tree().get_first_node_in_group("mp").client
     var puppet_manager = mp_client.get_node("PuppetManager")
     puppet_manager.puppet_spawned.connect(_on_puppet_spawned)
+
+func _connect_client() -> void:
+    if client == null or client.connected_to_server.is_connected(_on_connected_to_server):
+        return
+    client.connected_to_server.connect(_on_connected_to_server)
+
+func _disconnect_client() -> void:
+    if client == null or not client.connected_to_server.is_connected(_on_connected_to_server):
+        return
+    client.connected_to_server.disconnect(_on_connected_to_server)
+
+func _on_connected_to_server() -> void:
+    var current_position = nia.global_position
+    var current_velocity = nia.velocity
+    var current_rotation = _visual_root.rotation if _visual_root else Vector3.ZERO
+    _send_state_update(current_position, current_velocity, current_rotation, "idle_walk_run", 1.0)
+    _send_visibility_full()
 
 func _on_puppet_spawned(_player_id: int) -> void:
     _resync_timer.start()
@@ -81,7 +102,7 @@ func _physics_process(_delta):
         _was_damaging = is_damaging
 
 func _check_and_send_updates(force: bool):
-    if not client.socket or not client.socket.connected():
+    if not client or not client.socket or not client.socket.connected():
         return
     
     var current_position = nia.global_position
@@ -124,6 +145,8 @@ func _fetch_visibility() -> Dictionary:
     return current
 
 func _send_visibility_diff(against: Dictionary):
+    if not client or not client.socket or not client.socket.connected():
+        return
     var current = _fetch_visibility()
     var shown: Array = []
     var hidden: Array = []

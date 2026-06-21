@@ -1,5 +1,5 @@
 class_name FigureEightMovement
-extends MovementPattern
+extends "res://mods-unpacked/com-multiplayer/multiplayer/client/patches/nia_patcher/simple_movement/moves/movement_pattern_base.gd"
 
 @export var size: Vector2 = Vector2(2.0, 1.0)
 @export var vertical: bool = false

@@ -33,7 +33,8 @@ func change_stage(_stage: String = ""):
     game.change_stage(_stage)
 
 func change_stage_rand():
-    var rng_seed = get_tree().get_first_node_in_group("mp").mp_cfg.rng_seed
+    var mp = get_tree().get_first_node_in_group("mp")
+    var rng_seed = mp.mp_cfg.rng_seed
     seed(rng_seed)
     var pool = game._traverse_random.duplicate()
     pool.shuffle()
@@ -47,6 +48,7 @@ func change_stage_rand():
     config.visited.clear()
     config.last_visited = "stage_end"
     game._dream_attempt = 0
+    mp.mp_cfg.rng_seed = randi()
 
     change_stage("stage_title")
     get_window().request_attention()

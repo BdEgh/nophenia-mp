@@ -65,7 +65,7 @@ func click(from_button: bool = true):
             self.custom_minimum_size.y = 45.0
             %display_title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
         elif from_button:
-            _hide_text()
+            hide_text()
     elif _is_option:
         %check_box.button_pressed = ! %check_box.button_pressed
         _mp_config().set(_config_option, %check_box.button_pressed)
@@ -125,7 +125,7 @@ func _title_size_check():
         if _display_title_tween: _display_title_tween.kill()
         %display_title.position.x = 0
 
-func _hide_text() -> void:
+func hide_text() -> void:
     %text_option.hide()
     self.custom_minimum_size.y = 19.0
 
@@ -148,6 +148,3 @@ func _on_line_edit_text_changed(new_text: String) -> void:
     game.find("pause_menu").phone_feedback()
     audio.play_snd(game.loadres("menu_slider"), -1, 0.6, "snd")
     audio.play_snd(game.loadres("phone_keypad_short"), -1, 0.6, "snd")
-
-func _on_line_edit_focus_entered() -> void:
-    click(false)

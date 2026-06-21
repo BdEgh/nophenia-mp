@@ -15,7 +15,7 @@ var default_saturation: float = 1.0
 func _ready() -> void:
     nia = player_sync.nia
 
-    var mp_client = get_tree().get_first_node_in_group("mp").network_client
+    var mp_client = get_tree().get_first_node_in_group("mp").client
     puppet_manager = mp_client.get_node("PuppetManager")
     trans_vignette = nia.get_node("indicator_layer/trans_vignette")
     trans_saturation = nia.get_node("indicator_layer/trans_saturation")

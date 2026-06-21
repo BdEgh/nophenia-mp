@@ -1,5 +1,5 @@
 class_name SineWaveMovement
-extends MovementPattern
+extends "res://mods-unpacked/com-multiplayer/multiplayer/client/patches/nia_patcher/simple_movement/moves/movement_pattern_base.gd"
 
 @export var axis: Vector3 = Vector3.UP
 @export var frequency: float = 1.0

@@ -1,8 +1,5 @@
 extends Node
 
-# feel free to reuse
-# meow~
-
 const MOD_DIR := "com-multiplayer"
 const LOG_NAME := "com-multiplayer:Main"
 

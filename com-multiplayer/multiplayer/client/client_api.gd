@@ -7,8 +7,7 @@ var WebSocketClient = load(get_script().resource_path.get_base_dir() + "/websock
 signal connected_to_server()
 signal disconnected_from_server()
 signal connection_failed()
-signal player_set(player_id: int, state)
-#signal player_merge(player_id: int, state)
+signal player_set(player_id: int, state, player_name: String)
 signal player_delete(player_id: int)
 signal player_message(player_id: int, message: String)
 signal self_id(id: int)
@@ -77,9 +76,7 @@ func _emit_player_state(peer_id: int, signed_state):
         Api.EAction.DELETE:
             player_delete.emit(peer_id)
         Api.EAction.SET:
-            player_set.emit(peer_id, signed_state.get_state())
-        #Api.EAction.MERGE:
-            #player_merge.emit(peer_id, signed_state.get_state())
+            player_set.emit(peer_id, signed_state.get_state(), signed_state.get_name())
 
 func _on_data_received(_stub: int, data: PackedByteArray):
     var message = Api.TServerData.new()
@@ -125,6 +122,14 @@ func _on_data_received(_stub: int, data: PackedByteArray):
 
 ## Client to server interactions
 
+func _local_name() -> String:
+    var mp = get_tree().get_first_node_in_group("mp")
+    if mp and mp.mp_cfg.player_name != "":
+        return mp.mp_cfg.player_name
+    if mp:
+        return mp.default_name
+    return ""
+
 func _send_ping():
     if not socket.connected():
         return
@@ -139,25 +144,33 @@ func _send_ping():
 func _send_sync_request():
     var data = Api.TClientData.new()
     data.set_sync_request(true)
+    data.set_name(_local_name())
     socket.send_data(data.to_bytes())
+
+func request_sync() -> bool:
+    if not socket or not socket.connected():
+        return false
+    _send_sync_request()
+    return true
 
 func send_chat_message(message: String):
     var data = Api.TClientData.new()
     var msg = data.new_chat_message()
     msg.set_msg(message)
+    data.set_name(_local_name())
     socket.send_data(data.to_bytes())
 
 func send_state_update(message):
     var data = Api.TClientData.new()
-    
     var signed_state = data.new_signed_state()
     signed_state.set_action(Api.EAction.SET)
     signed_state.__state.value = message
-    
+    data.set_name(_local_name())
     socket.send_data(data.to_bytes())
 
 func send_visibility(shown: Array, hidden: Array):
     var state = Api.TClientState.new()
+    state.set_world_hash(game.active_stage.stage_name.hash())
     var visibility = state.new_visibility()
     for path in shown:
         visibility.add_shown(path)

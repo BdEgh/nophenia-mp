@@ -2,7 +2,7 @@ class_name MovingObject
 extends Node
 
 @export var move_enabled: bool = false
-@export var movement_patterns: Array[MovementPattern] = []
+@export var movement_patterns: Array = []
 @export var time_offset: float = 0.0
 
 var time: float = 0.0

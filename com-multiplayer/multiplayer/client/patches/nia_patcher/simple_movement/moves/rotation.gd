@@ -1,5 +1,5 @@
 class_name RotationMovement
-extends MovementPattern
+extends "res://mods-unpacked/com-multiplayer/multiplayer/client/patches/nia_patcher/simple_movement/moves/movement_pattern_base.gd"
 
 @export var rotation_axis: Vector3 = Vector3.UP
 @export var degrees_per_second: float = 90.0

@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://dot1uuaw5morm" path="res://mods-unpacked/com-multiplayer/multiplayer/server/server_api.gd" id="2_4q2n6"]
 
 [node name="Server" type="Control" unique_id=1493541777]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -49,40 +50,6 @@ vertical_alignment = 1
 [node name="HSeparator" type="HSeparator" parent="Panel/VBoxContainer" unique_id=83611776]
 layout_mode = 2
 
-[node name="HostLabel" type="Label" parent="Panel/VBoxContainer" unique_id=1159224407]
-layout_mode = 2
-theme_type_variation = &"HeaderSmall"
-text = "Host:"
-
-[node name="HostInput" type="LineEdit" parent="Panel/VBoxContainer" unique_id=1237843255]
-unique_name_in_owner = true
-layout_mode = 2
-text = "127.0.0.1"
-placeholder_text = "Server host address"
-
-[node name="PortLabel" type="Label" parent="Panel/VBoxContainer" unique_id=390831882]
-layout_mode = 2
-theme_type_variation = &"HeaderSmall"
-text = "Port:"
-
-[node name="PortInput" type="SpinBox" parent="Panel/VBoxContainer" unique_id=992262145]
-unique_name_in_owner = true
-layout_mode = 2
-min_value = 1024.0
-max_value = 65535.0
-value = 42424.0
-
-[node name="HSeparator2" type="HSeparator" parent="Panel/VBoxContainer" unique_id=627943565]
-layout_mode = 2
-
-[node name="StartButton" type="Button" parent="Panel/VBoxContainer" unique_id=1871388178]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Start Server"
-
-[node name="HSeparator3" type="HSeparator" parent="Panel/VBoxContainer" unique_id=90444929]
-layout_mode = 2
-
 [node name="StatusLabel" type="Label" parent="Panel/VBoxContainer" unique_id=1327308371]
 unique_name_in_owner = true
 layout_mode = 2
@@ -90,13 +57,13 @@ theme_type_variation = &"HeaderSmall"
 text = "Status: Stopped"
 horizontal_alignment = 1
 
-[node name="HSeparator4" type="HSeparator" parent="Panel/VBoxContainer" unique_id=1086958163]
-layout_mode = 2
-
 [node name="LogLabel" type="Label" parent="Panel/VBoxContainer" unique_id=2025651798]
 layout_mode = 2
 theme_type_variation = &"HeaderSmall"
 text = "Server Log:"
+
+[node name="HSeparator" type="HSeparator" parent="Panel/VBoxContainer/LogLabel" unique_id=1520076494]
+layout_mode = 0
 
 [node name="LogScroll" type="ScrollContainer" parent="Panel/VBoxContainer" unique_id=1096484184]
 custom_minimum_size = Vector2(0, 100)
