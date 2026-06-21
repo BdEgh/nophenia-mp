@@ -13,7 +13,7 @@ var trans_saturation: Node
 var default_saturation: float = 1.0
 
 func _ready() -> void:
-    nia = game.nia
+    nia = player_sync.nia
 
     var mp_client = get_tree().get_first_node_in_group("mp").network_client
     puppet_manager = mp_client.get_node("PuppetManager")
@@ -24,7 +24,6 @@ func _ready() -> void:
     shared_patcher = SharedPatcher.new()
     nia.add_child(shared_patcher)
     shared_patcher.apply_patches(nia)
-
     shared_patcher.cheese.visible = false
     shared_patcher.mouth.visible = true
 
@@ -114,7 +113,7 @@ func ragdoll():
     shared_patcher.ragdoll()
 
 func _unhandled_input(event: InputEvent) -> void:
-    if game.nia.is_paused:
+    if game.nia and game.nia.is_paused:
         return
     if event is InputEventKey and event.pressed and event.keycode == KEY_3:
         surprised_toggle()

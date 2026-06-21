@@ -2,7 +2,7 @@ extends Node
 
 var network_client_res := load(get_script().resource_path.get_base_dir() + "/client/client.tscn")
 var network_server_res := load(get_script().resource_path.get_base_dir() + "/server/server.tscn")
-var patched_interactable_res := load(get_script().resource_path.get_base_dir() + "/patches/interactable/patched_interactable.gd")
+var patched_interactable_res := load(get_script().resource_path.get_base_dir() + "/client/patches/interactable/patched_interactable.gd")
 
 var network_server : Node
 var network_client : Node
@@ -67,17 +67,22 @@ func _check_if_player(node: Node, _added: bool) -> void:
 func _attach_client() -> void:
     var nia = game.nia
     
-    if nia and network_client == null:
-        var map = game.active_stage
-        if map.anomaly_occurring:
-            return
-        
-        network_client = network_client_res.instantiate()
-        
-        var client_api = network_client.get_node("ClientApi")
-        client_api.url = mp_cfg.address
-        
-        add_child(network_client)
-    
-    if !nia and network_client:
+    if nia:
+        if not nia.tree_exited.is_connected(_on_nia_exited):
+            nia.tree_exited.connect(_on_nia_exited, CONNECT_ONE_SHOT)
+        if network_client == null:
+            var map = game.active_stage
+            if map.anomaly_occurring:
+                return
+            
+            network_client = network_client_res.instantiate()
+            var client_api = network_client.get_node("ClientApi")
+            client_api.url = mp_cfg.address
+            var player_sync = network_client.get_node("PlayerSync")
+            player_sync.nia = nia
+            add_child(network_client)
+
+func _on_nia_exited() -> void:
+    if network_client:
         network_client.queue_free()
+        network_client = null

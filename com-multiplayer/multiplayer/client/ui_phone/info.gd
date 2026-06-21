@@ -30,6 +30,7 @@ leave behind[/url]
         client.connected_to_server.connect(_update_info)
         client.disconnected_from_server.connect(_update_info)
         client.connection_failed.connect(_update_info)
+        client.ping_received.connect(_update_info)
     
     if puppet_manager:
         puppet_manager.puppet_spawned.connect(_on_player_changed)
@@ -59,9 +60,10 @@ func _update_info() -> void:
     info_text += "[color=000000b0]Server[/color]: %s\n\n" % client.url
     
     if puppet_manager:
-        info_text += "[color=000000b0]Online:[/color] %d\n" % (puppet_manager.all_players.size() + 1)
-        
-        info_text += "[color=000000b0]On stage:[/color]\n"
+        if client.total_online >= 0 and client.socket.connected():
+            info_text += "[color=000000b0]Total Online:[/color] %d\n" % client.total_online
+
+        info_text += "[color=000000b0]On stage:[/color] %d\n" % (puppet_manager.puppets.size() + 1)
         info_text += "- %s%s\n" % [puppet_manager.NAMES[self_id % len(puppet_manager.NAMES)], "(you)"]
         var player_ids = puppet_manager.puppets.keys()
         player_ids.sort()

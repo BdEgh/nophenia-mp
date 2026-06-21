@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bx4nak2p7qn8r"]
 
+[ext_resource type="Script" uid="uid://dgravqx5oper1" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/patch_phone.gd" id="1_2ko3j"]
 [ext_resource type="Script" uid="uid://dkaohhi50h2u6" path="res://mods-unpacked/com-multiplayer/multiplayer/client/patches/stage_patcher.gd" id="1_3u3ou"]
-[ext_resource type="Script" uid="uid://dgravqx5oper1" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/patch_phone.gd" id="1_b27s5"]
 [ext_resource type="PackedScene" uid="uid://drtdpc4nyv3w3" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_chat/chat.tscn" id="1_nlodm"]
 [ext_resource type="Script" uid="uid://bflwwcu3dq72h" path="res://mods-unpacked/com-multiplayer/multiplayer/client/client_api.gd" id="1_sn87b"]
 [ext_resource type="Script" uid="uid://bt46hjd17o5sm" path="res://mods-unpacked/com-multiplayer/multiplayer/client/patches/nia_patcher/nia_patcher.gd" id="1_tohbr"]
@@ -11,16 +11,16 @@
 
 [node name="Cleint" type="Node" unique_id=1384647490]
 
+[node name="PatchPhone" type="Node" parent="." unique_id=1506782627 node_paths=PackedStringArray("client")]
+script = ExtResource("1_2ko3j")
+client = NodePath("../ClientApi")
+
 [node name="PlayerPatcher" type="Node" parent="." unique_id=325574426 node_paths=PackedStringArray("player_sync")]
 script = ExtResource("1_tohbr")
 player_sync = NodePath("../PlayerSync")
 
 [node name="StagePatcher" type="Node" parent="." unique_id=1837625260]
 script = ExtResource("1_3u3ou")
-
-[node name="PhonePatcher" type="Node" parent="." unique_id=729583012 node_paths=PackedStringArray("client")]
-script = ExtResource("1_b27s5")
-client = NodePath("../ClientApi")
 
 [node name="PlayerSync" type="Node" parent="." unique_id=1812019948 node_paths=PackedStringArray("client")]
 script = ExtResource("3_kyvqp")

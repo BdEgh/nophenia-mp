@@ -68,7 +68,7 @@ func _send_other_players_data(peer_id: int):
         signed_state.set_action(Api.EAction.SET)
         signed_state.set_uid(player_id)
         signed_state.__state.value = players[player_id]
-    
+
     socket.send_data(data.to_bytes(), peer_id)
 
 func _disconnect_player(peer_id: int):
@@ -138,4 +138,5 @@ func _on_data_received(peer_id: int, data: PackedByteArray):
     elif message.has_ping():
         var response = Api.TServerData.new()
         response.__ping.value = message.get_ping()
+        response.get_ping().set_total_online(players.size())
         socket.send_data(response.to_bytes(), peer_id)

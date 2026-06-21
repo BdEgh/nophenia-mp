@@ -12,6 +12,7 @@ signal player_set(player_id: int, state)
 signal player_delete(player_id: int)
 signal player_message(player_id: int, message: String)
 signal self_id(id: int)
+signal ping_received()
 
 @export var url := "ws://127.0.0.1:42424"
 
@@ -21,6 +22,7 @@ signal self_id(id: int)
 var socket
 var _ping_timer: Timer
 var last_ping := -1
+var total_online := -1
 
 func _ready():
     _setup_websocket_client()
@@ -114,7 +116,9 @@ func _on_data_received(_stub: int, data: PackedByteArray):
         ping.get_ping_id()
         var delta = Time.get_ticks_msec() - ping.get_timestamp()
         last_ping = delta
+        total_online = ping.get_total_online()
         ModLoaderLog.info("Ping response in %d ms" % delta, self.name)
+        ping_received.emit()
     else:
         pass
         #print("other data")

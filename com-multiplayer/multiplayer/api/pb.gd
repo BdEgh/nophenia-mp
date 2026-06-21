@@ -791,6 +791,11 @@ class TPing:
         service.field = __ping_id
         data[__ping_id.tag] = service
         
+        __total_online = PBField.new("total_online", PB_DATA_TYPE.INT32, PB_RULE.OPTIONAL, 3, true, DEFAULT_VALUES_3[PB_DATA_TYPE.INT32])
+        service = PBServiceField.new()
+        service.field = __total_online
+        data[__total_online.tag] = service
+        
     var data = {}
     
     var __timestamp: PBField
@@ -818,6 +823,19 @@ class TPing:
         __ping_id.value = DEFAULT_VALUES_3[PB_DATA_TYPE.INT32]
     func set_ping_id(value : int) -> void:
         __ping_id.value = value
+    
+    var __total_online: PBField
+    func has_total_online() -> bool:
+        if __total_online.value != null:
+            return true
+        return false
+    func get_total_online() -> int:
+        return __total_online.value
+    func clear_total_online() -> void:
+        data[3].state = PB_SERVICE_STATE.UNFILLED
+        __total_online.value = DEFAULT_VALUES_3[PB_DATA_TYPE.INT32]
+    func set_total_online(value : int) -> void:
+        __total_online.value = value
     
     func _to_string() -> String:
         return PBPacker.message_to_string(data)

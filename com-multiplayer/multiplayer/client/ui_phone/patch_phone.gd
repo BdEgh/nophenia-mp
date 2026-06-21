@@ -18,6 +18,10 @@ var _sp_band_tower: TextureRect
 var _online_band_tower: TextureRect
 var _no_calls: TextureRect
 var _hosting: TextureRect
+var _signal_status: Label
+var _online_signal_status: Label
+var _signal_status_tween: Tween
+var _was_connected: bool = false
 
 func _ready():
     _add_mp_settings_button()
@@ -28,16 +32,35 @@ func _ready():
 func _add_icons():
     _sp_band_tower = game.nia.get_node("pause_menu/screen/screen_view/status/status_box/no_signal_tower")
     _no_calls = game.nia.get_node("pause_menu/screen/screen_view/status/status_box/no_calls")
+    _signal_status = game.nia.get_node("pause_menu/screen/screen_view/menu/home/signal_status")
+    _online_signal_status = _signal_status.duplicate()
+    _online_signal_status.name = "online_signal_status"
+    _online_signal_status.unique_name_in_owner = false
+    _online_signal_status.visible = false
+    _signal_status.add_sibling(_online_signal_status)
     _online_band_tower = signal_tower_scene.instantiate()
     _online_band_tower.visible = false
+    _online_band_tower.size_flags_horizontal = Control.SIZE_EXPAND
     _sp_band_tower.add_sibling(_online_band_tower)
     var header := _sp_band_tower.get_parent()
     header.move_child(_online_band_tower, _sp_band_tower.get_index())
     _hosting = signal_tower_scene.instantiate()
     _hosting.texture = hosting
     _hosting.visible = false
+    _hosting.tooltip_text = "server is working on port %d" % get_tree().get_first_node_in_group("mp").mp_cfg.server_port
     _no_calls.add_sibling(_hosting)
     header.move_child(_hosting, _no_calls.get_index())
+    var pause_menu = game.nia.get_node("pause_menu")
+    pause_menu.visibility_changed.connect(_on_pause_menu_visibility_changed.bind(pause_menu))
+
+func _on_pause_menu_visibility_changed(pause_menu):
+    if not pause_menu.visible:
+        return
+    var mp_client = get_tree().get_first_node_in_group("mp").network_client
+    var ping = mp_client.get_node("ClientApi").last_ping
+    if ping == -1 or ping > 1000:
+        return
+    _show_connected_status()
 
 func _add_refresh_timer():
     _refresh_timer = Timer.new()
@@ -61,8 +84,13 @@ func _update_signal_tower():
         _online_band_tower.visible = false
         _sp_band_tower.visible = true
         _no_calls.visible = true
+        _was_connected = false
+        _online_signal_status.visible = false
+        _signal_status.visible = true
         return
-    
+    if not _was_connected:
+        _was_connected = true
+
     if ping <= 100:
         _online_band_tower.texture = band_high
     elif ping <= 200:
@@ -73,6 +101,34 @@ func _update_signal_tower():
     _sp_band_tower.visible = false
     _online_band_tower.visible = true
     _no_calls.visible = false
+
+func _show_connected_status():
+    _signal_status.visible = false
+    _online_signal_status.visible = true
+    _online_signal_status.text = "connected to server"
+    var _revert = ( func(_temp):
+        if not is_instance_valid(_online_signal_status):
+            return
+        if config.has_killed_her:
+            match randi_range(0, 12):
+                2: _online_signal_status.text = "signal_reset_afterthought_alt"
+                3: _online_signal_status.text = "signal_reset_afterthought_alt_002"
+                4: _online_signal_status.text = "signal_reset_afterthought_alt_003"
+                5: _online_signal_status.text = "signal_reset_afterthought_alt_004"
+                6: _online_signal_status.text = "signal_reset_afterthought_alt_005"
+                7: _online_signal_status.text = "signal_reset_afterthought_alt_006"
+                8: _online_signal_status.text = "signal_reset_afterthought_alt_007"
+                _: _online_signal_status.text = "signal_reset_afterthought"
+            config.has_killed_her = false
+        else:
+            match randi_range(0, 25):
+                10: _online_signal_status.text = game.ran_array(game.lane).replace("%s", tr(game.active_stage.stage_name))
+                _: pass
+        )
+    if _signal_status_tween and _signal_status_tween.is_running():
+        _signal_status_tween.kill()
+    _signal_status_tween = create_tween()
+    _signal_status_tween.tween_method(_revert, 0.0, 0.0, 0).set_delay(randf_range(3.5, 10.0))
 
 func _add_option(option, screen):
     var pause_menu = game.nia.get_node("pause_menu")

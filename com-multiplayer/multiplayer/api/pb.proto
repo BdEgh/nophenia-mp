@@ -23,6 +23,7 @@ message TRotation {
 message TPing {
   int64 timestamp = 1;
   int32 ping_id = 2;
+  int32 total_online = 3;
 }
 
 message TAnimation {

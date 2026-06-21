@@ -19,8 +19,8 @@ const NAMES = [
 ]
 
 func _ready() -> void:
-    name_edit.placeholder_text = Steam.getPersonaName() if game.is_steam() and Steam.steamInit() \
-        else NAMES.pick_random()
+    #name_edit.placeholder_text = Steam.getPersonaName() if game.is_steam() and Steam.steamInit() \
+        #else NAMES.pick_random()
     visibility_changed.connect(_on_visibility_changed)
 
 func _on_visibility_changed() -> void:
