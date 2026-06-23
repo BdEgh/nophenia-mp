@@ -20,7 +20,7 @@ leave behind[/url]
 
 "
     
-    var pause_menu = game.nia.get_node("pause_menu")
+    var pause_menu = get_tree().get_first_node_in_group("player").get_node("pause_menu")
     if pause_menu:
         meta_clicked.connect(pause_menu._on_credit_names_meta_clicked)
         meta_hover_started.connect(pause_menu._on_credit_names_meta_hover_started)

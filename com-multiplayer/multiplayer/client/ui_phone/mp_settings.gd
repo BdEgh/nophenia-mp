@@ -26,7 +26,7 @@ func _on_visibility_changed() -> void:
         _disconnect_lb()
 
 func _resolve_nodes() -> bool:
-    _pause_menu = game.nia.get_node("pause_menu")
+    _pause_menu = get_tree().get_first_node_in_group("player").get_node("pause_menu")
     _left_btn = _pause_menu.get_node_or_null(_NAV_LEFT_BTN_PATH)
     return _left_btn != null
 

@@ -61,7 +61,7 @@ func _unwrap_emoji(text: String) -> String:
 func _input(event):
     if event is InputEventKey and event.pressed and !event.echo:
         if !visible and (event.keycode == KEY_T or event.keycode == KEY_ENTER):
-            if game.nia.is_paused:
+            if get_tree().get_first_node_in_group("player").is_paused:
                 return
             toggle_chat()
         elif visible and event.keycode == KEY_ESCAPE:
@@ -73,14 +73,14 @@ func toggle_chat():
         return
     
     toggling = true
-    var camera = game.nia.get_node("cam_box/cam_arm/cam_arm_fix/view")
+    var camera = get_tree().get_first_node_in_group("player").get_node("cam_box/cam_arm/cam_arm_fix/view")
     
     if !visible:
         Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
         visible = true
         _set_player_input_enabled(false)
         if camera:
-            var cam_arm = game.nia.get_node("cam_box/cam_arm")
+            var cam_arm = get_tree().get_first_node_in_group("player").get_node("cam_box/cam_arm")
             var move_multiplier = (cam_arm.spring_length - 1.2) / 2 + 1.0
             _animate_camera(camera, -0.65 * move_multiplier)
         await create_tween().tween_property(self, "modulate:a", 1.0, 0.5).from(0.0).set_trans(Tween.TRANS_CIRC).finished
@@ -99,11 +99,11 @@ func toggle_chat():
     toggling = false
 
 func _set_player_input_enabled(enabled: bool) -> void:
-    game.nia.set_process_unhandled_input(enabled)
-    game.nia.is_paused = not enabled
+    get_tree().get_first_node_in_group("player").set_process_unhandled_input(enabled)
+    get_tree().get_first_node_in_group("player").is_paused = not enabled
     if !enabled:
-        game.nia.velocity = Vector3.ZERO
-        var anim_tree = game.nia.get_node_or_null("anim_tree")
+        get_tree().get_first_node_in_group("player").velocity = Vector3.ZERO
+        var anim_tree = get_tree().get_first_node_in_group("player").get_node_or_null("anim_tree")
         if anim_tree:
             anim_tree.set("parameters/idle_walk_run/blend_position", Vector2.ZERO)
 

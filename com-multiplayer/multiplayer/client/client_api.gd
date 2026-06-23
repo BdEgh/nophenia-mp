@@ -83,32 +83,34 @@ func _on_data_received(_stub: int, data: PackedByteArray):
     message.from_bytes(data)
     
     if message.has_players():
-        #print("state data")
+        print("state data")
         #print("uid=", message.get_players().get_your_uid(), " count=", message.get_players().get_signed_state().size())
-        #var idx := 0
-        #for ss in message.get_players().get_signed_state():
-            #var st = ss.get_state()
-            #var pos = st.get_position().get_vector() if st.has_position() else null
-            #var vel = st.get_velocity().get_vector() if st.has_velocity() else null
-            #var rot = st.get_rotation().get_vector() if st.has_rotation() else null
-            #var anim = st.get_animation().get_name() if st.has_animation() else null
-            #print(":: idx=%s uid=%s action=%s has_state=%s world=%s pos=%s vel=%s rot=%s anim='%s' vis=%s" %
-                #[idx, ss.get_uid(), ss.get_action(), ss.has_state(),
-                    #(st.get_world_hash() if st else null), pos, vel, rot, anim,
-                    #(str(st.get_visibility().get_shown(), "/", st.get_visibility().get_hidden()) if st.has_visibility() else "null")
-                #]
-            #)
-            #idx += 1
+        var idx := 0
+        for ss in message.get_players().get_signed_state():
+            var st = ss.get_state()
+            if not st:
+                print(":: idx=%s no state wtf")
+            var pos = st.get_position().get_vector() if st.has_position() else null
+            var vel = st.get_velocity().get_vector() if st.has_velocity() else null
+            var rot = st.get_rotation().get_vector() if st.has_rotation() else null
+            var anim = st.get_animation().get_name() if st.has_animation() else null
+            print(":: idx=%s uid=%s action=%s has_state=%s world=%s pos=%s vel=%s rot=%s anim='%s' vis=%s" %
+                [idx, ss.get_uid(), ss.get_action(), ss.has_state(),
+                    (st.get_world_hash() if st else null), pos, vel, rot, anim,
+                    (str(st.get_visibility().get_shown(), "/", st.get_visibility().get_hidden()) if st.has_visibility() else "null")
+                ]
+            )
+            idx += 1
         if message.get_players().get_your_uid() != 0:
             self_id.emit(message.get_players().get_your_uid())
         for signed_state in message.get_players().get_signed_state():
             _emit_player_state(signed_state.get_uid(), signed_state)
     elif message.has_chat_message():
-        #print("chat message data")
+        print("chat message data")
         var signed_message = message.get_chat_message()
         player_message.emit(signed_message.get_uid(), signed_message.get_msg())
     elif message.has_ping():
-        #print("ping data")
+        print("ping data")
         var ping = message.get_ping()
         ping.get_ping_id()
         var delta = Time.get_ticks_msec() - ping.get_timestamp()
@@ -117,8 +119,7 @@ func _on_data_received(_stub: int, data: PackedByteArray):
         ModLoaderLog.info("Ping response in %d ms" % delta, self.name)
         ping_received.emit()
     else:
-        pass
-        #print("other data")
+        print("other data")
 
 ## Client to server interactions
 

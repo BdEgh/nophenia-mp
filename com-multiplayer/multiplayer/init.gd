@@ -60,7 +60,7 @@ func _check_if_player(node: Node, _added: bool) -> void:
         _attach_client()
 
 func _attach_client() -> void:
-    var nia = game.nia
+    var nia = get_tree().get_first_node_in_group("player")
     
     if nia:
         if not nia.tree_exited.is_connected(_on_nia_exited):
@@ -80,7 +80,7 @@ func _attach_client() -> void:
         apply_player_collision()
 
 func apply_player_collision() -> void:
-    var nia = game.nia
+    var nia = get_tree().get_first_node_in_group("player")
     if not nia:
         return
     nia.set_collision_mask_value(10, mp_cfg.collision)

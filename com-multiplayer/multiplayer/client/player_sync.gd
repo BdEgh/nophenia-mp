@@ -32,7 +32,7 @@ var _was_howling: bool = false
 var _was_damaging: bool = false
 
 func _ready():
-    nia = game.nia
+    nia = get_tree().get_first_node_in_group("player")
     if nia.has_node("chara"):
         _visual_root = nia.get_node("chara")
     

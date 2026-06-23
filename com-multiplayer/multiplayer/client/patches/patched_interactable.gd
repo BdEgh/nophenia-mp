@@ -4,14 +4,14 @@ class_name patched_interactable
 func interact() -> bool:
     if !is_trigger:
         if game.active_stage.anomaly_occurring or uninteractable:
-            game.nia.no()
+            get_tree().get_first_node_in_group("player").no()
             return false
         else:
             match _id:
                 1:
-                    create_tween().tween_property(game.nia.chara, "global_rotation_degrees:y", _offset_rot, 0.2)
-                    create_tween().tween_property(game.nia, "global_position", self.global_position + _offset, 0.2)
-                    await game.nia.sit(true)
+                    create_tween().tween_property(get_tree().get_first_node_in_group("player").chara, "global_rotation_degrees:y", _offset_rot, 0.2)
+                    create_tween().tween_property(get_tree().get_first_node_in_group("player"), "global_position", self.global_position + _offset, 0.2)
+                    await get_tree().get_first_node_in_group("player").sit(true)
                     return false
                 2:
                     audio.play_snd(_interact_sfx, -1.0, 0.2)

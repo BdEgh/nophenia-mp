@@ -52,7 +52,7 @@ func _suppress_vignette(impact: float, delta: float) -> void:
 
 func _tune_saturation(impact: float, delta: float) -> void:
     var sat = game.active_stage._world_env.environment.adjustment_saturation
-    impact *= 0.25
+    impact *= 0.2
     game.active_stage.environment.adjustment_saturation = move_toward(sat, default_saturation + impact, delta)
 
 func _nearby_stuff(delta: float) -> void:
@@ -113,7 +113,7 @@ func ragdoll():
     shared_patcher.ragdoll()
 
 func _unhandled_input(event: InputEvent) -> void:
-    if game.nia and game.nia.is_paused:
+    if get_tree().get_first_node_in_group("player") and get_tree().get_first_node_in_group("player").is_paused:
         return
     if event is InputEventKey and event.pressed and event.keycode == KEY_3:
         surprised_toggle()

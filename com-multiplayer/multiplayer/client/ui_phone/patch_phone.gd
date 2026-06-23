@@ -35,9 +35,9 @@ func _ready():
     _add_refresh_timer()
 
 func _add_icons():
-    _sp_band_tower = game.nia.get_node("pause_menu/screen/screen_view/status/status_box/no_signal_tower")
-    _no_calls = game.nia.get_node("pause_menu/screen/screen_view/status/status_box/no_calls")
-    _signal_status = game.nia.get_node("pause_menu/screen/screen_view/menu/home/signal_status")
+    _sp_band_tower = get_tree().get_first_node_in_group("player").get_node("pause_menu/screen/screen_view/status/status_box/no_signal_tower")
+    _no_calls = get_tree().get_first_node_in_group("player").get_node("pause_menu/screen/screen_view/status/status_box/no_calls")
+    _signal_status = get_tree().get_first_node_in_group("player").get_node("pause_menu/screen/screen_view/menu/home/signal_status")
     _online_signal_status = _signal_status.duplicate()
     _online_signal_status.name = "online_signal_status"
     _online_signal_status.unique_name_in_owner = false
@@ -55,7 +55,7 @@ func _add_icons():
     _hosting.tooltip_text = "server is working on port %d" % get_tree().get_first_node_in_group("mp").mp_cfg.server_port
     _no_calls.add_sibling(_hosting)
     header.move_child(_hosting, _no_calls.get_index())
-    var pause_menu = game.nia.get_node("pause_menu")
+    var pause_menu = get_tree().get_first_node_in_group("player").get_node("pause_menu")
     pause_menu.visibility_changed.connect(_on_pause_menu_visibility_changed.bind(pause_menu))
 
 func _on_pause_menu_visibility_changed(pause_menu):
@@ -134,14 +134,14 @@ func _show_connected_status():
     _signal_status_tween.tween_method(_revert, 0.0, 0.0, 0).set_delay(randf_range(3.5, 10.0))
 
 func _add_option(option, screen):
-    var pause_menu = game.nia.get_node("pause_menu")
+    var pause_menu = get_tree().get_first_node_in_group("player").get_node("pause_menu")
     var screen_view = pause_menu.get_node("screen/screen_view")
     var options_vbox = screen_view.get_node("menu/options/margin_container/scroll_container/v_box_container")
     var menu_control = screen_view.get_node("menu")
     
     options_vbox.add_child(option)
-    var forget_option = options_vbox.get_node_or_null("option_new_save")
-    options_vbox.move_child(option, forget_option.get_index())
+    var cat_option = options_vbox.get_node_or_null("option_cat")
+    options_vbox.move_child(option, cat_option.get_index())
     
     menu_control.add_child(screen)
     option._screen = screen
