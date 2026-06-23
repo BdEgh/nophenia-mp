@@ -57,6 +57,8 @@ func _on_player_changed(_player_id: int) -> void:
     _update_info()
 
 func _self_name() -> String:
+    if not is_inside_tree():
+        return "unk"
     var mp = get_tree().get_first_node_in_group("mp")
     if mp and mp.mp_cfg.player_name != "":
         return mp.mp_cfg.player_name

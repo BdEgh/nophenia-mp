@@ -28,6 +28,17 @@ func _find_interactable(node: Node) -> void:
 
 func _try_patch_interactable(node: Node) -> bool:
     if node is interactable:
+        var properties_to_keep = [
+            "_to_stage", "_to_entrance", "is_trigger",
+            "uninteractable", "is_random", "_id",
+            "_interact_sfx", "_highlight_mesh", "_offset",
+            "_offset_rot", "voices"
+        ]
+        var backup_data = {}
+        for prop in properties_to_keep:
+            backup_data[prop] = node.get(prop)
         node.set_script(patched_interactable_res)
+        for prop in backup_data:
+            node.set(prop, backup_data[prop])
         return true
     return false

@@ -162,6 +162,7 @@ func _send_visibility_diff(against: Dictionary):
         return
     
     _last_visibility = current
+    hidden.erase("chara")
     client.send_visibility(shown, hidden)
 
 func _send_visibility_full():
