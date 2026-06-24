@@ -11,6 +11,14 @@ func _ready() -> void:
 "
 
 
+[center][color=000000b0]𖡼.𖤣𖥧𖡼.𖤣𖥧[/color][/center]
+
+"
+    if not randi_range(0, 10):
+       default_text = \
+"
+
+
 [center][color=000000b0]𖡼.𖤣𖥧𖡼.𖤣𖥧
 [url=https://www.youtube.com/watch?v=bdXPhRj10jQ]Believing in
 a lie

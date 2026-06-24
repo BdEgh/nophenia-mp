@@ -103,6 +103,13 @@ func cheese_toggle():
     else:
         player_sync.send_action("UNCHEESE")
 
+func glasses_toggle():
+    shared_patcher.set_glasses(not shared_patcher.bp_meshes.visible)
+    if shared_patcher.bp_meshes.visible:
+        player_sync.send_action("GLASSES")
+    else:
+        player_sync.send_action("UNGLASSES")
+
 func dizzy():
     player_sync.send_action("DIZZY")
     shared_patcher.dizzy()
@@ -118,9 +125,9 @@ func _unhandled_input(event: InputEvent) -> void:
     if event is InputEventKey and event.pressed and event.keycode == KEY_3:
         surprised_toggle()
     if event is InputEventKey and event.pressed and event.keycode == KEY_4:
-        toggle_roaches()
-    if event is InputEventKey and event.pressed and event.keycode == KEY_5:
         eyes_toggle()
+    if event is InputEventKey and event.pressed and event.keycode == KEY_5:
+        glasses_toggle()
     if event is InputEventKey and event.pressed and event.keycode == KEY_6:
         cheese_toggle()
     if event is InputEventKey and event.pressed and event.keycode == KEY_7:

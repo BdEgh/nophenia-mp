@@ -101,6 +101,10 @@ func _handle_puppet_action(puppet, action: String):
             sp.dizzy()
         "RAGDOLL":
             sp.ragdoll()
+        "GLASSES":
+            sp.set_glasses(true)
+        "UNGLASSES":
+            sp.set_glasses(false)
         _:
             pass
 

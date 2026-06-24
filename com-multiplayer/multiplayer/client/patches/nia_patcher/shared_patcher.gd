@@ -4,6 +4,8 @@ var PhysSkel = load(get_script().resource_path.get_base_dir() + "/actions/phys_s
 var HaloAttachment = load(get_script().resource_path.get_base_dir() + "/items/halo/halo_attachment.tscn")
 var HaloFollower = load(get_script().resource_path.get_base_dir() + "/items/halo/halo_follower.tscn")
 var EyeFixMat = load(get_script().resource_path.get_base_dir() + "/player_mat_with_vertex_color_fix.tres")
+var BPMeshes = load(get_script().resource_path.get_base_dir() + "/items/1420-MHz/meshes.tscn")
+var BPAttachments = load(get_script().resource_path.get_base_dir() + "/items/1420-MHz/attachments.tscn")
 
 var model: Node
 
@@ -14,12 +16,14 @@ var anim_tree: AnimationTree
 var mouth: Node3D
 var cheese: Node3D
 
-var _head_mat: Material
-var _orig_next_pass: Material
+var head_mat: Material
+var orig_next_pass: Material
 
 var phys_skel: PhysicalBoneSimulator3D
 var halo_att: BoneAttachment3D
 var halo_fol: Node3D
+var bp_meshes: Node3D
+var chest_bone: int
 
 func apply_patches(model_node):
     model = model_node
@@ -29,9 +33,9 @@ func apply_patches(model_node):
     anim_tree = model.get_node("anim_tree")
     mouth = model.get_node("cheese_position")
     cheese = mouth.get_node("grilled_cheeze")
-    _head_mat = head.get_active_material(0)
-    if _head_mat:
-        _orig_next_pass = _head_mat.next_pass
+    head_mat = head.get_active_material(0)
+    if head_mat:
+        orig_next_pass = head_mat.next_pass
 
     phys_skel = PhysSkel.instantiate()
     skeleton.add_child(phys_skel)
@@ -42,6 +46,20 @@ func apply_patches(model_node):
     halo_fol.target_node = halo_att.get_node("halo_marker")
     halo_fol.visible = false
     model.add_child(halo_fol)
+    
+    bp_meshes = BPMeshes.instantiate()
+    bp_meshes.visible = false
+    model.add_child(bp_meshes)
+    var attachments = BPAttachments.instantiate()
+    for child in attachments.get_children():
+        attachments.remove_child(child)
+        skeleton.add_child(child)
+    attachments.queue_free()
+    chest_bone = skeleton.find_bone("Chest")
+
+func _physics_process(_delta):
+    if bp_meshes:
+        bp_meshes.scale = skeleton.get_bone_pose_scale(chest_bone)
 
 func get_roaches() -> bool:
     return model.get_node("chara/blob_shadow_arm/bug_step").visible
@@ -55,14 +73,14 @@ func set_halo(on: bool) -> void:
 func set_surprised(on: bool) -> void:
     if on:
         head.set_blend_shape_value(7, 1.0)
-        if _head_mat:
-            if _orig_next_pass is StandardMaterial3D:
-                EyeFixMat.set_shader_parameter("albedo", _orig_next_pass.albedo_color)
-            _head_mat.next_pass = EyeFixMat
+        if head_mat:
+            if orig_next_pass is StandardMaterial3D:
+                EyeFixMat.set_shader_parameter("albedo", orig_next_pass.albedo_color)
+            head_mat.next_pass = EyeFixMat
     else:
         head.set_blend_shape_value(7, 0.0)
-        if _head_mat:
-            _head_mat.next_pass = _orig_next_pass
+        if head_mat:
+            head_mat.next_pass = orig_next_pass
 
 func set_eyes_closed(closed: bool) -> void:
     if closed:
@@ -112,3 +130,6 @@ func ragdoll():
     if "unconscious" in model:
         model.unconscious = false
     _is_ragdoll = false
+
+func set_glasses(visible: bool) -> void:
+    bp_meshes.visible = visible

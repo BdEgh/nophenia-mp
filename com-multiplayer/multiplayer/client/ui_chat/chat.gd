@@ -128,7 +128,19 @@ func _on_player_message(player_id: int, message: String):
                 sender_name = puppet.player_name
             puppet.show_chat_message(message)
     
+    var was_at_bottom = _is_scrolled_to_bottom()
     add_message(message, sender_name)
+    if was_at_bottom:
+        _scroll_to_bottom()
+
+func _is_scrolled_to_bottom() -> bool:
+    var v_scroll = scroll_container.get_v_scroll_bar()
+    print(scroll_container.scroll_vertical - int(v_scroll.max_value - v_scroll.page) -  4)
+    return scroll_container.scroll_vertical >= int(v_scroll.max_value - v_scroll.page) - 4
+
+func _scroll_to_bottom() -> void:
+    await get_tree().create_timer(0.1).timeout
+    scroll_container.scroll_vertical = int(scroll_container.get_v_scroll_bar().max_value)
 
 func _send_message():
     var text = message_input.text.strip_edges()
@@ -142,8 +154,7 @@ func _send_message():
     else:
         ModLoaderLog.warning("cannot send message - client not found", self.name)
     
-    await get_tree().create_timer(0.1).timeout
-    scroll_container.scroll_vertical = int(scroll_container.get_v_scroll_bar().max_value)
+    _scroll_to_bottom()
 
 func _on_send_button_pressed() -> void:
     _send_message()
