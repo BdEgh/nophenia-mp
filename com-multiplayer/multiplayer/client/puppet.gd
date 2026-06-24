@@ -74,10 +74,9 @@ func _init():
     #headtimer.timeout.connect(_on_headtimer_timeout)
     plinktimer = get_node("plinktimer")
     #plinktimer.timeout.connect(_on_plinktimer_timeout)
-
-    _setup_unique_material()
+    
+    shared_patcher.model = self
     add_child(shared_patcher)
-    shared_patcher.apply_patches(self)
 
 func _physics_process(delta: float):
     time_since_last_update += delta
@@ -121,6 +120,8 @@ func apply_state(state):
         var pos_data = state.get_position().get_vector()
         if pos_data.size() >= 3:
             target_position = Vector3(pos_data[0], pos_data[1], pos_data[2])
+            if global_position.distance_to(target_position) > 10.0:
+                global_position = target_position
     
     if state.has_velocity():
         var vel_data = state.get_velocity().get_vector()
@@ -340,26 +341,3 @@ func _calc_look_at_target_score(candidate: Node3D) -> float:
     var distance_score = 1.0 - (distance / look_at_range)
     var angle_score = 1.0 - (angle / look_at_angle)
     return distance_score * 0.6 + angle_score * 0.4
-
-var _mat_next_pass: StandardMaterial3D
-
-func _setup_unique_material():
-    var shared_mat = game.loadres("mat_player")
-    if not shared_mat:
-        return
-    
-    var unique_mat: StandardMaterial3D = shared_mat.duplicate()
-    if shared_mat.next_pass:
-        unique_mat.next_pass = shared_mat.next_pass.duplicate()
-    _mat_next_pass = unique_mat.next_pass
-    var skeleton = chara.get_node("Armature/Skeleton3D")
-    for mesh in skeleton.find_children("*", "MeshInstance3D", true, false):
-        for i in mesh.get_surface_override_material_count():
-            if mesh.get_active_material(i) == shared_mat:
-                mesh.set_surface_override_material(i, unique_mat)
-
-func damage():
-    if _mat_next_pass:
-        _mat_next_pass.albedo_color = Color("80131cff")
-    audio.play_snd_spatial(game.loadres("damage"), head.global_position, 4.0, -1.0, 0.7)
-    audio.play_snd_spatial(game.loadres("nia_damage"), head.global_position, 4.0, -1.0, 0.1)

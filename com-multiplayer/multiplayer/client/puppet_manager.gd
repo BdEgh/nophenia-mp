@@ -79,8 +79,7 @@ func _handle_puppet_action(puppet, action: String):
             if nia.has_method("howl"):
                 nia.howl()
         "DAMAGE":
-            if nia.has_method("damage"):
-                nia.damage()
+            sp.damage(true)
         "WOW":
             sp.set_surprised(true)
         "UNWOW":

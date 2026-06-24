@@ -86,7 +86,7 @@ func _on_input_changed(_text: String) -> void:
         _close_emoji_window()
 
 func _physics_process(delta: float) -> void:
-    if emoji_timer <= 0.0:
+    if emoji_timer <= 0.0 or not emoji_prefix:
         return
     emoji_timer -= delta
     if emoji_timer <= 0.0 and _trailing_prefix() == emoji_prefix:
@@ -159,7 +159,6 @@ func toggle_chat():
             _animate_camera(camera, -0.65 * move_multiplier)
         await create_tween().tween_property(self, "modulate:a", 1.0, 0.5).from(0.0).set_trans(Tween.TRANS_CIRC).finished
         message_input.grab_focus()
-        message_input.text = ""
     else:
         Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
         emoji_prefix = null

@@ -5,6 +5,7 @@ var Api = load((get_script().resource_path.get_base_dir() + "/../api/pb.gd").sim
 var MultiplayerClientProto = load(get_script().resource_path.get_base_dir() + "/client_api.gd")
 
 @export var nia: CharacterBody3D
+@export var nia_patcher: Node
 @export var client: Node:
     set(value):
         if value == client:
@@ -105,6 +106,7 @@ func _physics_process(_delta):
         var is_damaging = game._damaging
         if is_damaging and not _was_damaging:
             send_action("DAMAGE")
+            nia_patcher.shared_patcher.damage(false)
         _was_damaging = is_damaging
 
 func _check_and_send_updates(force: bool):

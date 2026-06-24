@@ -20,8 +20,9 @@ player_sync = NodePath("../PlayerSync")
 [node name="StagePatcher" type="Node" parent="." unique_id=1837625260]
 script = ExtResource("1_3u3ou")
 
-[node name="PlayerSync" type="Node" parent="." unique_id=1812019948]
+[node name="PlayerSync" type="Node" parent="." unique_id=1812019948 node_paths=PackedStringArray("nia_patcher")]
 script = ExtResource("3_kyvqp")
+nia_patcher = NodePath("../PlayerPatcher")
 update_rate = 0.1
 
 [node name="PuppetManager" type="Node" parent="." unique_id=1389354055]

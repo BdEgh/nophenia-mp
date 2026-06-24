@@ -22,8 +22,8 @@ func _ready() -> void:
     default_saturation = game.active_stage.environment.adjustment_saturation
 
     shared_patcher = SharedPatcher.new()
+    shared_patcher.model = nia
     nia.add_child(shared_patcher)
-    shared_patcher.apply_patches(nia)
     shared_patcher.cheese.visible = false
     shared_patcher.mouth.visible = true
 

@@ -1,13 +1,13 @@
 extends Node
 
-var PhysSkel = load(get_script().resource_path.get_base_dir() + "/actions/phys_skel.tscn")
-var HaloAttachment = load(get_script().resource_path.get_base_dir() + "/items/halo/halo_attachment.tscn")
-var HaloFollower = load(get_script().resource_path.get_base_dir() + "/items/halo/halo_follower.tscn")
-var EyeFixMat = load(get_script().resource_path.get_base_dir() + "/player_mat_with_vertex_color_fix.tres")
-var BPMeshes = load(get_script().resource_path.get_base_dir() + "/items/1420-MHz/meshes.tscn")
-var BPAttachments = load(get_script().resource_path.get_base_dir() + "/items/1420-MHz/attachments.tscn")
+var phys_skel_scene = load(get_script().resource_path.get_base_dir() + "/actions/phys_skel.tscn")
+var halo_attachment_scene = load(get_script().resource_path.get_base_dir() + "/items/halo/halo_attachment.tscn")
+var halo_follower_scene = load(get_script().resource_path.get_base_dir() + "/items/halo/halo_follower.tscn")
+var eye_fix_material = load(get_script().resource_path.get_base_dir() + "/player_mat_with_vertex_color_fix.tres")
+var bp_meshes_scene = load(get_script().resource_path.get_base_dir() + "/items/1420-MHz/meshes.tscn")
+var bp_attachments_scene = load(get_script().resource_path.get_base_dir() + "/items/1420-MHz/attachments.tscn")
 
-var model: Node
+@export var model: Node
 
 var skeleton: Skeleton3D
 var head: MeshInstance3D
@@ -25,41 +25,64 @@ var halo_fol: Node3D
 var bp_meshes: Node3D
 var chest_bone: int
 
-func apply_patches(model_node):
-    model = model_node
+func _ready():
     skeleton = model.get_node("chara/Armature/Skeleton3D")
     head = skeleton.get_node("head")
     plinktimer = model.get_node("plinktimer")
     anim_tree = model.get_node("anim_tree")
     mouth = model.get_node("cheese_position")
     cheese = mouth.get_node("grilled_cheeze")
-    head_mat = head.get_active_material(0)
-    if head_mat:
-        orig_next_pass = head_mat.next_pass
 
-    phys_skel = PhysSkel.instantiate()
+    phys_skel = phys_skel_scene.instantiate()
     skeleton.add_child(phys_skel)
 
-    halo_att = HaloAttachment.instantiate()
+    halo_att = halo_attachment_scene.instantiate()
     skeleton.add_child(halo_att)
-    halo_fol = HaloFollower.instantiate()
+    halo_fol = halo_follower_scene.instantiate()
     halo_fol.target_node = halo_att.get_node("halo_marker")
     halo_fol.visible = false
     model.add_child(halo_fol)
     
-    bp_meshes = BPMeshes.instantiate()
+    bp_meshes = bp_meshes_scene.instantiate()
     bp_meshes.visible = false
     model.add_child(bp_meshes)
-    var attachments = BPAttachments.instantiate()
+    var attachments = bp_attachments_scene.instantiate()
     for child in attachments.get_children():
         attachments.remove_child(child)
         skeleton.add_child(child)
     attachments.queue_free()
     chest_bone = skeleton.find_bone("Chest")
+    
+    _setup_unique_material()
 
 func _physics_process(_delta):
     if bp_meshes:
         bp_meshes.scale = skeleton.get_bone_pose_scale(chest_bone)
+
+var _mat_next_pass: StandardMaterial3D
+
+func _setup_unique_material():
+    var shared_mat = game.loadres("mat_player")
+    if not shared_mat:
+        return
+    
+    orig_next_pass = shared_mat.next_pass
+    var unique_mat: StandardMaterial3D = shared_mat.duplicate()
+    if shared_mat.next_pass:
+        unique_mat.next_pass = shared_mat.next_pass.duplicate()
+    _mat_next_pass = unique_mat.next_pass
+    for mesh in skeleton.find_children("*", "MeshInstance3D", true, false):
+        for i in mesh.get_surface_override_material_count():
+            if mesh.get_active_material(i) == shared_mat:
+                mesh.set_surface_override_material(i, unique_mat)
+    head_mat = head.get_active_material(0)
+
+func damage(with_sound: bool = false):
+    if _mat_next_pass:
+        _mat_next_pass.albedo_color = Color("80131cff")
+    if with_sound:
+        audio.play_snd_spatial(game.loadres("damage"), head.global_position, 4.0, -1.0, 0.7)
+        audio.play_snd_spatial(game.loadres("nia_damage"), head.global_position, 4.0, -1.0, 0.1)
 
 func get_roaches() -> bool:
     return model.get_node("chara/blob_shadow_arm/bug_step").visible
@@ -74,13 +97,13 @@ func set_surprised(on: bool) -> void:
     if on:
         head.set_blend_shape_value(7, 1.0)
         if head_mat:
-            if orig_next_pass is StandardMaterial3D:
-                EyeFixMat.set_shader_parameter("albedo", orig_next_pass.albedo_color)
-            head_mat.next_pass = EyeFixMat
+            if _mat_next_pass is StandardMaterial3D:
+                eye_fix_material.set_shader_parameter("albedo", _mat_next_pass.albedo_color)
+            head_mat.next_pass = eye_fix_material
     else:
         head.set_blend_shape_value(7, 0.0)
         if head_mat:
-            head_mat.next_pass = orig_next_pass
+            head_mat.next_pass = _mat_next_pass
 
 func set_eyes_closed(closed: bool) -> void:
     if closed:
