@@ -6,6 +6,8 @@ extends Control
 @onready var scroll_container = %ScrollContainer
 
 var chat_bubble_scene = load(get_script().resource_path.get_base_dir() + "/chat_bubble.tscn")
+var emoji_scene = load(get_script().resource_path.get_base_dir() + "/emoji.tscn")
+var emoji_button_scene = load(get_script().resource_path.get_base_dir() + "/emoji_button.tscn")
 @export var client: Node:
     set(value):
         if value == client:
@@ -19,8 +21,12 @@ var toggling := false
 var emoji_dir: String = get_script().resource_path.get_base_dir() + "/emoji"
 var emoji_paths := {}
 var emoji_regex := RegEx.new()
+var emoji_prefix_regex := RegEx.new()
 
 func _ready():
+    emoji_regex.compile(":([a-z_]+):")
+    emoji_prefix_regex.compile(":([a-z_]*)$")
+    message_input.text_changed.connect(_on_input_changed)
     visible = false
     _load_emoji()
 
@@ -35,14 +41,16 @@ func _disconnect_client() -> void:
     client.player_message.disconnect(_on_player_message)
 
 func _load_emoji():
-    emoji_regex.compile(":([a-z_]+):")
     var dir = DirAccess.open(emoji_dir)
     if not dir:
         return
     for file in dir.get_files():
-        emoji_paths[file.get_basename()] = emoji_dir + "/" + file
+        if file.get_extension() != "png":
+            continue
         if file.get_basename().begins_with("emiwa_"):
             emoji_paths[file.get_basename().trim_prefix("emiwa_")] = emoji_dir + "/" + file
+        else:
+            emoji_paths[file.get_basename()] = emoji_dir + "/" + file
 
 func _unwrap_emoji(text: String) -> String:
     var result := ""
@@ -57,6 +65,72 @@ func _unwrap_emoji(text: String) -> String:
         pos = m.get_end()
     result += text.substr(pos)
     return result
+
+var emoji_popup: Control = null
+var emoji_prefix = null
+var emoji_timer := 0.0
+
+func _trailing_prefix():
+    var m = emoji_prefix_regex.search(message_input.text)
+    return m.get_string(1) if m else null
+
+func _on_input_changed(_text: String) -> void:
+    var prefix = _trailing_prefix()
+    if prefix == null:
+        emoji_prefix = null
+        emoji_timer = 0.0
+        _close_emoji_window()
+    elif prefix != emoji_prefix:
+        emoji_prefix = prefix
+        emoji_timer = 1.0
+        _close_emoji_window()
+
+func _physics_process(delta: float) -> void:
+    if emoji_timer <= 0.0:
+        return
+    emoji_timer -= delta
+    if emoji_timer <= 0.0 and _trailing_prefix() == emoji_prefix:
+        _open_emoji_window(emoji_prefix)
+
+func _pick_emoji(emoji_name: String) -> void:
+    var m = emoji_prefix_regex.search(message_input.text)
+    var text = message_input.text.substr(0, m.get_start()) if m else message_input.text
+    text += ":%s:" % emoji_name
+    message_input.text = text
+    message_input.caret_column = text.length()
+    emoji_prefix = null
+    _close_emoji_window()
+    message_input.grab_focus()
+
+func _open_emoji_window(prefix: String) -> void:
+    var names := []
+    for emoji_name in emoji_paths:
+        if emoji_name.begins_with(prefix):
+            names.append(emoji_name)
+    if names.is_empty():
+        return
+    names.sort()
+    _close_emoji_window()
+    emoji_popup = emoji_scene.instantiate()
+    add_child(emoji_popup)
+    var v_box = emoji_popup.get_node("scroll_container/v_box_container")
+    for emoji_name in names:
+        var button = emoji_button_scene.instantiate()
+        button.get_node("emoji/icon").texture = load(emoji_paths[emoji_name])
+        button.get_node("emoji/name").text = ":%s:" % emoji_name
+        button.pressed.connect(_pick_emoji.bind(emoji_name))
+        v_box.add_child(button)
+    if emoji_popup:
+        var rect = message_input.get_global_rect()
+        var font = message_input.get_theme_font("font")
+        var font_size = message_input.get_theme_font_size("font_size")
+        var caret_x = font.get_string_size(message_input.text, 0, -1, font_size).x
+        emoji_popup.global_position = Vector2(rect.position.x + caret_x, rect.position.y - emoji_popup.size.y)
+
+func _close_emoji_window() -> void:
+    if emoji_popup:
+        emoji_popup.queue_free()
+        emoji_popup = null
 
 func _input(event):
     if event is InputEventKey and event.pressed and !event.echo:
@@ -88,6 +162,8 @@ func toggle_chat():
         message_input.text = ""
     else:
         Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+        emoji_prefix = null
+        _close_emoji_window()
         message_input.release_focus()
         if camera:
             _animate_camera(camera, 0.0)
@@ -111,20 +187,21 @@ func _animate_camera(camera: Node3D, target_x: float):
     create_tween().tween_property(camera, "position:x", target_x, 0.4).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 
 func add_message(text: String, sender: String = "You"):
+    audio.play_snd(game.loadres("phone_keypad_short"), -1, 0.6, "snd")
     var bubble = chat_bubble_scene.instantiate()
     
     chat_container.add_child(bubble)
     bubble.set_message(_unwrap_emoji(text), sender)
 
-func _on_player_message(player_id: int, message: String):
+func _on_player_message(player_id: int, message: String, player_name: String) -> void:
     if message.begins_with("DO:"):
         return
-    
-    var sender_name = str(player_id)
+
+    var sender_name = player_name if player_name != "" else str(player_id)
     if puppet_manager:
         var puppet = puppet_manager.get_puppet(player_id)
         if puppet:
-            if puppet.player_name != "":
+            if sender_name == str(player_id) and puppet.player_name != "":
                 sender_name = puppet.player_name
             puppet.show_chat_message(message)
     
@@ -135,7 +212,6 @@ func _on_player_message(player_id: int, message: String):
 
 func _is_scrolled_to_bottom() -> bool:
     var v_scroll = scroll_container.get_v_scroll_bar()
-    print(scroll_container.scroll_vertical - int(v_scroll.max_value - v_scroll.page) -  4)
     return scroll_container.scroll_vertical >= int(v_scroll.max_value - v_scroll.page) - 4
 
 func _scroll_to_bottom() -> void:

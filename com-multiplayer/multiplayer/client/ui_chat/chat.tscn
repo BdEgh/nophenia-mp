@@ -157,14 +157,14 @@ caret_blink = true
 visible = false
 z_index = -1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
+anchors_preset = -1
+anchor_right = 1.8357348
 anchor_bottom = 1.0
-offset_right = 290.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(0.22864196, 0.1947799, 0.51075923, 1)
+metadata/_edit_use_anchors_ = true
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/InputArea/MarginContainer/HBoxContainer/SendButton" to="." method="_on_send_button_pressed"]
 [connection signal="text_submitted" from="MarginContainer/VBoxContainer/InputArea/MarginContainer/HBoxContainer/MessageInput" to="." method="_on_message_input_text_submitted"]

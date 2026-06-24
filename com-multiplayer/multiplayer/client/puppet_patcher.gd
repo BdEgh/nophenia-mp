@@ -50,6 +50,7 @@ func show_chat_message(message: String):
     floating_msg.global_position = cheese.global_position + forward_offset + Vector3(0, 0.25, 0)
     game.active_stage.add_child(floating_msg)
     floating_msg.set_message(message)
+    audio.play_snd_spatial(game.loadres("phone_keypad_short"), cheese.global_position, 10.0, -1, 0.8, "snd")
 
 func _remove_unwanted_nodes(node: Node):
     var nodes_to_remove = [

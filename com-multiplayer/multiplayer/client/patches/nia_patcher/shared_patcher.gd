@@ -90,9 +90,6 @@ func set_eyes_closed(closed: bool) -> void:
         plinktimer.start()
         head.set_blend_shape_value(0, 0)
 
-func set_cheese(visible: bool) -> void:
-    cheese.visible = visible
-
 func dizzy():
     head.set_blend_shape_value(8, 1)
     var has_excitement = "_puppy_excitement_value" in model
@@ -130,6 +127,3 @@ func ragdoll():
     if "unconscious" in model:
         model.unconscious = false
     _is_ragdoll = false
-
-func set_glasses(visible: bool) -> void:
-    bp_meshes.visible = visible

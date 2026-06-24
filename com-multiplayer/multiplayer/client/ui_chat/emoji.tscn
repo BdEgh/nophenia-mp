@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://da7x1dxnnf5w1"]
+
+[node name="Emoji" type="Control" unique_id=560384219]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 156.0
+offset_bottom = 140.0
+
+[node name="scroll_container" type="ScrollContainer" parent="." unique_id=642653516]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+follow_focus = true
+draw_focus_border = true
+metadata/_edit_use_anchors_ = true
+
+[node name="v_box_container" type="VBoxContainer" parent="scroll_container" unique_id=847120581]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+metadata/_edit_use_anchors_ = true

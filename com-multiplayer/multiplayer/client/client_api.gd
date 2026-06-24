@@ -9,7 +9,7 @@ signal disconnected_from_server()
 signal connection_failed()
 signal player_set(player_id: int, state, player_name: String)
 signal player_delete(player_id: int)
-signal player_message(player_id: int, message: String)
+signal player_message(player_id: int, message: String, player_name: String)
 signal self_id(id: int)
 signal ping_received()
 
@@ -109,7 +109,7 @@ func _on_data_received(_stub: int, data: PackedByteArray):
     elif message.has_chat_message():
         #print("chat message data")
         var signed_message = message.get_chat_message()
-        player_message.emit(signed_message.get_uid(), signed_message.get_msg())
+        player_message.emit(signed_message.get_uid(), signed_message.get_msg(), signed_message.get_name())
     elif message.has_ping():
         #print("ping data")
         var ping = message.get_ping()
@@ -160,6 +160,7 @@ func send_chat_message(message: String):
     var data = Api.TClientData.new()
     var msg = data.new_chat_message()
     msg.set_msg(message)
+    msg.set_name(_local_name())
     data.set_name(_local_name())
     socket.send_data(data.to_bytes())
 

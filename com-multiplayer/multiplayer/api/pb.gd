@@ -1198,6 +1198,11 @@ class TSignedClientMessage:
         service.field = __msg
         data[__msg.tag] = service
         
+        __name = PBField.new("name", PB_DATA_TYPE.STRING, PB_RULE.OPTIONAL, 3, true, DEFAULT_VALUES_3[PB_DATA_TYPE.STRING])
+        service = PBServiceField.new()
+        service.field = __name
+        data[__name.tag] = service
+        
     var data = {}
     
     var __uid: PBField
@@ -1225,6 +1230,19 @@ class TSignedClientMessage:
         __msg.value = DEFAULT_VALUES_3[PB_DATA_TYPE.STRING]
     func set_msg(value : String) -> void:
         __msg.value = value
+    
+    var __name: PBField
+    func has_name() -> bool:
+        if __name.value != null:
+            return true
+        return false
+    func get_name() -> String:
+        return __name.value
+    func clear_name() -> void:
+        data[3].state = PB_SERVICE_STATE.UNFILLED
+        __name.value = DEFAULT_VALUES_3[PB_DATA_TYPE.STRING]
+    func set_name(value : String) -> void:
+        __name.value = value
     
     func _to_string() -> String:
         return PBPacker.message_to_string(data)

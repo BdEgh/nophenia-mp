@@ -64,7 +64,7 @@ func _on_player_delete(player_id: int):
         ModLoaderLog.info("MultiplayerPuppetManager: Removed puppet for player %d" % player_id, self.name)
         puppet_removed.emit(player_id)
 
-func _on_player_message(player_id: int, message: String):
+func _on_player_message(player_id: int, message: String, _player_name: String):
     if message.begins_with("DO:"):
         var action = message.substr(3)
         if puppets.has(player_id):
@@ -93,18 +93,10 @@ func _handle_puppet_action(puppet, action: String):
             sp.set_eyes_closed(true)
         "UNYUMENIKKI":
             sp.set_eyes_closed(false)
-        "CHEESE":
-            sp.set_cheese(true)
-        "UNCHEESE":
-            sp.set_cheese(false)
         "DIZZY":
             sp.dizzy()
         "RAGDOLL":
             sp.ragdoll()
-        "GLASSES":
-            sp.set_glasses(true)
-        "UNGLASSES":
-            sp.set_glasses(false)
         _:
             pass
 

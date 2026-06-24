@@ -28,7 +28,7 @@ func _ready() -> void:
     add_to_group("mp")
     set_network_client()
     get_tree().node_added.connect(_on_node_added)
-    if game.is_steam() and Steam.steamInit():
+    if game.is_steam():
         default_name = Steam.getPersonaName()
     
     ModLoaderLog.info("Multiplayer is ready", self.name)

@@ -52,6 +52,7 @@ message TSignedClientState {
 message TSignedClientMessage {
   uint32 uid = 1;
   string msg = 2;
+  string name = 3;
 }
 
 message TVisibility {

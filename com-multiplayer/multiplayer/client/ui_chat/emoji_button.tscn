@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://l2twwesxm05y"]
+
+[ext_resource type="Texture2D" uid="uid://cuwyft8cd41ok" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_chat/emoji/emiwa_cheeky.png" id="1_36hm3"]
+
+[node name="emoji_button" type="Button" unique_id=1437981954]
+custom_minimum_size = Vector2(0, 32)
+
+[node name="emoji" type="HBoxContainer" parent="." unique_id=158889416]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="icon" type="TextureRect" parent="emoji" unique_id=22244278]
+custom_minimum_size = Vector2(24, 30)
+layout_mode = 2
+texture = ExtResource("1_36hm3")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="name" type="Label" parent="emoji" unique_id=191505265]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+theme_type_variation = &"GraphNodeTitleLabel"
+theme_override_colors/font_color = Color(1, 0.8627451, 0.7058824, 0.6)
+theme_override_font_sizes/font_size = 16
+text = ":cheeky:"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -156,6 +156,7 @@ func _on_data_received(peer_id: int, data: PackedByteArray):
         var msg = response.new_chat_message()
         msg.set_uid(peer_id)
         msg.set_msg(message.get_chat_message().get_msg())
+        msg.set_name(_names.get(peer_id, message.get_chat_message().get_name()))
         socket.send_data(response.to_bytes(), -peer_id)
         ModLoaderLog.info("%d: %s" % [peer_id, message.get_chat_message().get_msg()], self.name)
     elif message.has_sync_request() and message.get_sync_request() == true:

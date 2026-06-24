@@ -97,18 +97,10 @@ func eyes_toggle():
         player_sync.send_action("UNYUMENIKKI")
 
 func cheese_toggle():
-    shared_patcher.set_cheese(not shared_patcher.cheese.visible)
-    if shared_patcher.cheese.visible:
-        player_sync.send_action("CHEESE")
-    else:
-        player_sync.send_action("UNCHEESE")
+    shared_patcher.cheese.visible = not shared_patcher.cheese.visible
 
 func glasses_toggle():
-    shared_patcher.set_glasses(not shared_patcher.bp_meshes.visible)
-    if shared_patcher.bp_meshes.visible:
-        player_sync.send_action("GLASSES")
-    else:
-        player_sync.send_action("UNGLASSES")
+    shared_patcher.bp_meshes.visible = not shared_patcher.bp_meshes.visible
 
 func dizzy():
     player_sync.send_action("DIZZY")

@@ -145,6 +145,9 @@ material = SubResource("ShaderMaterial_lndxn")
 [node name="display_title" parent="margin_container/scroll_container/v_box_container/option_name/v_box_container/option_box/display_title_box" parent_id_path=PackedInt32Array(1286730078, 1337163063) index="0" unique_id=1810180602]
 size_flags_vertical = 0
 
+[node name="line_edit" parent="margin_container/scroll_container/v_box_container/option_name/v_box_container/text_option/h_box_container" parent_id_path=PackedInt32Array(1286730078, 556860021) index="1" unique_id=1066464904]
+max_length = 16
+
 [node name="game_settings_separator" type="VBoxContainer" parent="margin_container/scroll_container/v_box_container" unique_id=441548148]
 layout_mode = 2
 theme_override_constants/separation = 0
