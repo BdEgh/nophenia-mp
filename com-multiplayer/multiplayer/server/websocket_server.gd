@@ -40,7 +40,8 @@ func _handle_new_connections():
         
         var peer_id = _generate_peer_id()
         _clients[peer_id] = ws_peer
-        ModLoaderLog.info("Client connected: %d" % peer_id, self.name)
+        ModLoaderLog.info("Client connected ; peer_id: %d ; host: %s" % \
+            [peer_id, ws_peer.get_connected_host()], self.name)
         peer_connected.emit(peer_id)
 
 func _process_existing_clients():

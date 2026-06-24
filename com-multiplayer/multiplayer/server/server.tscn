@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c3n8k5m2qaqr7"]
 
-[ext_resource type="Script" uid="uid://3b3crx7tctf2" path="res://mods-unpacked/com-multiplayer/multiplayer/server/server.gd" id="1_s4nhi"]
+[ext_resource type="Script" uid="uid://3b3crx7tctf2" path="res://mods-unpacked/com-multiplayer/multiplayer/server/server_starter.gd" id="1_s4nhi"]
 [ext_resource type="Script" uid="uid://dot1uuaw5morm" path="res://mods-unpacked/com-multiplayer/multiplayer/server/server_api.gd" id="2_4q2n6"]
 
 [node name="Server" type="Control" unique_id=1493541777]
@@ -66,8 +66,8 @@ text = "Server Log:"
 layout_mode = 0
 
 [node name="LogScroll" type="ScrollContainer" parent="Panel/VBoxContainer" unique_id=1096484184]
-custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
+size_flags_vertical = 3
 
 [node name="LogText" type="RichTextLabel" parent="Panel/VBoxContainer/LogScroll" unique_id=615935806]
 unique_name_in_owner = true

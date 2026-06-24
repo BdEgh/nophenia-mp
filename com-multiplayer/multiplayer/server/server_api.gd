@@ -55,6 +55,7 @@ func _setup_websocket_server():
 
 func _on_peer_connected(peer_id: int):
     _last_ping_times[peer_id] = Time.get_ticks_msec()
+    ModLoaderLog.warning("Peer connected: %d" % peer_id, self.name)
 
 func _send_other_players_data(peer_id: int):
     var data = Api.TServerData.new()
@@ -99,7 +100,6 @@ func _make_uniq_names() -> void:
             suffix += 1
         used[uniq_name] = true
         _names[peer_id] = uniq_name
-    # todo: cursed. find a better way
     for peer_id in socket.get_connected_peers():
         _send_other_players_data(peer_id)
 
@@ -124,6 +124,7 @@ func _merge_state(source, target):
 
 func _on_peer_disconnected(peer_id: int):
     _disconnect_player(peer_id)
+    ModLoaderLog.warning("Peer disconnected: %d" % peer_id, self.name)
 
 func _sync_state(peer_id: int, signed_state):
     var action = signed_state.get_action()
@@ -133,8 +134,6 @@ func _sync_state(peer_id: int, signed_state):
             return
         Api.EAction.SET:
             _set_player(peer_id, signed_state)
-        #Api.EAction.MERGE:
-            #_merge_player(peer_id, signed_state)
     
     var data = Api.TServerData.new()
     var player = data.new_players()
@@ -166,3 +165,5 @@ func _on_data_received(peer_id: int, data: PackedByteArray):
         response.__ping.value = message.get_ping()
         response.get_ping().set_total_online(players.size())
         socket.send_data(response.to_bytes(), peer_id)
+    else:
+        ModLoaderLog.warning("Peer %d is mumbling" % peer_id, self.name)

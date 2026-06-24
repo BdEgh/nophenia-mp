@@ -83,7 +83,7 @@ func _on_data_received(_stub: int, data: PackedByteArray):
     message.from_bytes(data)
     
     if message.has_players():
-        print("state data")
+        #print("state data")
         #print("uid=", message.get_players().get_your_uid(), " count=", message.get_players().get_signed_state().size())
         #var idx := 0
         #for ss in message.get_players().get_signed_state():

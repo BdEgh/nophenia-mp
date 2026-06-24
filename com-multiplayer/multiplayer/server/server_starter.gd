@@ -9,24 +9,17 @@ var MultiplayerServerProto = load(get_script().resource_path.get_base_dir() + "/
 @onready var log_text: RichTextLabel = %LogText
 
 func _ready():
-    if server and server.socket:
-        server.socket.peer_connected.connect(_on_peer_connected)
-        server.socket.peer_disconnected.connect(_on_peer_disconnected)
-    
     status_label.text = "Running on %s:%d" % ["*", port]
+    if ModLoader:
+        ModLoader.logged.connect(_on_mod_loader_logged)
     server.start_server(port)
 
-func _on_peer_connected(peer_id: int):
-    _add_log("[color=green]Player %d connected[/color]" % peer_id)
-
-func _on_peer_disconnected(peer_id: int):
-    _add_log("[color=yellow]Player %d disconnected[/color]" % peer_id)
-
-func _add_log(message: String):
+func _on_mod_loader_logged(log_entry) -> void:
+    if log_entry.mod_name != server.name:
+        return
     var timestamp = Time.get_time_string_from_system()
-    var text = "[%s] %s\n" % [timestamp, message]
+    var text = "[%s][%s]: %s\n" % [timestamp, log_entry.type, log_entry.message]
     log_text.append_text(text)
-    ModLoaderLog.info(text, self.name)
 
 func _input(event):
     if event is InputEventKey and event.pressed and event.keycode == KEY_HOME:

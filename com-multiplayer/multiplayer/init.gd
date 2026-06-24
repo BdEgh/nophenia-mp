@@ -28,7 +28,6 @@ func _ready() -> void:
     add_to_group("mp")
     set_network_client()
     get_tree().node_added.connect(_on_node_added)
-    get_tree().node_removed.connect(_on_node_removed)
     if game.is_steam() and Steam.steamInit():
         default_name = Steam.getPersonaName()
     
@@ -50,14 +49,8 @@ func save_config() -> void:
     cfg.save(_SETTINGS_PATH)
 
 func _on_node_added(node: Node) -> void:
-    call_deferred("_check_if_player", node, true)
-
-func _on_node_removed(_node: Node) -> void:
-    call_deferred("_attach_client")
-
-func _check_if_player(node: Node, _added: bool) -> void:
     if node.is_in_group("player"):
-        _attach_client()
+        call_deferred("_attach_client")
 
 func _attach_client() -> void:
     var nia = get_tree().get_first_node_in_group("player")
@@ -100,7 +93,7 @@ func set_network_client() -> void:
     if not mp_cfg.auto_connect and not network_server:
         return
     network_client = network_client_res.new()
-    network_client.name = "ClientApi"
+    network_client.name = "NetworkClient"
     if network_server:
         network_client.url = "ws://127.0.0.1:%d" % mp_cfg.server_port
     else:
