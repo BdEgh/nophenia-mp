@@ -83,11 +83,17 @@ func _physics_process(_delta):
     
     var is_sitting = nia.is_sitting
     if is_sitting and not _was_sitting:
-        pass # todo collision stuff
-        send_action("SIT")
+        var collider: CollisionShape3D = nia.get_node("collider")
+        var blob_shadow: DecalCompatibility = nia.get_node("chara/blob_shadow_arm/blob_shadow_fix/blob_shadow")
+        blob_shadow.visible = false
+        collider.shape.height = 0.8
+        collider.position.y = 0.66 - 0.25
     elif not is_sitting and _was_sitting:
-        pass # todo collision stuff
-        send_action("UNSIT")
+        var collider: CollisionShape3D = nia.get_node("collider")
+        var blob_shadow: DecalCompatibility = nia.get_node("chara/blob_shadow_arm/blob_shadow_fix/blob_shadow")
+        blob_shadow.visible = true
+        collider.shape.height = 1.3
+        collider.position.y = 0.66
     _was_sitting = is_sitting
     
     var is_howling = nia._howling

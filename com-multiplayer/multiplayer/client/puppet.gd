@@ -17,9 +17,11 @@ var animation_speed: float = 1.0
 var time_since_last_update: float = 0.0
 
 var _vel_len: float = 0.0
+var _is_sitting: bool = false
 
 var chara: Node3D
 var head: MeshInstance3D
+var collider: CollisionShape3D
 var animation_tree: AnimationTree
 var anim_player: AnimationPlayer
 var anim_tail: AnimationPlayer
@@ -36,7 +38,7 @@ var eartimer: Timer
 var headtimer: Timer
 var plinktimer: Timer
 
-func _ready():
+func _init():
     shared_patcher = SharedPatcher.new()
     
     target_position = global_position
@@ -44,6 +46,8 @@ func _ready():
     
     chara = get_node("chara")
     head = chara.get_node("Armature/Skeleton3D/head")
+    collider = get_node("collider")
+    collider.shape = collider.shape.duplicate()
     
     animation_tree = get_node("anim_tree")
     anim_player = get_node("anim_player")
@@ -96,6 +100,20 @@ func _physics_process(delta: float):
     
     move_and_slide()
 
+func _set_sitting(sitting: bool):
+    if sitting == _is_sitting:
+        return
+    audio.play_snd_spatial(game.loadres("cloth_00"), self.global_position, 8.0)
+    _is_sitting = sitting
+    if sitting:
+        blob_shadow.visible = false
+        collider.shape.height = 0.8
+        collider.position.y = 0.66 - 0.25
+    else:
+        blob_shadow.visible = true
+        collider.shape.height = 1.3
+        collider.position.y = 0.66
+
 func apply_state(state):
     time_since_last_update = 0.0
     
@@ -129,7 +147,7 @@ func apply_state(state):
         if animation_tree and is_playing:
             if playback.get_current_node() != anim_name:
                 playback.travel(anim_name)
-            
+                _set_sitting(anim_name == "sit")
             if anim_speed != animation_speed:
                 animation_speed = anim_speed
                 animation_tree.set("parameters/TimeScale/scale", anim_speed)
