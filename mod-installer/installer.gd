@@ -57,11 +57,11 @@ func find_steam_game_path() -> String:
 	file.close()
 	
 	for apps in steamapps:
-		var game_path = apps.path_join("common").path_join("nophenia")
+		var game_path = apps.path_join("common").path_join("nophenia").replace("\\", "/").simplify_path()
 		if DirAccess.dir_exists_absolute(game_path):
 			return game_path
 	for apps in steamapps:
-		var game_path = apps.path_join("common").path_join("nophenia Demo")
+		var game_path = apps.path_join("common").path_join("nophenia Demo").replace("\\", "/").simplify_path()
 		if DirAccess.dir_exists_absolute(game_path):
 			return game_path
 	return ""
@@ -170,8 +170,6 @@ func _change_icon() -> void:
 	if OS.get_name() == "Windows":
 		var args = [patched_game_line.text.path_join("nophenia.exe"), "--set-icon", ProjectSettings.globalize_path("res://assets/game-icon.ico")]
 		OS.execute(ProjectSettings.globalize_path("res://rcedit-x64.exe"), args)
-		DirAccess.rename_absolute(patched_game_line.text.path_join("nophenia.exe"), patched_game_line.text.path_join("nophenia-mp.exe"))
-		DirAccess.rename_absolute(patched_game_line.text.path_join("nophenia.pck"), patched_game_line.text.path_join("nophenia-mp.pck"))
 
 func _create_desktop_shortcut() -> void:
 	if OS.get_name() == "Windows":
