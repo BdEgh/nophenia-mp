@@ -18,17 +18,14 @@ var emoji_button_scene = load(get_script().resource_path.get_base_dir() + "/emoj
 @export var puppet_manager: Node
 
 var toggling := false
-var emoji_dir: String = get_script().resource_path.get_base_dir() + "/emoji"
-var emoji_paths := {}
-var emoji_regex := RegEx.new()
 var emoji_prefix_regex := RegEx.new()
+var emoji_dir: String = get_script().resource_path.get_base_dir() + "/emoji"
+var emoji = load(emoji_dir.get_base_dir() + "/chat_emoji.gd").get_shared(emoji_dir)
 
-func _ready():
-    emoji_regex.compile(":([a-z_]+):")
+func _ready() -> void:
     emoji_prefix_regex.compile(":([a-z_]*)$")
     message_input.text_changed.connect(_on_input_changed)
     visible = false
-    _load_emoji()
 
 func _connect_client() -> void:
     if client == null or client.player_message.is_connected(_on_player_message):
@@ -39,32 +36,6 @@ func _disconnect_client() -> void:
     if client == null or not client.player_message.is_connected(_on_player_message):
         return
     client.player_message.disconnect(_on_player_message)
-
-func _load_emoji():
-    var dir = DirAccess.open(emoji_dir)
-    if not dir:
-        return
-    for file in dir.get_files():
-        if file.get_extension() != "png":
-            continue
-        if file.get_basename().begins_with("emiwa_"):
-            emoji_paths[file.get_basename().trim_prefix("emiwa_")] = emoji_dir + "/" + file
-        else:
-            emoji_paths[file.get_basename()] = emoji_dir + "/" + file
-
-func _unwrap_emoji(text: String) -> String:
-    var result := ""
-    var pos := 0
-    for m in emoji_regex.search_all(text):
-        result += text.substr(pos, m.get_start() - pos)
-        var path = emoji_paths.get(m.get_string(1))
-        if path:
-            result += "[img height=32]%s[/img]" % path
-        else:
-            result += m.get_string(0)
-        pos = m.get_end()
-    result += text.substr(pos)
-    return result
 
 var emoji_popup: Control = null
 var emoji_prefix = null
@@ -103,8 +74,9 @@ func _pick_emoji(emoji_name: String) -> void:
     message_input.grab_focus()
 
 func _open_emoji_window(prefix: String) -> void:
+    var paths = emoji.paths
     var names := []
-    for emoji_name in emoji_paths:
+    for emoji_name in paths:
         if emoji_name.begins_with(prefix):
             names.append(emoji_name)
     if names.is_empty():
@@ -116,7 +88,7 @@ func _open_emoji_window(prefix: String) -> void:
     var v_box = emoji_popup.get_node("scroll_container/v_box_container")
     for emoji_name in names:
         var button = emoji_button_scene.instantiate()
-        button.get_node("emoji/icon").texture = load(emoji_paths[emoji_name])
+        button.get_node("emoji/icon").texture = load(paths[emoji_name])
         button.get_node("emoji/name").text = ":%s:" % emoji_name
         button.pressed.connect(_pick_emoji.bind(emoji_name))
         v_box.add_child(button)
@@ -186,11 +158,12 @@ func _animate_camera(camera: Node3D, target_x: float):
     create_tween().tween_property(camera, "position:x", target_x, 0.4).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 
 func add_message(text: String, sender: String = "You"):
-    audio.play_snd(game.loadres("phone_keypad_short"), -1, 0.6, "snd")
+    if sender == "You":
+        audio.play_snd(game.loadres("phone_keypad_short"), -1, 0.6, "snd")
     var bubble = chat_bubble_scene.instantiate()
     
     chat_container.add_child(bubble)
-    bubble.set_message(_unwrap_emoji(text), sender)
+    bubble.set_message(emoji.unwrap(text), sender)
 
 func _on_player_message(player_id: int, message: String, player_name: String) -> void:
     if message.begins_with("DO:"):
@@ -202,7 +175,7 @@ func _on_player_message(player_id: int, message: String, player_name: String) ->
         if puppet:
             if sender_name == str(player_id) and puppet.player_name != "":
                 sender_name = puppet.player_name
-            puppet.show_chat_message(message)
+            puppet.show_chat_message(message, sender_name)
     
     var was_at_bottom = _is_scrolled_to_bottom()
     add_message(message, sender_name)

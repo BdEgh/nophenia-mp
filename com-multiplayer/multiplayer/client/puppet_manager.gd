@@ -23,7 +23,7 @@ var stage_node: stage
 var all_players: Dictionary = {}  # player_id -> world_hash
 var puppets: Dictionary = {}  # player_id -> MultiplayerPuppet instance
 
-func _ready():
+func _ready() -> void:
     stage_node = game.active_stage
 
 func _connect_client() -> void:

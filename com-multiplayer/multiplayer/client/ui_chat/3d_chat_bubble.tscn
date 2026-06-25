@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://22lqe702sdev"]
+
+[ext_resource type="Script" uid="uid://j6qvnuf45ky5" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_chat/3d_chat_bubble.gd" id="1_qhtkx"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_rxdc6"]
+viewport_path = NodePath("Sprite/sub_viewport")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4k3t0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qmu22"]
+bg_color = Color(0.9372549, 0.8509804, 0.6745098, 0.85490197)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0.9372549, 0.8509804, 0.6745098, 0.85490197)
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="3dChatBubble" type="Node3D" unique_id=891506395]
+script = ExtResource("1_qhtkx")
+
+[node name="Sprite" type="Sprite3D" parent="." unique_id=1779035439]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 1.536, 0)
+billboard = 2
+alpha_cut = 2
+texture_filter = 0
+render_priority = -1
+texture = SubResource("ViewportTexture_rxdc6")
+
+[node name="sub_viewport" type="SubViewport" parent="Sprite" unique_id=1866939832]
+transparent_bg = true
+
+[node name="ChatBubble" type="PanelContainer" parent="Sprite/sub_viewport" unique_id=126585203]
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -70.0
+offset_right = 70.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxEmpty_4k3t0")
+
+[node name="ChatBubble" type="HBoxContainer" parent="Sprite/sub_viewport/ChatBubble" unique_id=111680281]
+layout_mode = 2
+size_flags_vertical = 8
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="MessageLabel" type="RichTextLabel" parent="Sprite/sub_viewport/ChatBubble/ChatBubble" unique_id=1861692714]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 39)
+custom_maximum_size = Vector2(180, -1)
+layout_mode = 2
+focus_mode = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.63529414)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.63529414)
+theme_override_constants/shadow_outline_size = 0
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/outline_size = 2
+theme_override_constants/text_highlight_h_padding = 0
+theme_override_constants/text_highlight_v_padding = 0
+theme_override_constants/underline_alpha = 0
+theme_override_constants/strikethrough_alpha = 0
+theme_override_constants/table_h_separation = 0
+theme_override_constants/table_v_separation = 0
+theme_override_font_sizes/normal_font_size = 20
+theme_override_font_sizes/bold_font_size = 20
+theme_override_font_sizes/bold_italics_font_size = 20
+theme_override_font_sizes/italics_font_size = 20
+theme_override_font_sizes/mono_font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_qmu22")
+bbcode_enabled = true
+text = "hello _______ world"
+fit_content = true
+selection_enabled = true

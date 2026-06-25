@@ -25,7 +25,7 @@ var halo_fol: Node3D
 var bp_meshes: Node3D
 var chest_bone: int
 
-func _ready():
+func _ready() -> void:
     skeleton = model.get_node("chara/Armature/Skeleton3D")
     head = skeleton.get_node("head")
     plinktimer = model.get_node("plinktimer")

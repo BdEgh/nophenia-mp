@@ -441,8 +441,8 @@ alignment = 2
 
 [node name="DesktopShortcutButton" type="CheckBox" parent="MarginContainer/VBoxContainer/HBoxContainer6" unique_id=526541307]
 unique_name_in_owner = true
-layout_direction = 3
 layout_mode = 2
+layout_direction = 3
 text = "Add Desktop Shortcut"
 
 [node name="HBoxContainer5" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=903537232]
@@ -453,8 +453,8 @@ alignment = 2
 [node name="ExperimentalButton" type="CheckBox" parent="MarginContainer/VBoxContainer/HBoxContainer5" unique_id=1640128559]
 unique_name_in_owner = true
 visible = false
-layout_direction = 3
 layout_mode = 2
+layout_direction = 3
 tooltip_text = "don't judge"
 text = "Add experimental stuff"
 

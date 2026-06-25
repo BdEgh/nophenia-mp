@@ -4,7 +4,9 @@ extends Node
 var nia_instance: Node3D
 var name_label: Label3D
 var player_name: String = ""
-var floating_message_scene: PackedScene
+var chat_bubble_scene: PackedScene = load(
+    get_script().resource_path.get_base_dir() + "/ui_chat/3d_chat_bubble.tscn"
+)
 
 func teleport_to(pos: Vector3):
     nia_instance.teleport_to(pos)
@@ -24,10 +26,6 @@ func _init() -> void:
     )
     _remove_unwanted_nodes(nia_instance)
     self.add_child(nia_instance)
-    
-    floating_message_scene = load(
-        get_script().resource_path.get_base_dir() + "/ui_chat/floating_chat_message.tscn"
-    )
 
 func _ready() -> void:
     name_label = get_node("NameLabel")
@@ -39,18 +37,16 @@ func set_player_name(value: String) -> void:
     if name_label:
         name_label.text = value
 
-func show_chat_message(message: String):
-    if message.begins_with("DO:"):
+func show_chat_message(text: String, sender: String):
+    if text.begins_with("DO:"):
         return
     
-    var floating_msg = floating_message_scene.instantiate()
-    var cheese = nia_instance.get_node("cheese_position")
-    var chara = nia_instance.get_node("chara")
-    var forward_offset = -chara.global_transform.basis.z.normalized() * 0.25
-    floating_msg.global_position = cheese.global_position + forward_offset + Vector3(0, 0.25, 0)
-    game.active_stage.add_child(floating_msg)
-    floating_msg.set_message(message)
-    audio.play_snd_spatial(game.loadres("phone_keypad_short"), cheese.global_position, 10.0, -1, 0.8, "snd")
+    var chat_bubble = chat_bubble_scene.instantiate()
+    var head = nia_instance.get_node("chara/Armature/Skeleton3D/head")
+    chat_bubble.global_position = head.global_position + Vector3(0, 1.75, 0)
+    game.active_stage.add_child(chat_bubble)
+    chat_bubble.set_message(text, sender)
+    audio.play_snd_spatial(game.loadres("phone_keypad_short"), head.global_position, 15.0, -1, 1, "snd")
 
 func _remove_unwanted_nodes(node: Node):
     var nodes_to_remove = [
