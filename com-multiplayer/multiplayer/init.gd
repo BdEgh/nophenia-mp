@@ -28,10 +28,15 @@ func _ready() -> void:
     add_to_group("mp")
     set_network_client()
     get_tree().node_added.connect(_on_node_added)
-    if game.is_steam():
+    if game.is_steam() and Steam.steamInit():
         default_name = Steam.getPersonaName()
     
     ModLoaderLog.info("Multiplayer is ready", self.name)
+
+func _notification(event: int) -> void:
+    if event == NOTIFICATION_WM_CLOSE_REQUEST:
+        if is_instance_valid(game.active_stage): if game.active_stage.anomaly_occurring: return
+        Steam.steamShutdown()
 
 func _load_config() -> void:
     var cfg := ConfigFile.new()
