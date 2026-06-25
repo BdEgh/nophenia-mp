@@ -74,7 +74,8 @@ func _init():
     #headtimer.timeout.connect(_on_headtimer_timeout)
     plinktimer = get_node("plinktimer")
     #plinktimer.timeout.connect(_on_plinktimer_timeout)
-    
+
+func _ready():
     shared_patcher.model = self
     add_child(shared_patcher)
 
