@@ -22,7 +22,11 @@ const _SETTINGS_PATH := "user://mp.cfg"
 
 func _ready() -> void:
     if "--server" in OS.get_cmdline_args():
-        set_network_server()
+        var port := -1
+        for arg in OS.get_cmdline_args():
+            if arg.begins_with("--port="):
+                port = arg.trim_prefix("--port=").to_int()
+        set_network_server(port)
     
     _load_config()
     add_to_group("mp")
@@ -114,12 +118,14 @@ func drop_network_client() -> void:
     network_client = null
     _update_network_client()
 
-func set_network_server() -> void:
+func set_network_server(port: int = -1) -> void:
     if network_server:
         return
     network_server = network_server_res.instantiate()
     network_server.name = "NetworkServer"
-    network_server.port = mp_cfg.server_port
+    network_server.port = port
+    if port == -1:
+        network_server.port = mp_cfg.server_port
     add_child(network_server)
     drop_network_client()
     set_network_client()

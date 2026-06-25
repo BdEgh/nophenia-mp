@@ -3,11 +3,9 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dlm5n1vc81kom"
-path.s3tc="res://.godot/imported/battle_pass_season_1_items texture.png-b75110aa2ba3107bd2d1b59ed54d5665.s3tc.ctex"
-path.etc2="res://.godot/imported/battle_pass_season_1_items texture.png-b75110aa2ba3107bd2d1b59ed54d5665.etc2.ctex"
+path="res://.godot/imported/battle_pass_season_1_items texture.png-b75110aa2ba3107bd2d1b59ed54d5665.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc", "etc2_astc"],
-"vram_texture": true
+"vram_texture": false
 }
 generator_parameters={
 "md5": "307516ab8bde0c0a14c8f5007fb0ae82"
@@ -16,11 +14,11 @@ generator_parameters={
 [deps]
 
 source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/patches/nia_patcher/items/1420-MHz/battle_pass_season_1_items texture.png"
-dest_files=["res://.godot/imported/battle_pass_season_1_items texture.png-b75110aa2ba3107bd2d1b59ed54d5665.s3tc.ctex", "res://.godot/imported/battle_pass_season_1_items texture.png-b75110aa2ba3107bd2d1b59ed54d5665.etc2.ctex"]
+dest_files=["res://.godot/imported/battle_pass_season_1_items texture.png-b75110aa2ba3107bd2d1b59ed54d5665.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=1
 compress/high_quality=false
 compress/lossy_quality=1.0
 compress/uastc_level=0
