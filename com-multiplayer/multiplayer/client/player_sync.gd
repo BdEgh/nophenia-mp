@@ -147,7 +147,7 @@ func _check_and_send_updates(force: bool):
 func _fetch_visibility() -> Dictionary:
     var current: Dictionary = {}
     for node in nia.find_children("*", "Node3D", true, false):
-        if node is AudioStreamPlayer3D:
+        if node is AudioStreamPlayer3D or node is Label3D:
             continue
         current[str(nia.get_path_to(node))] = node.visible
     return current

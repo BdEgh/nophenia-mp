@@ -57,7 +57,7 @@ func _on_input_changed(_text: String) -> void:
         _close_emoji_window()
 
 func _physics_process(delta: float) -> void:
-    if emoji_timer <= 0.0 or not emoji_prefix:
+    if emoji_timer <= 0.0 or emoji_prefix == null:
         return
     emoji_timer -= delta
     if emoji_timer <= 0.0 and _trailing_prefix() == emoji_prefix:
@@ -129,7 +129,7 @@ func toggle_chat():
             var cam_arm = get_tree().get_first_node_in_group("player").get_node("cam_box/cam_arm")
             var move_multiplier = (cam_arm.spring_length - 1.2) / 2 + 1.0
             _animate_camera(camera, -0.65 * move_multiplier)
-        await create_tween().tween_property(self, "modulate:a", 1.0, 0.5).from(0.0).set_trans(Tween.TRANS_CIRC).finished
+        await create_tween().tween_property(self, "modulate:a", 1.0, 0.2).from(0.0).set_trans(Tween.TRANS_CIRC).finished
         message_input.grab_focus()
     else:
         Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -138,7 +138,7 @@ func toggle_chat():
         message_input.release_focus()
         if camera:
             _animate_camera(camera, 0.0)
-        await create_tween().tween_property(self, "modulate:a", 0.0, 0.5).from(1.0).set_trans(Tween.TRANS_CIRC).finished
+        await create_tween().tween_property(self, "modulate:a", 0.0, 0.2).from(1.0).set_trans(Tween.TRANS_CIRC).finished
         visible = false
         _set_player_input_enabled(true)
         game.active_stage.anomaly_occurring = false
