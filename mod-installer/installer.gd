@@ -84,8 +84,6 @@ func _replace_color(text: String, color: String) -> String:
 	var regex = RegEx.new()
 	regex.compile("\\[color=[^\\]]+\\]")
 	var replacement = "[color=%s]" % color
-	if color == "rainbow":
-		replacement = "[rainbow]"
 	return regex.sub(text, replacement)
 
 func _fetch_exec(path: String) -> String:
@@ -110,6 +108,10 @@ func _on_patched_game_line_text_changed(new_text: String) -> void:
 	else:
 		star_1.text = _replace_color(star_0.text, "#818589")
 		valid_patched = false
+
+func _copy_files(from: String, to: String) -> void:
+	for file in DirAccess.get_files_at(from):
+		DirAccess.copy_absolute(from.path_join(file), to.path_join(file))
 
 func _copy_recursive(from: String, to: String) -> void:
 	if not DirAccess.dir_exists_absolute(to):
@@ -200,7 +202,7 @@ func _on_install_button_pressed() -> void:
 	var extracted:= _extract()
 	if not extracted:
 		return
-	_copy_recursive(orig_game_line.text, patched_game_line.text)
+	_copy_files(orig_game_line.text, patched_game_line.text)
 	_copy_recursive(ProjectSettings.globalize_path("res://mod_loader_artifacts"), patched_game_line.text)
 	_merge_cfg_lists(
 		patched_game_line.text.path_join("godot").path_join("global_script_class_cache.cfg"),
