@@ -21,6 +21,7 @@ var _is_sitting: bool = false
 
 var chara: Node3D
 var head: MeshInstance3D
+var rain_umbrella: MeshInstance3D
 var collider: CollisionShape3D
 var animation_tree: AnimationTree
 var anim_player: AnimationPlayer
@@ -46,6 +47,7 @@ func _init():
     
     chara = get_node("chara")
     head = chara.get_node("Armature/Skeleton3D/head")
+    rain_umbrella = chara.get_node("umbrella/umbrella")
     collider = get_node("collider")
     collider.shape = collider.shape.duplicate()
     
@@ -75,9 +77,31 @@ func _init():
     plinktimer = get_node("plinktimer")
     #plinktimer.timeout.connect(_on_plinktimer_timeout)
 
+func _tween_umbrella(_value):
+    rain_umbrella.set_blend_shape_value(0, _value)
+
+func _toggle_umbrella(_open: bool = true):
+    if ! %umbrella.visible: return
+    create_tween().tween_method(_tween_umbrella, 1.0 * int(_open), 1.0 * int( !_open), 1.1).set_trans(Tween.TRANS_BOUNCE)
+    audio.play_snd_spatial(game.loadres("umbrella_open"), rain_umbrella.global_position, 16.0)
+    pass
+
+func _vanilla_ready_parts() -> void:
+    %rain_umbrella.playing = false
+    %anim_umbrella.active = false
+    await game.active_stage.ready
+    
+    match game.active_stage.weather:
+        1:
+            _toggle_umbrella()
+            %rain_umbrella.playing = true
+            %anim_umbrella.play("hold_umbrella")
+            %anim_umbrella.active = true
+
 func _ready():
     shared_patcher.model = self
     add_child(shared_patcher)
+    _vanilla_ready_parts()
 
 func _physics_process(delta: float):
     time_since_last_update += delta
