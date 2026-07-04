@@ -87,16 +87,18 @@ func _toggle_umbrella(_open: bool = true):
     pass
 
 func _vanilla_ready_parts() -> void:
-    %rain_umbrella.playing = false
-    %anim_umbrella.active = false
+    if rain_umbrella:
+        %rain_umbrella.playing = false
+        %anim_umbrella.active = false
     await game.active_stage.ready
     
     match game.active_stage.weather:
         1:
-            _toggle_umbrella()
-            %rain_umbrella.playing = true
-            %anim_umbrella.play("hold_umbrella")
-            %anim_umbrella.active = true
+            if rain_umbrella:
+                _toggle_umbrella()
+                %rain_umbrella.playing = true
+                %anim_umbrella.play("hold_umbrella")
+                %anim_umbrella.active = true
 
 func _ready():
     shared_patcher.model = self

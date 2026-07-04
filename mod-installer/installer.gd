@@ -175,7 +175,7 @@ func _change_icon() -> void:
 
 func _create_desktop_shortcut() -> void:
 	if OS.get_name() == "Windows":
-		var exec_path = patched_game_line.text.path_join("nophenia-mp.exe").replace("/", "\\")
+		var exec_path = _fetch_exec(patched_game_line.text)
 		var lnk = OS.get_system_dir(OS.SYSTEM_DIR_DESKTOP).path_join("nophenia-mp.lnk").replace("/", "\\")
 		var ps_cmd = "$s=(New-Object -ComObject WScript.Shell).CreateShortcut('%s');$s.TargetPath='%s';$s.Save()" % [lnk, exec_path]
 		OS.execute("powershell", ["-Command", ps_cmd])
