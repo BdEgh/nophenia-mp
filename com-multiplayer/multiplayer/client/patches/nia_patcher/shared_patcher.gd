@@ -25,6 +25,12 @@ var halo_fol: Node3D
 var bp_meshes: Node3D
 var chest_bone: int
 
+var umbrella: Node3D
+var umbrella_mesh: MeshInstance3D
+var rain_umbrella: AudioStreamPlayer3D
+var anim_umbrella: AnimationPlayer
+var rain_boots: MeshInstance3D
+
 func _ready() -> void:
     skeleton = model.get_node("chara/Armature/Skeleton3D")
     head = skeleton.get_node("head")
@@ -32,6 +38,11 @@ func _ready() -> void:
     anim_tree = model.get_node("anim_tree")
     mouth = model.get_node("cheese_position")
     cheese = mouth.get_node("grilled_cheeze")
+    umbrella = model.get_node("chara/umbrella")
+    umbrella_mesh = model.get_node("chara/umbrella/umbrella")
+    rain_umbrella = model.get_node("chara/umbrella/umbrella/rain_umbrella")
+    anim_umbrella = model.get_node("anim_umbrella")
+    rain_boots = model.get_node("chara/Armature/Skeleton3D/rain_boots")
 
     phys_skel = phys_skel_scene.instantiate()
     skeleton.add_child(phys_skel)
@@ -58,6 +69,7 @@ func _ready() -> void:
 func _physics_process(_delta):
     if bp_meshes:
         bp_meshes.scale = skeleton.get_bone_pose_scale(chest_bone)
+    _umbrella_watcher()
 
 var _mat_next_pass: StandardMaterial3D
 
@@ -150,3 +162,30 @@ func ragdoll():
     if "unconscious" in model:
         model.unconscious = false
     _is_ragdoll = false
+
+var _umbrella_toggled := true
+func _umbrella_watcher() -> void:
+    if not umbrella: return
+    if _umbrella_toggled and not umbrella.visible:
+        _umbrella_toggled = false
+        _toggle_umbrella(false)
+    if not _umbrella_toggled and umbrella.visible:
+        _umbrella_toggled = true
+        _toggle_umbrella(true)
+
+func _tween_umbrella(_value):
+    umbrella_mesh.set_blend_shape_value(0, _value)
+
+func _toggle_umbrella(_open: bool = true):
+    if ! umbrella.visible:
+        rain_boots.visible = false
+        rain_umbrella.playing = false
+        anim_umbrella.active = false
+        return
+    
+    rain_boots.visible = true
+    rain_umbrella.playing = true
+    anim_umbrella.active = true
+    anim_umbrella.play("hold_umbrella")
+    create_tween().tween_method(_tween_umbrella, 1.0 * int(_open), 1.0 * int( !_open), 1.1).set_trans(Tween.TRANS_BOUNCE)
+    audio.play_snd_spatial(game.loadres("umbrella_open"), umbrella_mesh.global_position, 16.0)

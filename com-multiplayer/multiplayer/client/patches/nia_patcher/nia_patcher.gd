@@ -111,6 +111,9 @@ func ragdoll():
     player_sync.send_action("RAGDOLL")
     shared_patcher.ragdoll()
 
+func umbrella_toggle():
+    shared_patcher.umbrella.visible = not shared_patcher.umbrella.visible
+
 func _unhandled_input(event: InputEvent) -> void:
     if get_tree().get_first_node_in_group("player") and get_tree().get_first_node_in_group("player").is_paused:
         return
@@ -128,3 +131,5 @@ func _unhandled_input(event: InputEvent) -> void:
         dizzy()
     if event is InputEventKey and event.pressed and event.keycode == KEY_9:
         ragdoll()
+    if event is InputEventKey and event.pressed and event.keycode == KEY_U:
+        umbrella_toggle()
