@@ -1,0 +1,169 @@
+[gd_scene format=3 uid="uid://bkwo2lndgbgu6"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5r28w"]
+blend_mode = 3
+
+[sub_resource type="Gradient" id="Gradient_ihm8e"]
+offsets = PackedFloat32Array(0.0029069767, 1)
+colors = PackedColorArray(0.078431375, 0.68235296, 0.42352942, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ihm8e"]
+gradient = SubResource("Gradient_ihm8e")
+width = 16
+height = 16
+fill_from = Vector2(1, 1)
+fill_to = Vector2(1, 0.491453)
+
+[sub_resource type="Shader" id="Shader_yw2t7"]
+code = "shader_type canvas_item;
+
+render_mode blend_add;
+
+uniform vec4 glow_color : source_color = vec4(1.0, 0.9, 0.5, 1.0);
+uniform float intensity : hint_range(0.0, 10.0) = 1.5;
+uniform float spread : hint_range(0.1, 10.0) = 1.0;
+uniform float pulse_speed : hint_range(0.0, 100.0) = 1.0;
+
+void fragment() {
+  vec4 main_texture = texture(TEXTURE, UV); // Get existing texture
+  vec2 centered_uv = UV - vec2(0.5);
+  float dist = length(centered_uv) * spread;
+  float alpha = max(0.0, 1.0 - dist);
+  alpha *= (1.0 + 0.2 * sin(TIME * pulse_speed));
+  alpha = clamp(alpha * intensity, 0.0, 1.0);
+  COLOR = main_texture * glow_color * alpha; // Apply pulse with original texture
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_amxbr"]
+shader = SubResource("Shader_yw2t7")
+shader_parameter/glow_color = Color(0.525, 0.7, 0.525, 1)
+shader_parameter/intensity = 1.0000000475
+shader_parameter/spread = 2.0
+shader_parameter/pulse_speed = 2.000000095
+
+[sub_resource type="Gradient" id="Gradient_qx5vw"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_5qbvf"]
+gradient = SubResource("Gradient_qx5vw")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.1, 0.1)
+
+[node name="control" type="Control" unique_id=1275800926]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="mp_version" type="RichTextLabel" parent="." unique_id=1091762735]
+clip_children = 2
+clip_contents = false
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = -23.99997
+offset_right = -432.0
+offset_bottom = -3.9999695
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.925, 1)
+theme_override_colors/font_shadow_color = Color(0.038397167, 0.038397167, 0.03839716, 1)
+theme_override_font_sizes/normal_font_size = 18
+text = "<gd>"
+fit_content = true
+scroll_active = false
+vertical_alignment = 1
+
+[node name="gradient" type="TextureRect" parent="mp_version" unique_id=2120846152]
+material = SubResource("CanvasItemMaterial_5r28w")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 9.729736
+offset_bottom = 3.9999695
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_ihm8e")
+
+[node name="update_info" type="RichTextLabel" parent="." unique_id=1682690881]
+clip_children = 2
+clip_contents = false
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = -48.0
+offset_right = -432.0
+offset_bottom = -28.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.925, 1)
+theme_override_colors/font_shadow_color = Color(0.038397167, 0.038397167, 0.03839716, 1)
+theme_override_font_sizes/normal_font_size = 18
+text = "<gd>"
+fit_content = true
+scroll_active = false
+vertical_alignment = 1
+
+[node name="gradient" type="TextureRect" parent="update_info" unique_id=97159202]
+material = SubResource("CanvasItemMaterial_5r28w")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 9.729736
+offset_bottom = 3.9999695
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_ihm8e")
+
+[node name="button" type="Button" parent="." unique_id=1394245305]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 392.0
+offset_right = 192.0
+offset_bottom = 427.0
+text = "Click Here To Update"
+
+[node name="gradient" type="TextureRect" parent="button" unique_id=1649353597]
+material = SubResource("CanvasItemMaterial_5r28w")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_ihm8e")
+expand_mode = 1
+
+[node name="start_game_glow" type="TextureRect" parent="button" unique_id=993888428]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_amxbr")
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -104.0
+offset_top = -51.0
+offset_right = 104.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(200, 45)
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_5qbvf")
+expand_mode = 1

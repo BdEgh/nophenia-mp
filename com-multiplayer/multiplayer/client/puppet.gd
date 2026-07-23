@@ -201,9 +201,9 @@ func meow():
     _howling = true
     audio.play_snd_spatial(meow_sfx, self.global_position, 12.0, randf_range(1.0, 1.3), 0.6)
     await create_tween().tween_property( %indicator_marker, "position:z", 0.009, 0.4).set_trans(Tween.TRANS_SINE).finished
-    shared_patcher.set_surprised(true)
     await create_tween().tween_property( %indicator_marker, "position:z", 0.008, 0.4).set_trans(Tween.TRANS_SINE).finished
-    await get_tree().create_timer(0.4).timeout
+    shared_patcher.set_surprised(true)
+    await get_tree().create_timer(randf_range(1.0, 1.2)).timeout
     shared_patcher.set_surprised(false)
     _howling = false
 
