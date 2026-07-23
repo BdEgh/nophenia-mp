@@ -62,7 +62,6 @@ func _howl():
     var neko_value := 0
     for item in shared_patcher.neko_items:
         if item.visible: neko_value += 25
-    print(neko_value)
     if randi_range(0, 100) > neko_value:
         player_sync.send_action("HOWL")
         _head.set_blend_shape_value(8, 1.0)

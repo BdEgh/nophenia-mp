@@ -99,7 +99,7 @@ func _physics_process(_delta):
         var is_damaging = game._damaging
         if is_damaging and not _was_damaging:
             send_action("DAMAGE")
-            nia_patcher.shared_patcher.damage(false)
+            nia.shared_patcher.damage(false)
         _was_damaging = is_damaging
 
 func _check_and_send_updates(force: bool):

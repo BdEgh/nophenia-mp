@@ -24,7 +24,6 @@ var orig_next_pass: Material
 var phys_skel: PhysicalBoneSimulator3D
 var halo_att: BoneAttachment3D
 var halo_fol: Node3D
-#var chest_bone: int
 
 var umbrella: Node3D
 var umbrella_mesh: MeshInstance3D
@@ -127,6 +126,8 @@ func damage(with_sound: bool = false):
     if with_sound:
         audio.play_snd_spatial(game.loadres("damage"), head.global_position, 4.0, -1.0, 0.7)
         audio.play_snd_spatial(game.loadres("nia_damage"), head.global_position, 4.0, -1.0, 0.1)
+    await get_tree().create_timer(0.6).timeout
+    _stage_lit_items([head])
 
 func get_roaches() -> bool:
     return model.get_node("chara/blob_shadow_arm/bug_step").visible
