@@ -5,8 +5,11 @@ var halo_attachment_scene = load(get_script().resource_path.get_base_dir() + "/i
 var halo_follower_scene = load(get_script().resource_path.get_base_dir() + "/items/halo/halo_follower.tscn")
 var eye_fix_material = load(get_script().resource_path.get_base_dir() + "/player_mat_with_vertex_color_fix.tres")
 var items_glb = load(get_script().resource_path.get_base_dir() + "/items/1420-MHz/items/items_model.glb")
+var heads_glb = load(get_script().resource_path.get_base_dir() + "/items/1420-MHz/items/heads.glb")
 var bell_scene = load(get_script().resource_path.get_base_dir() + "/items/1420-MHz/bell/bell_scene.tscn")
 var bell_bone_attachment_scene = load(get_script().resource_path.get_base_dir() + "/items/1420-MHz/bell/bell_bone_attachment.tscn")
+var items_cloth_sound = load(get_script().resource_path.get_base_dir() + "/items/1420-MHz/sfx/items_cloth.ogg")
+var squeak_sound = load(get_script().resource_path.get_base_dir() + "/items/1420-MHz/sfx/squeak.wav")
 
 @export var model: Node
 
@@ -34,12 +37,11 @@ var rain_boots: MeshInstance3D
 var item_meshes: Array
 var neko_items: Array
 var head_items: Node3D
-var heads: Array
+var heads: Dictionary
 
 func _ready() -> void:
     skeleton = model.get_node("chara/Armature/Skeleton3D")
     head = skeleton.get_node("head")
-    head.visibility_changed.connect(_on_head_visibility_changed)
     plinktimer = model.get_node("plinktimer")
     anim_tree = model.get_node("anim_tree")
     mouth = model.get_node("cheese_position")
@@ -63,7 +65,10 @@ func _ready() -> void:
     
     var items_root: Node3D = items_glb.instantiate()
     var items_skel = items_root.get_node("Armature/Skeleton3D")
-    heads = ["head", "head for hats", "Short hair head", "Short hair head for hats"]
+    var heads_root: Node3D = heads_glb.instantiate()
+    var heads_skel = heads_root.get_node("Armature/Skeleton3D")
+    
+    heads[head.name] = head
     head_items = Node3D.new()
     head_items.name = "HeadItems"
     skeleton.add_child(head_items)
@@ -71,23 +76,37 @@ func _ready() -> void:
         var new_mesh = child.duplicate()
         if new_mesh.name in ["Hat", "Paws"]:
             neko_items.append(new_mesh)
+        
         if new_mesh.name in ["Hat", "Glasses round", "Glasses red"]:
             head_items.add_child(new_mesh)
         else:
             skeleton.add_child(new_mesh)
         new_mesh.skeleton = new_mesh.get_path_to(skeleton)
         item_meshes.append(new_mesh)
+    
+    for child: MeshInstance3D in heads_skel.get_children():
+        var new_mesh = child.duplicate()
+        heads[new_mesh.name] = new_mesh
+        new_mesh.skeleton = new_mesh.get_path_to(skeleton)
+        new_mesh.visible = false
+        item_meshes.append(new_mesh)
+        skeleton.add_child(new_mesh)
+    for v in heads.values():
+        v.visibility_changed.connect(_on_head_visibility_changed.bind(v))
+    
     items_root.queue_free()
+    heads_root.queue_free()
     
     bell = bell_scene.instantiate()
     model.add_child(bell)
     skeleton.add_child(bell_bone_attachment_scene.instantiate())
     var bell_mesh = bell.get_node("Armature_001/Skeleton3D/bell")
     bell_mesh.name = "Bell"
+    bell_mesh.chara = model
     item_meshes.append(bell_mesh)
-    var blue_bell_mesh = bell.get_node("Armature_001/Skeleton3D/bell blue")
-    blue_bell_mesh.name = "Blue Bell"
-    item_meshes.append(blue_bell_mesh)
+    #var blue_bell_mesh = bell.get_node("Armature_001/Skeleton3D/bell blue")
+    #blue_bell_mesh.name = "Blue Bell"
+    #item_meshes.append(blue_bell_mesh)
     #if rain_boots:
         #item_meshes.append(rain_boots)
     if umbrella:
@@ -96,10 +115,10 @@ func _ready() -> void:
         #umbrella_mesh.visibility_changed.connect(_on_umbrella_visibility_changed.bind(umbrella_mesh))
     
     _stage_lit_items(item_meshes)
-    _stage_lit_items([head])
+    _stage_lit_items(heads.values())
     
     for i in item_meshes:
-        i.visibility_changed.connect(_on_custom_item_visibility_changed.bind(i))
+        #i.visibility_changed.connect(_on_custom_item_visibility_changed.bind(i))
         i.visible = false
 
 var _mat_next_pass: StandardMaterial3D
@@ -216,16 +235,35 @@ func _toggle_umbrella(_open: bool = true):
     create_tween().tween_method(_tween_umbrella, 1.0 * int(_open), 1.0 * int( !_open), 1.1).set_trans(Tween.TRANS_BOUNCE)
     audio.play_snd_spatial(game.loadres("umbrella_open"), umbrella_mesh.global_position, 16.0)
 
-func _on_custom_item_visibility_changed(_mesh: MeshInstance3D):
+var changing := false
+func _on_custom_item_visibility_changed(_mesh: MeshInstance3D = null):
+    if changing:
+        return
+    changing = true
+    audio.play_snd_spatial(items_cloth_sound, model.global_position, 12.0, randf_range(1.0, 1.3), 0.6)
+    audio.play_snd_spatial(squeak_sound, model.global_position, 12.0, randf_range(1.0, 1.3), 0.6)
     var stretch_down = Vector3(randf_range(1.1, 1.25), 1.0, randf_range(0.75, 0.85))
     var stretch_up = Vector3(randf_range(0.85, 0.9), 1.0, randf_range(1.1, 1.25))
     await create_tween().tween_property(skeleton, "scale", stretch_up, 0.15) \
         .from(stretch_down).finished
+    changing = false
     await create_tween().tween_property(skeleton, "scale", Vector3.ONE, 0.1).finished
     #await create_tween().tween_property(mesh, "scale", Vector3.ONE, 0.25).from(Vector3(randf_range(1.3, 1.6), randf_range(0.3, 0.9), randf_range(1.3, 1.6))).finished
 
-func _on_head_visibility_changed():
-    head_items.visible = head.visible
+func _on_head_visibility_changed(h: MeshInstance3D):
+    var head_items_visible := true
+    if h.visible:
+        head = h
+        for v in heads.values():
+            if v != head:
+                v.visible = false
+    else:
+        head_items_visible = false
+        for v in heads.values():
+            if v.visible:
+                head_items_visible = true
+                break
+    head_items.visible = head_items_visible
 
 func _stage_lit_items(items: Array) -> void:
     for _n in items:

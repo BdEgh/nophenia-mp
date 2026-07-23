@@ -1,6 +1,9 @@
 @tool
 extends MarginContainer
 
+var hover_sound = load(get_script().resource_path.get_base_dir() + "/../patches/nia_patcher/items/1420-MHz/sfx/avaol_button_hover.wav")
+var click_sound = load(get_script().resource_path.get_base_dir() + "/../patches/nia_patcher/items/1420-MHz/sfx/click.ogg")
+
 enum Type { All, Accessories, Body, Head, Paws }
 
 @export var cus: Control
@@ -25,6 +28,8 @@ func _ready() -> void:
 func _on_button_toggled(toggled_on: bool) -> void:
     item.visible = toggled_on
     if do_save:
+        audio.play_snd(click_sound)
+        cus.shared_patcher._on_custom_item_visibility_changed()
         cus.save_state()
         if item.visible:
             cus.auto_disable(itype, iname)
@@ -38,12 +43,9 @@ func _on_button_mouse_exited() -> void:
 var tween: Tween
 
 func _on_button_focus_entered() -> void:
-    if tween and tween.is_running():
-        tween.kill()
-    tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
-    tween.set_parallel(true)
-    tween.tween_property(button, "scale:x", 1.1, 0.1)
-    tween.tween_property(button, "scale:y", 1.1, 0.1)
+    audio.play_snd(hover_sound)
+    create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK). \
+        tween_property(button, "scale", Vector2(1.1, 1.1), 0.1)
 
 func _on_button_focus_exited() -> void:
     if tween and tween.is_running():

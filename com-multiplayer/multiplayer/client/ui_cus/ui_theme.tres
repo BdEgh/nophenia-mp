@@ -1,18 +1,6 @@
 [gd_resource type="Theme" format=3 uid="uid://bfv6vl85m3t5q"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lu077"]
-bg_color = Color(0.11372549, 0.101960786, 0.105882354, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.43529412, 0.42352942, 0.4117647, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-shadow_color = Color(0, 0, 0, 0.29411766)
-shadow_size = 7
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b6ryc"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1284y"]
 bg_color = Color(0.11372549, 0.101960786, 0.105882354, 1)
@@ -69,8 +57,31 @@ corner_radius_bottom_left = 15
 shadow_color = Color(0, 0, 0, 0.4)
 shadow_size = 8
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lu077"]
+bg_color = Color(0.9372549, 0.8509804, 0.6745098, 0.85490197)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.56078434, 0.48235294, 0.39607844, 0.85490197)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a5bed"]
+bg_color = Color(0.82448757, 0.8147817, 0.7909401, 0.25490198)
+border_width_left = 3
+border_width_right = 4
+border_color = Color(0.8235294, 0.8156863, 0.7921569, 0.25490198)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+anti_aliasing = false
+
 [resource]
-Button/styles/focus = SubResource("StyleBoxFlat_lu077")
+Button/styles/focus = SubResource("StyleBoxEmpty_b6ryc")
 Button/styles/hover = SubResource("StyleBoxFlat_1284y")
 Button/styles/hover_pressed = SubResource("StyleBoxFlat_tbeor")
 Button/styles/normal = SubResource("StyleBoxFlat_2pn01")
@@ -84,3 +95,8 @@ RichTextLabel/constants/outline_size = 0
 RichTextLabel/constants/shadow_offset_x = 0
 RichTextLabel/constants/shadow_offset_y = 0
 RichTextLabel/constants/shadow_outline_size = 0
+VScrollBar/styles/grabber = SubResource("StyleBoxFlat_lu077")
+VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_lu077")
+VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_lu077")
+VScrollBar/styles/scroll = SubResource("StyleBoxFlat_a5bed")
+VScrollBar/styles/scroll_focus = SubResource("StyleBoxFlat_a5bed")

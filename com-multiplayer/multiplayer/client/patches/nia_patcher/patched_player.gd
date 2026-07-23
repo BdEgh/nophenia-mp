@@ -29,10 +29,57 @@ func _ready() -> void:
     trans_saturation = get_node("indicator_layer/trans_saturation")
     default_saturation = game.active_stage.environment.adjustment_saturation
     
+    if game.active_stage.weather != 1: # rain
+        %umbrella_rain_feedback.emitting = false
+        %rain_umbrella.playing = false
+    
     var cus = cus_ui_layer_res.instantiate()
     add_child(cus)
     
-    super()
+    if game.active_stage.sequence:
+        _play_sequence()
+
+func _play_sequence() -> void:
+    _head.set_blend_shape_value(0, 1.0)
+    %cam_arm.spring_length = 4.0
+    %cam_arm.collision_mask = 0
+    %view.fov = 50
+    vignette(true)
+    _is_sequence = true
+    $anim_player.play("sequence_00")
+    audio.play_snd_spatial(game.loadres("cloth_00"), self.global_position, 8.0)
+    game.find("pause_menu").process_mode = Node.PROCESS_MODE_DISABLED
+    unconscious = true
+    is_paused = true
+    %nia_outline_trans.show()
+    %cam_box.rotation_degrees.y = 40
+    create_tween().tween_property( %cam_box, "rotation_degrees:x", -2.0, 7.0).from(15.0).set_trans(Tween.TRANS_SINE)
+    create_tween().tween_property( %cam_box, "rotation_degrees:y", 40.0, 8.0).from(50.0).set_trans(Tween.TRANS_SINE)
+    game.loadres("mat_player").next_pass.transparency = 4
+    game.loadres("mat_player").next_pass.render_priority = 30
+    game.loadres("mat_player").next_pass.depth_draw_mode = 1
+    await create_tween().tween_property( %nia_outline_trans.get_active_material(0), "albedo_color:a", 0.0, 5.0).from(1.0).set_delay(2.0).finished
+    _head.set_blend_shape_value(0, 0.5)
+    await get_tree().create_timer(1.0).timeout
+    _head.set_blend_shape_value(0, 1.0)
+    await get_tree().create_timer(1.0).timeout
+    _head.set_blend_shape_value(0, 0.5)
+    await get_tree().create_timer(1.0).timeout
+    _head.set_blend_shape_value(0, 0.1)
+    await get_tree().create_timer(3.0).timeout
+    audio.play_snd_spatial(game.loadres("cloth_00"), self.global_position, 8.0)
+    %nia_outline_trans.hide()
+    unconscious = false
+    is_paused = false
+    game.find("pause_menu").process_mode = Node.PROCESS_MODE_INHERIT
+    _is_sequence = false
+    vignette(false)
+    $anim_player.stop(true)
+    await get_tree().create_timer(0.2).timeout
+    %cam_arm.collision_mask = 17
+    _take_step()
+    
+    game.loadres("mat_player").next_pass.render_priority = -1
 
 func _unhandled_input(event: InputEvent) -> void:
     if get_tree().get_first_node_in_group("player") and get_tree().get_first_node_in_group("player").is_paused:
@@ -84,6 +131,34 @@ func _howl():
         await get_tree().create_timer(randf_range(1.0, 1.2)).timeout
         shared_patcher.set_surprised(false)
     _howling = false
+
+func _ceiling_check():
+    $ray_ceiling.force_raycast_update()
+    if $ray_ceiling.is_colliding() and !_beneath_ceiling:
+        _beneath_ceiling = true
+        _ceiling_tween = game.tween(_ceiling_tween)
+        _ceiling_tween.tween_method(_tween_audio_filter, 20000, 5000, 0.4).set_trans(Tween.TRANS_SINE)
+        AudioServer.set_bus_effect_enabled(5, 0, true)
+    elif !$ray_ceiling.is_colliding() and _beneath_ceiling:
+        _beneath_ceiling = false
+        _ceiling_tween = game.tween(_ceiling_tween)
+        await _ceiling_tween.tween_method(_tween_audio_filter, 5000, 20000, 0.3).set_trans(Tween.TRANS_CIRC).finished
+        AudioServer.set_bus_effect_enabled(5, 0, false)
+    if %umbrella.visible:
+        if game.active_stage.weather != 1: # rain
+            %umbrella_rain_feedback.emitting = false
+            %rain_umbrella.playing = false
+        else:
+            %umbrella_rain_feedback.emitting = !_beneath_ceiling
+            %rain_umbrella.playing = !_beneath_ceiling
+    if game.active_stage.weather_height:
+        if _beneath_ceiling:
+            if self.global_position.y >= game.active_stage.weather_height:
+                if game.find("weather"):
+                    game.find("weather").is_interior(false)
+                    return
+            if game.find("weather"): game.find("weather").is_interior(true)
+        else: if game.find("weather"): game.find("weather").is_interior(false)
 
 func _physics_process(delta: float) -> void:
     _nearby_stuff(delta)

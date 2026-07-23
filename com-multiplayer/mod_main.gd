@@ -1,15 +1,11 @@
 extends Node
 
-const MOD_DIR := "com-multiplayer"
-const LOG_NAME := "com-multiplayer:Main"
-
 func _init() -> void:
-    ModLoaderLog.info("Init", LOG_NAME)
+    ModLoaderLog.info("Init", self.name)
     
-    #var mod_init_root = get_script().resource_path.get_base_dir() + "/coop/init.gd"
     var mod_init_root = get_script().resource_path.get_base_dir() + "/multiplayer/init.gd"
     var mod = load(mod_init_root).new()
     add_child(mod)
 
 func _ready() -> void:
-    ModLoaderLog.info("Ready", LOG_NAME)
+    ModLoaderLog.info("Ready", self.name)

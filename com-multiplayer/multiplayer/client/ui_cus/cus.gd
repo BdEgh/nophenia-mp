@@ -1,6 +1,8 @@
 extends Control
 
 var item_scene = load(get_script().resource_path.get_base_dir() + "/item.tscn")
+var hover_sound = load(get_script().resource_path.get_base_dir() + "/../patches/nia_patcher/items/1420-MHz/sfx/avaol_button_hover.wav")
+var click_sound = load(get_script().resource_path.get_base_dir() + "/../patches/nia_patcher/items/1420-MHz/sfx/click.ogg")
 
 @onready var items_container: VBoxContainer = %ItemsContainer
 
@@ -15,7 +17,7 @@ const item_types: Dictionary = {
     "Skirt": Type.Accessories,
     "Arm sleeves": Type.Accessories,
     "Blue Bell": Type.Accessories,
-    "umbrella": Type.Accessories,
+    #"umbrella": Type.Accessories,
     
     "Thigh highs": Type.Paws,
     "Paws": Type.Paws,
@@ -32,6 +34,7 @@ const item_types: Dictionary = {
     #"head for hats": Type.Head
 }
 
+var shared_patcher: Node
 var current_type: Type = Type.All
 var toggling := false
 var item_dict: Dictionary
@@ -39,7 +42,8 @@ var opened := false
 
 func _ready() -> void:
     var nia: player = get_tree().get_first_node_in_group("player")
-    var item_meshes: Array = nia.shared_patcher.item_meshes
+    shared_patcher = nia.shared_patcher
+    var item_meshes: Array = shared_patcher.item_meshes
     item_meshes.map(func(item): item_dict[item.name] = item)
     for iname in item_dict:
         var item = item_dict[iname]
@@ -63,8 +67,8 @@ func _patch_categories() -> void:
         button.pivot_offset = Vector2(0.5, 0.5)
         button.mouse_entered.connect(_on_button_mouse_entered.bind(button))
         button.mouse_exited.connect(_on_button_mouse_exited.bind(button))
-        button.focus_entered.connect(_on_category_button_focus_entered.bind(button))
-        button.focus_exited.connect(_on_category_button_focus_exited.bind(button))        
+        button.focus_entered.connect(_on_button_focus_entered.bind(button))
+        button.focus_exited.connect(_on_button_focus_exited.bind(button))        
 
 func _on_button_mouse_entered(button: Button) -> void:
     button.grab_focus()
@@ -74,10 +78,11 @@ func _on_button_mouse_exited(button: Button) -> void:
 
 var tween: Tween
 
-func _on_category_button_focus_entered(button: Button) -> void:
+func _on_button_focus_entered(button: Button) -> void:
+    audio.play_snd(hover_sound)
     create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK).tween_property(button, "scale", Vector2(1.1, 1.1), 0.1)
 
-func _on_category_button_focus_exited(button: Button) -> void:
+func _on_button_focus_exited(button: Button) -> void:
     create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC).tween_property(button, "scale", Vector2.ONE, 0.1)
 
 func save_state() -> void:
@@ -174,6 +179,7 @@ func auto_disable(disable_type: Type, exclude: String) -> void:
 ]
 
 func _cat_toggle(active_button: Button, toggled_on: bool) -> void:
+    audio.play_snd(click_sound)
     if not toggled_on:
         return
     for button in buttons:
