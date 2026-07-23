@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://ctuf3r1mdwosq" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_chat/chat.gd" id="1_4sest"]
 [ext_resource type="Texture2D" uid="uid://buv217vyrxvqy" path="res://texture/phone_ui.png" id="1_g32oh"]
+[ext_resource type="Texture2D" uid="uid://cexxuhvo0cm16" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_chat/clear_button.png" id="3_yxpje"]
+[ext_resource type="BitMap" uid="uid://bp4cmjqwcn8m0" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_chat/clear_button_b.png" id="4_ynkhd"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_chat_input"]
 bg_color = Color(0, 0, 0, 0.7019608)
@@ -24,11 +26,11 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color(1, 0.8627451, 0.7058824, 0.6)
-border_blend = true
 corner_radius_top_left = 100
 corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
+corner_detail = 20
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4sest"]
 bg_color = Color(0.086629294, 0.086629234, 0.08662925, 0.6901961)
@@ -56,13 +58,19 @@ corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ynkhd"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_4sest"]
 atlas = ExtResource("1_g32oh")
 region = Rect2(237, 39, 20, 20)
-margin = Rect2(4, 0, 4, 0)
+margin = Rect2(5, 0, 4, 0)
 filter_clip = true
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_input"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ynkhd"]
+atlas = ExtResource("1_g32oh")
+region = Rect2(150, 37, 19, 26)
+margin = Rect2(4, 0, 3, 0)
+filter_clip = true
 
 [node name="ChatUI" type="Control" unique_id=1766575649]
 layout_mode = 3
@@ -132,12 +140,12 @@ theme_override_constants/separation = 5
 
 [node name="SendButton" type="Button" parent="MarginContainer/VBoxContainer/InputArea/MarginContainer/HBoxContainer" unique_id=1191450166]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(28, 28)
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_send_button")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_4sest")
 theme_override_styles/hover = SubResource("StyleBoxFlat_yxpje")
-icon = SubResource("AtlasTexture_ynkhd")
+icon = SubResource("AtlasTexture_4sest")
 
 [node name="MessageInput" type="LineEdit" parent="MarginContainer/VBoxContainer/InputArea/MarginContainer/HBoxContainer" unique_id=883879443]
 unique_name_in_owner = true
@@ -153,6 +161,89 @@ max_length = 100
 keep_editing_on_text_submit = true
 caret_blink = true
 
+[node name="scroll_container" type="ScrollContainer" parent="MarginContainer/VBoxContainer/InputArea/MarginContainer/HBoxContainer/MessageInput" unique_id=65125625]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+follow_focus = true
+draw_focus_border = true
+metadata/_edit_use_anchors_ = true
+
+[node name="v_box_container" type="VBoxContainer" parent="MarginContainer/VBoxContainer/InputArea/MarginContainer/HBoxContainer/MessageInput/scroll_container" unique_id=769090348]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="ClearButton" type="TextureButton" parent="." unique_id=341513887]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 20.0
+offset_bottom = 20.0
+tooltip_text = "Clear Chat History"
+focus_mode = 0
+texture_normal = ExtResource("3_yxpje")
+texture_pressed = ExtResource("3_yxpje")
+texture_click_mask = ExtResource("4_ynkhd")
+
+[node name="ClearButtonOld" type="Button" parent="." unique_id=1813395244]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 56.0
+offset_bottom = 56.0
+tooltip_text = "Clear Chat History"
+focus_mode = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_send_button")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_4sest")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yxpje")
+disabled = true
+icon = SubResource("AtlasTexture_ynkhd")
+
+[node name="ClearContainer" type="VBoxContainer" parent="." unique_id=1284346355]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 124.0
+offset_bottom = 79.0
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="rich_text_label" type="RichTextLabel" parent="ClearContainer" unique_id=1487594859]
+layout_mode = 2
+theme_override_constants/shadow_outline_size = 0
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/outline_size = 5
+text = "Clear History?"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="h_box_container" type="HBoxContainer" parent="ClearContainer" unique_id=199359539]
+layout_mode = 2
+
+[node name="ClearYes" type="Button" parent="ClearContainer/h_box_container" unique_id=948353341]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 35)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.20656973, 0.2671206, 1)
+text = "Yes"
+
+[node name="ClearNo" type="Button" parent="ClearContainer/h_box_container" unique_id=1097047934]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 35)
+layout_mode = 2
+text = "No"
+
 [node name="ColorRect2" type="ColorRect" parent="." unique_id=543323976]
 visible = false
 z_index = -1
@@ -160,11 +251,16 @@ layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.8357348
 anchor_bottom = 1.0
+offset_right = 3.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(0.22864196, 0.1947799, 0.51075923, 1)
-metadata/_edit_use_anchors_ = true
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/InputArea/MarginContainer/HBoxContainer/SendButton" to="." method="_on_send_button_pressed"]
 [connection signal="text_submitted" from="MarginContainer/VBoxContainer/InputArea/MarginContainer/HBoxContainer/MessageInput" to="." method="_on_message_input_text_submitted"]
+[connection signal="mouse_entered" from="ClearButton" to="." method="_on_clear_button_mouse_entered"]
+[connection signal="mouse_exited" from="ClearButton" to="." method="_on_clear_button_mouse_exited"]
+[connection signal="pressed" from="ClearButton" to="." method="_on_clear_button_pressed"]
+[connection signal="pressed" from="ClearContainer/h_box_container/ClearYes" to="." method="_on_clear_yes_pressed"]
+[connection signal="pressed" from="ClearContainer/h_box_container/ClearNo" to="." method="_on_clear_no_pressed"]

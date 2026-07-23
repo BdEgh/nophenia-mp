@@ -2,7 +2,6 @@
 extends Node
 
 var Api = load((get_script().resource_path.get_base_dir() + "/../api/pb.gd").simplify_path())
-var MultiplayerClientProto = load(get_script().resource_path.get_base_dir() + "/client_api.gd")
 
 @export var nia: CharacterBody3D
 @export var nia_patcher: Node
@@ -29,7 +28,6 @@ var _last_animation: String = ""
 var _last_animation_speed: float = 1.0
 var _visual_root: Node3D = null
 var _was_sitting: bool = false
-var _was_howling: bool = false
 var _was_damaging: bool = false
 
 func _ready() -> void:
@@ -96,11 +94,6 @@ func _physics_process(_delta):
         collider.shape.height = 1.3
         collider.position.y = 0.66
     _was_sitting = is_sitting
-    
-    var is_howling = nia._howling
-    if is_howling and not _was_howling:
-        send_action("HOWL")
-    _was_howling = is_howling
     
     if "_damaging" in game:
         var is_damaging = game._damaging

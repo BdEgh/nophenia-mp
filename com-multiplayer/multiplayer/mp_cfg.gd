@@ -7,3 +7,5 @@ var start_server := false
 var server_port := 42424
 var rng_seed := 1337
 var collision := true
+# var items_unlocked: Array
+var items_visible: Dictionary

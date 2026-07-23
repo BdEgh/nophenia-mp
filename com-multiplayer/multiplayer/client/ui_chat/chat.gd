@@ -2,7 +2,6 @@ extends Control
 
 @onready var chat_container = %ChatContainer
 @onready var message_input = %MessageInput
-@onready var send_button = %SendButton
 @onready var scroll_container = %ScrollContainer
 
 var chat_bubble_scene = load(get_script().resource_path.get_base_dir() + "/chat_bubble.tscn")
@@ -15,14 +14,22 @@ var emoji_button_scene = load(get_script().resource_path.get_base_dir() + "/emoj
         _disconnect_client()
         client = value
         _connect_client()
-@export var puppet_manager: Node
 
 var toggling := false
 var emoji_prefix_regex := RegEx.new()
 var emoji_dir: String = get_script().resource_path.get_base_dir() + "/emoji"
 var emoji = load(emoji_dir.get_base_dir() + "/chat_emoji.gd").get_shared(emoji_dir)
+var emoji_popup: Control = null
+var emoji_prefix = null
+var emoji_timer: Timer
 
 func _ready() -> void:
+    %ClearButton.modulate.a = 0.5
+    emoji_timer = Timer.new()
+    emoji_timer.wait_time = 0.3
+    emoji_timer.one_shot = true
+    emoji_timer.timeout.connect(_on_emoji_timer_timeout)
+    add_child(emoji_timer)
     emoji_prefix_regex.compile(":([a-z_]*)$")
     message_input.text_changed.connect(_on_input_changed)
     visible = false
@@ -37,31 +44,24 @@ func _disconnect_client() -> void:
         return
     client.player_message.disconnect(_on_player_message)
 
-var emoji_popup: Control = null
-var emoji_prefix = null
-var emoji_timer := 0.0
-
 func _trailing_prefix():
     var m = emoji_prefix_regex.search(message_input.text)
     return m.get_string(1) if m else null
+
+func _on_emoji_timer_timeout() -> void:
+    if _trailing_prefix() == emoji_prefix:
+        _open_emoji_window(emoji_prefix)
 
 func _on_input_changed(_text: String) -> void:
     var prefix = _trailing_prefix()
     if prefix == null:
         emoji_prefix = null
-        emoji_timer = 0.0
+        emoji_timer.stop()
         _close_emoji_window()
     elif prefix != emoji_prefix:
         emoji_prefix = prefix
-        emoji_timer = 1.0
+        emoji_timer.start()
         _close_emoji_window()
-
-func _physics_process(delta: float) -> void:
-    if emoji_timer <= 0.0 or emoji_prefix == null:
-        return
-    emoji_timer -= delta
-    if emoji_timer <= 0.0 and _trailing_prefix() == emoji_prefix:
-        _open_emoji_window(emoji_prefix)
 
 func _pick_emoji(emoji_name: String) -> void:
     var m = emoji_prefix_regex.search(message_input.text)
@@ -107,7 +107,8 @@ func _close_emoji_window() -> void:
 func _input(event):
     if event is InputEventKey and event.pressed and !event.echo:
         if !visible and (event.keycode == KEY_T or event.keycode == KEY_ENTER):
-            if get_tree().get_first_node_in_group("player").is_paused:
+            var nia: player = get_tree().get_first_node_in_group("player")
+            if not nia or nia.is_paused:
                 return
             toggle_chat()
         elif visible and event.keycode == KEY_ESCAPE:
@@ -122,28 +123,28 @@ func toggle_chat():
     var camera = get_tree().get_first_node_in_group("player").get_node("cam_box/cam_arm/cam_arm_fix/view")
     
     if !visible:
+        game.find("pause_menu")._open_cooldown = true
         Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
         visible = true
         _set_player_input_enabled(false)
-        if camera:
-            var cam_arm = get_tree().get_first_node_in_group("player").get_node("cam_box/cam_arm")
-            var move_multiplier = (cam_arm.spring_length - 1.2) / 2 + 1.0
-            _animate_camera(camera, -0.65 * move_multiplier)
+        var cam_arm = get_tree().get_first_node_in_group("player").get_node("cam_box/cam_arm")
+        var move_multiplier = (cam_arm.spring_length - 1.2) / 2 + 1.0
+        _animate_camera(camera, -0.65 * move_multiplier)
         await create_tween().tween_property(self, "modulate:a", 1.0, 0.2).from(0.0).set_trans(Tween.TRANS_CIRC).finished
         message_input.grab_focus()
     else:
+        game.find("pause_menu")._open_cooldown = false
         Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
         emoji_prefix = null
         _close_emoji_window()
         message_input.release_focus()
-        if camera:
-            _animate_camera(camera, 0.0)
+        _animate_camera(camera, 0.0)
         await create_tween().tween_property(self, "modulate:a", 0.0, 0.2).from(1.0).set_trans(Tween.TRANS_CIRC).finished
         visible = false
         _set_player_input_enabled(true)
-        game.active_stage.anomaly_occurring = false
     
     toggling = false
+    %ClearContainer.visible = false
 
 func _set_player_input_enabled(enabled: bool) -> void:
     get_tree().get_first_node_in_group("player").set_process_unhandled_input(enabled)
@@ -168,15 +169,8 @@ func add_message(text: String, sender: String = "You"):
 func _on_player_message(player_id: int, message: String, player_name: String) -> void:
     if message.begins_with("DO:"):
         return
-
-    var sender_name = player_name if player_name != "" else str(player_id)
-    if puppet_manager:
-        var puppet = puppet_manager.get_puppet(player_id)
-        if puppet:
-            if sender_name == str(player_id) and puppet.player_name != "":
-                sender_name = puppet.player_name
-            puppet.show_chat_message(message, sender_name)
     
+    var sender_name = player_name if player_name != "" else str(player_id)
     var was_at_bottom = _is_scrolled_to_bottom()
     add_message(message, sender_name)
     if was_at_bottom:
@@ -203,9 +197,27 @@ func _send_message():
         ModLoaderLog.warning("cannot send message - client not found", self.name)
     
     _scroll_to_bottom()
+    _close_emoji_window()
 
 func _on_send_button_pressed() -> void:
     _send_message()
 
 func _on_message_input_text_submitted(_new_text: String) -> void:
     _send_message()
+
+func _on_clear_button_pressed() -> void:
+    %ClearContainer.visible = not %ClearContainer.visible
+
+func _on_clear_yes_pressed() -> void:
+    for child: Node in chat_container.get_children():
+        child.queue_free()
+    %ClearContainer.visible = false
+
+func _on_clear_no_pressed() -> void:
+    %ClearContainer.visible = false
+
+func _on_clear_button_mouse_entered() -> void:
+    %ClearButton.modulate.a = 1.0
+
+func _on_clear_button_mouse_exited() -> void:
+    %ClearButton.modulate.a = 0.5

@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://dvhopd11my8lu"]
+
+[ext_resource type="PackedScene" uid="uid://8ocvs5kf4qo5" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_cus/cus.tscn" id="1_vopev"]
+
+[node name="CusUILayer" type="CanvasLayer" unique_id=660464081]
+layer = 4
+
+[node name="Cus" parent="." unique_id=887276975 instance=ExtResource("1_vopev")]
+visible = false

@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://b6q7cyly6jyxl"]
+
+[ext_resource type="PackedScene" uid="uid://drtdpc4nyv3w3" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_chat/chat.tscn" id="1_sisf7"]
+
+[node name="ChatUILayer" type="CanvasLayer" unique_id=1773115693]
+layer = 3
+
+[node name="ChatUI" parent="." unique_id=1766575649 instance=ExtResource("1_sisf7")]

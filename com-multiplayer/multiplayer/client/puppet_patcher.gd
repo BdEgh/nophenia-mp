@@ -62,8 +62,9 @@ func _remove_unwanted_nodes(node: Node):
     for node_name in nodes_to_remove:
         var child = node.get_node_or_null(node_name)
         if child:
-            child.queue_free()
+            child.free()
 
 func _input(event):
-    if event is InputEventKey and event.pressed and event.keycode == KEY_0:
+    if event is InputEventKey and event.pressed and event.keycode == KEY_0 and \
+    not get_tree().get_first_node_in_group("player").is_paused:
         name_label.visible = !name_label.visible

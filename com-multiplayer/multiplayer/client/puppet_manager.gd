@@ -5,8 +5,6 @@ signal puppet_spawned(player_id: int)
 signal puppet_removed(player_id: int)
 signal puppets_cleared()
 
-var MultiplayerClientProto = load(get_script().resource_path.get_base_dir() + "/client_api.gd")
-
 @export var client: Node:
     set(value):
         if value == client:
@@ -64,20 +62,27 @@ func _on_player_delete(player_id: int):
         ModLoaderLog.info("MultiplayerPuppetManager: Removed puppet for player %d" % player_id, self.name)
         puppet_removed.emit(player_id)
 
-func _on_player_message(player_id: int, message: String, _player_name: String):
+func _on_player_message(player_id: int, message: String, player_name: String):
+    var sender_name = player_name if player_name != "" else str(player_id)
+    var puppet = get_puppet(player_id)
+    if puppet:
+        if sender_name == str(player_id) and puppet.player_name != "":
+            sender_name = puppet.player_name
+        puppet.show_chat_message(message, sender_name)
+    
     if message.begins_with("DO:"):
         var action = message.substr(3)
         if puppets.has(player_id):
-            var puppet = puppets[player_id]
             _handle_puppet_action(puppet, action)
 
 func _handle_puppet_action(puppet, action: String):
-    var nia = puppet.nia_instance
-    var sp = nia.shared_patcher
+    var pup = puppet.nia_instance
+    var sp = pup.shared_patcher
     match action:
         "HOWL":
-            if nia.has_method("howl"):
-                nia.howl()
+            pup.howl()
+        "MEOW":
+            pup.meow()
         "DAMAGE":
             sp.damage(true)
         "WOW":

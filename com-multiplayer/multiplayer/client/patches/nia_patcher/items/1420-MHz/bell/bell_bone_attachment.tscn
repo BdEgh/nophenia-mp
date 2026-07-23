@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://b6yfcoo7rd4rn"]
+
+[node name="bone_attachment_collar" type="BoneAttachment3D" unique_id=537842239]
+transform = Transform3D(0.9990111, -0.040759373, 0.017943934, -0.00046578795, -0.4387219, -0.95728815, 0.04848174, 0.99727565, -0.39382827, 0, 0, 0)
+bone_name = "Neck"
+bone_idx = 3
+
+[node name="remote_transform_3d" type="RemoteTransform3D" parent="." unique_id=554077461]
+remote_path = NodePath("../../../../../bell2/Armature_001/Skeleton3D/bell")
+update_scale = false

@@ -106,13 +106,13 @@ func _on_option_autoconnect_toggled(toggled_on: bool) -> void:
             mp.drop_network_client()
 
 func _restart_server(text: String) -> void:
-     var mp = get_tree().get_first_node_in_group("mp")
-     if mp.mp_cfg.server_port == int(text):
-         return
-     mp.mp_cfg.server_port = int(text)
-     if mp.mp_cfg.start_server:
-         mp.drop_network_server()
-         mp.set_network_server()
+    var mp = get_tree().get_first_node_in_group("mp")
+    if mp.mp_cfg.server_port == int(text):
+        return
+    mp.mp_cfg.server_port = int(text)
+    if mp.mp_cfg.start_server:
+        mp.drop_network_server()
+        mp.set_network_server()
 
 func _on_port_submitted(new_text: String) -> void:
     _restart_server(new_text)
@@ -121,21 +121,22 @@ func _on_port_submitted(new_text: String) -> void:
 func _on_port_focus_exited() -> void:
     _restart_server(port_line_edit.text)
 
-func _restart_client(text: String) -> void:
+func _restart_client() -> void:
     var mp = get_tree().get_first_node_in_group("mp")
-    if mp.mp_cfg.address == text:
-        return
-    mp.mp_cfg.address = text
     if mp.mp_cfg.auto_connect:
         mp.drop_network_client()
         mp.set_network_client()
 
 func _on_address_submitted(new_text: String) -> void:
-    _restart_client(new_text)
+    var mp = get_tree().get_first_node_in_group("mp")
+    mp.mp_cfg.address = new_text
+    _restart_client()
 
 @onready var address_line_edit: LineEdit = $margin_container/scroll_container/v_box_container/option_address/v_box_container/text_option/h_box_container/line_edit
 func _on_address_exited() -> void:
-    _restart_client(address_line_edit.text)
+    var mp = get_tree().get_first_node_in_group("mp")
+    mp.mp_cfg.address = address_line_edit.text
+    _restart_client()
 
 func _on_seed_submitted(new_text: String) -> void:
     var mp = get_tree().get_first_node_in_group("mp")
@@ -149,8 +150,10 @@ func _on_seed_focus_exited() -> void:
 func _on_name_submitted(new_text: String) -> void:
     var mp = get_tree().get_first_node_in_group("mp")
     mp.mp_cfg.player_name = new_text
+    _restart_client()
 
 @onready var name_line_edit: LineEdit = $margin_container/scroll_container/v_box_container/option_name/v_box_container/text_option/h_box_container/line_edit
 func _on_name_focus_exited() -> void:
     var mp = get_tree().get_first_node_in_group("mp")
     mp.mp_cfg.player_name = name_line_edit.text
+    _restart_client()

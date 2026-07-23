@@ -1,7 +1,8 @@
 #class_name MultiplayerPuppet
 extends CharacterBody3D
 
-var SharedPatcher = load(get_script().resource_path.get_base_dir() + "/patches/nia_patcher/shared_patcher.gd")
+var meow_sfx = load(get_script().resource_path.get_base_dir() + "/patches/nia_patcher/items/1420-MHz/sfx/meow0.wav")
+var shared_patcher_res = load(get_script().resource_path.get_base_dir() + "/patches/nia_patcher/shared_patcher.gd")
 
 @export var interpolation_speed: float = 10.0
 @export var rotation_speed: float = 15.0
@@ -39,7 +40,7 @@ var headtimer: Timer
 var plinktimer: Timer
 
 func _init():
-    shared_patcher = SharedPatcher.new()
+    shared_patcher = shared_patcher_res.new()
     
     chara = get_node("chara")
     head = chara.get_node("Armature/Skeleton3D/head")
@@ -79,6 +80,7 @@ func _ready():
     shared_patcher.model = self
     add_child(shared_patcher)
     _vanilla_ready_parts()
+    playback.travel("idle_walk_run")
 
 func _physics_process(delta: float):
     time_since_last_update += delta
@@ -193,6 +195,16 @@ func howl():
     head.set_blend_shape_value(8, 0.0)
     head.set_blend_shape_value(9, 0.0)
     head.set_blend_shape_value(12, 0.0)
+    _howling = false
+
+func meow():
+    _howling = true
+    audio.play_snd_spatial(meow_sfx, self.global_position, 12.0, randf_range(1.0, 1.3), 0.6)
+    await create_tween().tween_property( %indicator_marker, "position:z", 0.009, 0.4).set_trans(Tween.TRANS_SINE).finished
+    shared_patcher.set_surprised(true)
+    await create_tween().tween_property( %indicator_marker, "position:z", 0.008, 0.4).set_trans(Tween.TRANS_SINE).finished
+    await get_tree().create_timer(0.4).timeout
+    shared_patcher.set_surprised(false)
     _howling = false
 
 func _on_plinktimer_timeout() -> void :

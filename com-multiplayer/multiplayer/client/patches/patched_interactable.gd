@@ -2,16 +2,18 @@ extends interactable
 class_name patched_interactable
 
 func interact() -> bool:
+    var nia := get_tree().get_first_node_in_group("player")
     if !is_trigger:
         if game.active_stage.anomaly_occurring or uninteractable:
-            get_tree().get_first_node_in_group("player").no()
+            nia.no()
             return false
         else:
+            game.rumble(0, 0.2, 0.22, 0.06)
             match _id:
                 1:
                     create_tween().tween_property(get_tree().get_first_node_in_group("player").chara, "global_rotation_degrees:y", _offset_rot, 0.2)
                     create_tween().tween_property(get_tree().get_first_node_in_group("player"), "global_position", self.global_position + _offset, 0.2)
-                    await get_tree().get_first_node_in_group("player").sit(true)
+                    await nia.sit(true)
                     return false
                 2:
                     audio.play_snd(_interact_sfx, -1.0, 0.2)
@@ -21,6 +23,8 @@ func interact() -> bool:
                     else:
                         change_stage(_to_stage)
                 _:
+                    if "toggle_umbrella" in nia:
+                        nia.toggle_umbrella(false)
                     audio.play_snd(_interact_sfx, -1.0, 0.2)
                     game.to_entrance = _to_entrance
                     change_stage(_to_stage)

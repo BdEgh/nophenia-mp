@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://2rgdg7vjnvh5"]
+
+[ext_resource type="PackedScene" uid="uid://dg8a2kn2pxec4" path="res://mods-unpacked/com-multiplayer/multiplayer/client/patches/nia_patcher/items/1420-MHz/bell/bell.glb" id="1_ueoi4"]
+
+[node name="bell2" unique_id=2065824123 instance=ExtResource("1_ueoi4")]
+
+[node name="Skeleton3D" parent="Armature_001" parent_id_path=PackedInt32Array(425038448) index="0" unique_id=860505402]
+modifier_callback_mode_process = 0
+
+[node name="spring_bone_simulator_3d" type="SpringBoneSimulator3D" parent="Armature_001/Skeleton3D" index="1" unique_id=1049564911]
+setting_count = 1
+settings/0/root_bone_name = "Bone.001"
+settings/0/root_bone = 1
+settings/0/end_bone_name = "Bone.002"
+settings/0/end_bone = 2
+settings/0/extend_end_bone = false
+settings/0/center_from = 0
+settings/0/individual_config = false
+settings/0/rotation_axis = 3
+settings/0/radius/value = 0.02
+settings/0/radius/damping_curve = null
+settings/0/stiffness/value = 2.25
+settings/0/stiffness/damping_curve = null
+settings/0/drag/value = 0.2
+settings/0/drag/damping_curve = null
+settings/0/gravity/value = 0.0
+settings/0/gravity/damping_curve = null
+settings/0/gravity/direction = Vector3(0, -1, 0)
+settings/0/joints/0/bone_name = "Bone.001"
+settings/0/joints/0/bone = 1
+settings/0/joints/1/bone_name = "Bone.002"
+settings/0/joints/1/bone = 2
+settings/0/enable_all_child_collisions = true
+settings/0/exclude_collision_count = 0

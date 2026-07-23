@@ -2,19 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dlm5n1vc81kom"
-path="res://.godot/imported/battle_pass_season_1_items texture.png-b75110aa2ba3107bd2d1b59ed54d5665.ctex"
+uid="uid://b3li1yni77tj7"
+path="res://.godot/imported/niabweeeehh.png-77f5d7a36023df43f99dc1b4ee2a059c.ctex"
 metadata={
 "vram_texture": false
-}
-generator_parameters={
-"md5": "307516ab8bde0c0a14c8f5007fb0ae82"
 }
 
 [deps]
 
-source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/patches/nia_patcher/items/1420-MHz/battle_pass_season_1_items texture.png"
-dest_files=["res://.godot/imported/battle_pass_season_1_items texture.png-b75110aa2ba3107bd2d1b59ed54d5665.ctex"]
+source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_chat/emoji/niabweeeehh.png"
+dest_files=["res://.godot/imported/niabweeeehh.png-77f5d7a36023df43f99dc1b4ee2a059c.ctex"]
 
 [params]
 
@@ -40,4 +37,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

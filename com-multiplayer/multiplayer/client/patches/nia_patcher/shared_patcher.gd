@@ -4,8 +4,9 @@ var phys_skel_scene = load(get_script().resource_path.get_base_dir() + "/actions
 var halo_attachment_scene = load(get_script().resource_path.get_base_dir() + "/items/halo/halo_attachment.tscn")
 var halo_follower_scene = load(get_script().resource_path.get_base_dir() + "/items/halo/halo_follower.tscn")
 var eye_fix_material = load(get_script().resource_path.get_base_dir() + "/player_mat_with_vertex_color_fix.tres")
-var bp_meshes_scene = load(get_script().resource_path.get_base_dir() + "/items/1420-MHz/meshes.tscn")
-var bp_attachments_scene = load(get_script().resource_path.get_base_dir() + "/items/1420-MHz/attachments.tscn")
+var items_glb = load(get_script().resource_path.get_base_dir() + "/items/1420-MHz/items/items_model.glb")
+var bell_scene = load(get_script().resource_path.get_base_dir() + "/items/1420-MHz/bell/bell_scene.tscn")
+var bell_bone_attachment_scene = load(get_script().resource_path.get_base_dir() + "/items/1420-MHz/bell/bell_bone_attachment.tscn")
 
 @export var model: Node
 
@@ -15,6 +16,7 @@ var plinktimer: Timer
 var anim_tree: AnimationTree
 var mouth: Node3D
 var cheese: Node3D
+var bell: Node3D
 
 var head_mat: Material
 var orig_next_pass: Material
@@ -22,8 +24,7 @@ var orig_next_pass: Material
 var phys_skel: PhysicalBoneSimulator3D
 var halo_att: BoneAttachment3D
 var halo_fol: Node3D
-var bp_meshes: Node3D
-var chest_bone: int
+#var chest_bone: int
 
 var umbrella: Node3D
 var umbrella_mesh: MeshInstance3D
@@ -31,9 +32,15 @@ var rain_umbrella: AudioStreamPlayer3D
 var anim_umbrella: AnimationPlayer
 var rain_boots: MeshInstance3D
 
+var item_meshes: Array
+var neko_items: Array
+var head_items: Node3D
+var heads: Array
+
 func _ready() -> void:
     skeleton = model.get_node("chara/Armature/Skeleton3D")
     head = skeleton.get_node("head")
+    head.visibility_changed.connect(_on_head_visibility_changed)
     plinktimer = model.get_node("plinktimer")
     anim_tree = model.get_node("anim_tree")
     mouth = model.get_node("cheese_position")
@@ -43,10 +50,11 @@ func _ready() -> void:
     rain_umbrella = model.get_node("chara/umbrella/umbrella/rain_umbrella")
     anim_umbrella = model.get_node("anim_umbrella")
     rain_boots = model.get_node("chara/Armature/Skeleton3D/rain_boots")
-
+    _setup_unique_material()
+    
     phys_skel = phys_skel_scene.instantiate()
     skeleton.add_child(phys_skel)
-
+    
     halo_att = halo_attachment_scene.instantiate()
     skeleton.add_child(halo_att)
     halo_fol = halo_follower_scene.instantiate()
@@ -54,22 +62,46 @@ func _ready() -> void:
     halo_fol.visible = false
     model.add_child(halo_fol)
     
-    bp_meshes = bp_meshes_scene.instantiate()
-    bp_meshes.visible = false
-    model.add_child(bp_meshes)
-    var attachments = bp_attachments_scene.instantiate()
-    for child in attachments.get_children():
-        attachments.remove_child(child)
-        skeleton.add_child(child)
-    attachments.queue_free()
-    chest_bone = skeleton.find_bone("Chest")
+    var items_root: Node3D = items_glb.instantiate()
+    var items_skel = items_root.get_node("Armature/Skeleton3D")
+    heads = ["head", "head for hats", "Short hair head", "Short hair head for hats"]
+    head_items = Node3D.new()
+    head_items.name = "HeadItems"
+    skeleton.add_child(head_items)
+    for child: MeshInstance3D in items_skel.get_children():
+        var new_mesh = child.duplicate()
+        if new_mesh.name in ["Hat", "Paws"]:
+            neko_items.append(new_mesh)
+        if new_mesh.name in ["Hat", "Glasses round", "Glasses red"]:
+            head_items.add_child(new_mesh)
+        else:
+            skeleton.add_child(new_mesh)
+        new_mesh.skeleton = new_mesh.get_path_to(skeleton)
+        item_meshes.append(new_mesh)
+    items_root.queue_free()
     
-    _setup_unique_material()
-
-func _physics_process(_delta):
-    if bp_meshes:
-        bp_meshes.scale = skeleton.get_bone_pose_scale(chest_bone)
-    _umbrella_watcher()
+    bell = bell_scene.instantiate()
+    model.add_child(bell)
+    skeleton.add_child(bell_bone_attachment_scene.instantiate())
+    var bell_mesh = bell.get_node("Armature_001/Skeleton3D/bell")
+    bell_mesh.name = "Bell"
+    item_meshes.append(bell_mesh)
+    var blue_bell_mesh = bell.get_node("Armature_001/Skeleton3D/bell blue")
+    blue_bell_mesh.name = "Blue Bell"
+    item_meshes.append(blue_bell_mesh)
+    #if rain_boots:
+        #item_meshes.append(rain_boots)
+    if umbrella:
+        #item_meshes.append(umbrella_mesh)
+        umbrella.visibility_changed.connect(_on_umbrella_visibility_changed.bind(umbrella))
+        #umbrella_mesh.visibility_changed.connect(_on_umbrella_visibility_changed.bind(umbrella_mesh))
+    
+    _stage_lit_items(item_meshes)
+    _stage_lit_items([head])
+    
+    for i in item_meshes:
+        i.visibility_changed.connect(_on_custom_item_visibility_changed.bind(i))
+        i.visible = false
 
 var _mat_next_pass: StandardMaterial3D
 
@@ -163,14 +195,8 @@ func ragdoll():
         model.unconscious = false
     _is_ragdoll = false
 
-var _umbrella_toggled := true
-func _umbrella_watcher() -> void:
-    if _umbrella_toggled and not umbrella.visible:
-        _umbrella_toggled = false
-        _toggle_umbrella(false)
-    if not _umbrella_toggled and umbrella.visible:
-        _umbrella_toggled = true
-        _toggle_umbrella(true)
+func _on_umbrella_visibility_changed(umbrella_node: Node3D) -> void:
+    _toggle_umbrella(umbrella_node.visible)
 
 func _tween_umbrella(_value):
     umbrella_mesh.set_blend_shape_value(0, _value)
@@ -188,3 +214,41 @@ func _toggle_umbrella(_open: bool = true):
     anim_umbrella.play("hold_umbrella")
     create_tween().tween_method(_tween_umbrella, 1.0 * int(_open), 1.0 * int( !_open), 1.1).set_trans(Tween.TRANS_BOUNCE)
     audio.play_snd_spatial(game.loadres("umbrella_open"), umbrella_mesh.global_position, 16.0)
+
+func _on_custom_item_visibility_changed(_mesh: MeshInstance3D):
+    var stretch_down = Vector3(randf_range(1.1, 1.25), 1.0, randf_range(0.75, 0.85))
+    var stretch_up = Vector3(randf_range(0.85, 0.9), 1.0, randf_range(1.1, 1.25))
+    await create_tween().tween_property(skeleton, "scale", stretch_up, 0.15) \
+        .from(stretch_down).finished
+    await create_tween().tween_property(skeleton, "scale", Vector3.ONE, 0.1).finished
+    #await create_tween().tween_property(mesh, "scale", Vector3.ONE, 0.25).from(Vector3(randf_range(1.3, 1.6), randf_range(0.3, 0.9), randf_range(1.3, 1.6))).finished
+
+func _on_head_visibility_changed():
+    head_items.visible = head.visible
+
+func _stage_lit_items(items: Array) -> void:
+    for _n in items:
+        if is_instance_valid(_n):
+            if _n is MeshInstance3D:
+                if _n.get_active_material(0).next_pass:
+                    _n.get_active_material(0).next_pass.albedo_color = game.active_stage_light
+                else:
+                    for _i in _n.get_surface_override_material_count():
+                        if _n.get_active_material(_i) is StandardMaterial3D:
+                            _n.get_active_material(_i).albedo_color.r = game.active_stage_light.r
+                            _n.get_active_material(_i).albedo_color.g = game.active_stage_light.g
+                            _n.get_active_material(_i).albedo_color.b = game.active_stage_light.b
+                        else:
+                            if _n.get_active_material(_i) is ShaderMaterial:
+                                if _n.get_active_material(_i).get_shader_parameter("color2"):
+                                    _n.get_active_material(_i).set_shader_parameter("color2", game.active_stage_light)
+            elif _n is CPUParticles3D:
+                if _n.is_in_group("stage_lit_particle_color"):
+                    _n.color = game.active_stage_light
+                else:
+                    if _n.material_override is StandardMaterial3D: _n.material_override.albedo_color = game.active_stage_light
+            elif _n is Light3D:
+                _n.light_color = game.active_stage_light.lightened(0.4)
+            else:
+                if _n.get("color"): _n.color = game.active_stage_light
+                if _n.get("modulate"): _n.modulate = game.active_stage_light

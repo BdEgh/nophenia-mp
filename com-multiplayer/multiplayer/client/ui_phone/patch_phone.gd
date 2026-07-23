@@ -5,6 +5,7 @@ var mp_info_scene = load(get_script().resource_path.get_base_dir() + "/mp_info.t
 var option_mp_settings_scene = load(get_script().resource_path.get_base_dir() + "/option_mp_settings.tscn")
 var mp_settings_scene = load(get_script().resource_path.get_base_dir() + "/mp_settings.tscn")
 var signal_tower_scene = load(get_script().resource_path.get_base_dir() + "/signal_tower.tscn")
+var option_text_scene = load(get_script().resource_path.get_base_dir() + "/option_text.tscn")
 
 var band_low = load(get_script().resource_path.get_base_dir() + "/icons/band_low.tres")
 var band_medium = load(get_script().resource_path.get_base_dir() + "/icons/band_medium.tres")
@@ -33,6 +34,7 @@ func _ready():
     _add_mp_info_button()
     _add_icons()
     _add_refresh_timer()
+    #_add_self_visible_button()
 
 func _add_icons():
     _sp_band_tower = get_tree().get_first_node_in_group("player").get_node("pause_menu/screen/screen_view/status/status_box/no_signal_tower")
@@ -112,7 +114,7 @@ func _show_connected_status():
     var _revert = ( func(_temp):
         if not is_instance_valid(_online_signal_status):
             return
-        if config.has_killed_her:
+        if "has_killed_her" in config and config.has_killed_her:
             match randi_range(0, 12):
                 2: _online_signal_status.text = "signal_reset_afterthought_alt"
                 3: _online_signal_status.text = "signal_reset_afterthought_alt_002"
@@ -180,3 +182,23 @@ func _reset_mp_settings_scroll(mp_settings):
     var scroll = mp_settings.get_node_or_null("margin_container/scroll_container")
     if scroll:
         scroll.scroll_vertical = 0
+
+func _add_self_visible_button() -> void:
+    var mp = get_tree().get_first_node_in_group("mp")
+    if mp.self_steam_id != 76561199071048730:
+        return
+    var self_button = option_text_scene.instantiate()
+    self_button._is_option = true
+    self_button.text = "self.visible"
+    var label = self_button.get_node("v_box_container/option_box/display_title_box/display_title")
+    label.add_theme_color_override("font_color", Color(1, 0, 0))
+    self_button.toggled.connect(func(toggled_on: bool):
+        # TODO
+        if toggled_on:
+            print("ON")
+        else:
+            print("OFF")
+    )
+    var pause_menu = get_tree().get_first_node_in_group("player").get_node("pause_menu")
+    var general_container = pause_menu.get_node("screen/screen_view/menu/general/margin_container/scroll_container/v_box_container")
+    general_container.add_child(self_button)

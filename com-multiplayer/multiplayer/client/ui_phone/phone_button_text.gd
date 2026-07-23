@@ -79,6 +79,8 @@ func _mp_config():
     return mp.mp_cfg
 
 func _config_adjust():
+    if _config_option == "":
+        return
     var cfg = _mp_config()
     if _is_option and !_hide_option:
         %check_box.button_pressed = bool(cfg.get(_config_option))

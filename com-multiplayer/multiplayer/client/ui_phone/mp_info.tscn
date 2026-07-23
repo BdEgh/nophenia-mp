@@ -1,9 +1,10 @@
 [gd_scene format=3 uid="uid://cnw54p66s5or6"]
 
 [ext_resource type="Texture2D" uid="uid://buv217vyrxvqy" path="res://texture/phone_ui.png" id="1_x20xe"]
-[ext_resource type="FontFile" uid="uid://d31x1lcitgbpf" path="res://resource/font/menu_large.ttf" id="2_kqaq2"]
+[ext_resource type="FontFile" uid="uid://dho0yytyts0c3" path="res://resource/font/menu_large.ttf" id="2_kqaq2"]
 [ext_resource type="Script" uid="uid://cvoed8ynaakov" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/info.gd" id="3_i2xnm"]
 [ext_resource type="Script" uid="uid://bneelvmn45klm" path="res://gdscript/ui/scroll_arrow.gd" id="4_22brd"]
+
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vt6v5"]
 load_path = "res://.godot/imported/phone_ui.png-6f8d1b36a0ca9a61b33ac95561151449.ctex"

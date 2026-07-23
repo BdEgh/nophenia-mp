@@ -1,0 +1,16 @@
+[remap]
+
+importer="bitmap"
+type="BitMap"
+uid="uid://bp4cmjqwcn8m0"
+path="res://.godot/imported/clear_button_b.png-8dae83b4561ca194c79a2277857b4f75.res"
+
+[deps]
+
+source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_chat/clear_button_b.png"
+dest_files=["res://.godot/imported/clear_button_b.png-8dae83b4561ca194c79a2277857b4f75.res"]
+
+[params]
+
+create_from=0
+threshold=0.5

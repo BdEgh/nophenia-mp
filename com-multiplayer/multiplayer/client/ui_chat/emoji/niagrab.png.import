@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cys2bc754aiig"
-path="res://.godot/imported/nia_yay.png-141c11d895696dd36456e8af3cc853fd.ctex"
+uid="uid://dxie6bfrdsqru"
+path="res://.godot/imported/niagrab.png-b4bfa87b63c94caa9dec1a69d9b9798e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_chat/emoji/nia_yay.png"
-dest_files=["res://.godot/imported/nia_yay.png-141c11d895696dd36456e8af3cc853fd.ctex"]
+source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_chat/emoji/niagrab.png"
+dest_files=["res://.godot/imported/niagrab.png-b4bfa87b63c94caa9dec1a69d9b9798e.ctex"]
 
 [params]
 

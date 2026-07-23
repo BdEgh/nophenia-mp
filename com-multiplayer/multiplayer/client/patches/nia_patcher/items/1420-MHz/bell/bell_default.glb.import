@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://box54s128k3y1"
-path="res://.godot/imported/battle_pass_season_1.glb-dfbe11a454191af8281509e358da4b1d.scn"
+uid="uid://btowkuj6jcob2"
+path="res://.godot/imported/bell_default.glb-8c6afe43fc2ed6c20993135b34e3b1ec.scn"
 
 [deps]
 
-source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/patches/nia_patcher/items/1420-MHz/battle_pass_season_1.glb"
-dest_files=["res://.godot/imported/battle_pass_season_1.glb-dfbe11a454191af8281509e358da4b1d.scn"]
+source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/patches/nia_patcher/items/1420-MHz/bell/bell_default.glb"
+dest_files=["res://.godot/imported/bell_default.glb-8c6afe43fc2ed6c20993135b34e3b1ec.scn"]
 
 [params]
 

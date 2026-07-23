@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://buv217vyrxvqy" path="res://texture/phone_ui.png" id="1_ruvke"]
 [ext_resource type="Script" uid="uid://coyio8aii0u5v" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/phone_button_text.gd" id="2_3t52j"]
 [ext_resource type="Shader" uid="uid://cwl71jfhkvigs" path="res://gdshader/ui_invert.gdshader" id="3_r6pw4"]
-[ext_resource type="FontFile" uid="uid://d31x1lcitgbpf" path="res://resource/font/menu_large.ttf" id="3_ruvke"]
+[ext_resource type="FontFile" uid="uid://dho0yytyts0c3" path="res://resource/font/menu_large.ttf" id="3_ruvke"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_3t52j"]
 resource_local_to_scene = false
@@ -151,5 +151,4 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_0uof3")
 caret_blink = true
 
 [connection signal="toggled" from="." to="." method="_on_toggled"]
-[connection signal="focus_entered" from="v_box_container/text_option/h_box_container/line_edit" to="." method="_on_line_edit_focus_entered"]
 [connection signal="text_changed" from="v_box_container/text_option/h_box_container/line_edit" to="." method="_on_line_edit_text_changed"]

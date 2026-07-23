@@ -1,9 +1,11 @@
 extends Node
 
+var chat_ui_layer_res := load(get_script().resource_path.get_base_dir() + "/client/chat_ui_layer.tscn")
 var client_res := load(get_script().resource_path.get_base_dir() + "/client/client.tscn")
 var network_server_res := load(get_script().resource_path.get_base_dir() + "/server/server.tscn")
 var network_client_res := load(get_script().resource_path.get_base_dir() + "/client/client_api.gd")
 
+var chat: CanvasLayer
 var client : Node
 var network_server : Node
 var network_client : Node
@@ -17,6 +19,7 @@ var default_name: String = [
     "berry", "honey", "sugar",
     "kiwi", "mango", "orange"
 ].pick_random()
+var self_steam_id: int
 
 const _SETTINGS_PATH := "user://mp.cfg"
 
@@ -33,6 +36,10 @@ func _ready() -> void:
     get_tree().node_added.connect(_on_node_added)
     if game.is_steam() and Steam.steamInit():
         default_name = Steam.getPersonaName()
+        self_steam_id = Steam.getSteamID()
+    
+    chat = chat_ui_layer_res.instantiate()
+    add_child(chat)
     
     ModLoaderLog.info("Multiplayer is ready", self.name)
 
@@ -92,8 +99,8 @@ func _update_network_client() -> void:
         return
     client.get_node("PatchPhone").client = network_client
     client.get_node("PuppetManager").client = network_client
-    client.get_node("ChatUILayer/ChatUI").client = network_client
     client.get_node("PlayerSync").client = network_client
+    chat.get_node("ChatUI").client = network_client
 
 func set_network_client() -> void:
     if network_client:
