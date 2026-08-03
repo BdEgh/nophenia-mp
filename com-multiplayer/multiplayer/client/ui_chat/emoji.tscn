@@ -6,7 +6,7 @@
 layout_mode = 3
 anchors_preset = 0
 offset_right = 156.0
-offset_bottom = 140.0
+offset_bottom = 144.0
 theme = ExtResource("1_jostm")
 
 [node name="scroll_container" type="ScrollContainer" parent="." unique_id=642653516]

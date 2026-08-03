@@ -6,6 +6,8 @@ var network_server_res := load(get_script().resource_path.get_base_dir() + "/ser
 var network_client_res := load(get_script().resource_path.get_base_dir() + "/client/client_api.gd")
 var mp_version_res := load(get_script().resource_path.get_base_dir() + "/client/mp_version.tscn")
 
+signal client_loaded
+
 var chat: CanvasLayer
 var client : Node
 var network_server : Node
@@ -21,6 +23,7 @@ var default_name: String = [
     "kiwi", "mango", "orange"
 ].pick_random()
 
+var steam: Object
 var self_steam_id: int
 var latest_version: String
 var mod_version: String
@@ -38,9 +41,11 @@ func _ready() -> void:
     
     add_to_group("mp")
     get_tree().node_added.connect(_on_node_added)
-    if game.is_steam() and Steam.steamInit():
-        default_name = Steam.getPersonaName()
-        self_steam_id = Steam.getSteamID()
+    
+    steam = Engine.get_singleton("Steam")
+    if game.is_steam() and steam.steamInit():
+        default_name = steam.getPersonaName()
+        self_steam_id = steam.getSteamID()
     
     chat = chat_ui_layer_res.instantiate()
     add_child(chat)
@@ -56,7 +61,8 @@ func _ready() -> void:
 func _notification(event: int) -> void:
     if event == NOTIFICATION_WM_CLOSE_REQUEST:
         if is_instance_valid(game.active_stage): if game.active_stage.anomaly_occurring: return
-        Steam.steamShutdown()
+        if game.is_steam():
+            steam.steamShutdown()
 
 func _load_config() -> void:
     var cfg := ConfigFile.new()
@@ -95,6 +101,7 @@ func _attach_client() -> void:
             client.get_node("PlayerSync").nia = nia
             _update_network_client()
             add_child(client)
+            client_loaded.emit()
             if network_client:
                 network_client.request_sync()
         apply_player_collision()

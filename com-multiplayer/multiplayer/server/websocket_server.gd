@@ -36,6 +36,7 @@ func _handle_new_connections():
     if _server.is_connection_available():
         var tcp_peer = _server.take_connection()
         var ws_peer = WebSocketPeer.new()
+        ws_peer.inbound_buffer_size = 1024 * 1024 * 2
         ws_peer.accept_stream(tcp_peer)
         
         var peer_id = _generate_peer_id()

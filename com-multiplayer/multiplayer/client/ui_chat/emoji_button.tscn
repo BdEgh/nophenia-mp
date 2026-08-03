@@ -17,10 +17,39 @@ corner_radius_bottom_left = 8
 shadow_color = Color(0, 0, 0, 0.29411766)
 shadow_size = 7
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gmveh"]
+bg_color = Color(0.11372549, 0.101960786, 0.105882354, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.6696093, 0.6575212, 0.64544994, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p24di"]
+bg_color = Color(0.11372549, 0.101960786, 0.105882354, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.92156863, 0.9098039, 0.88235295, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_size = 5
+
 [node name="emoji_button" type="Button" unique_id=1437981954]
 custom_minimum_size = Vector2(0, 32)
 theme = ExtResource("1_gmveh")
 theme_override_styles/normal = SubResource("StyleBoxFlat_ojvuv")
+theme_override_styles/hover = SubResource("StyleBoxFlat_gmveh")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_p24di")
+theme_override_styles/focus = SubResource("StyleBoxFlat_gmveh")
 
 [node name="emoji" type="HBoxContainer" parent="." unique_id=158889416]
 layout_mode = 1

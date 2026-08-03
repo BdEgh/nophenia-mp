@@ -71,7 +71,7 @@ func _send_other_players_data(peer_id: int):
         signed_state.set_uid(player_id)
         signed_state.set_name(_names.get(player_id, ""))
         signed_state.__state.value = players[player_id]
-
+        
     socket.send_data(data.to_bytes(), peer_id)
 
 func _disconnect_player(peer_id: int):
@@ -87,6 +87,8 @@ func _disconnect_player(peer_id: int):
     _names.erase(peer_id)
     _make_uniq_names()
 
+# get rid of this bs later
+# way too expensive and pretty much useless
 func _make_uniq_names() -> void:
     var used := {}
     var peer_ids := _raw_names.keys()

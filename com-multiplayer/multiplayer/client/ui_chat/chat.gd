@@ -96,8 +96,8 @@ func _open_emoji_window(prefix: String) -> void:
         var rect = message_input.get_global_rect()
         var font = message_input.get_theme_font("font")
         var font_size = message_input.get_theme_font_size("font_size")
-        var caret_x = font.get_string_size(message_input.text, 0, -1, font_size).x
-        emoji_popup.global_position = Vector2(rect.position.x + caret_x, rect.position.y - emoji_popup.size.y)
+        var caret_x = min(font.get_string_size(message_input.text, 0, -1, font_size).x, 128)
+        emoji_popup.global_position = Vector2(rect.position.x + caret_x, rect.position.y - emoji_popup.size.y - 15)
 
 func _close_emoji_window() -> void:
     if emoji_popup:

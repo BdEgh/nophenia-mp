@@ -26,6 +26,7 @@ func _setup_reconnect_timer():
 
 func connect_to_server():
     _websocket = WebSocketPeer.new()
+    _websocket.inbound_buffer_size = 1024 * 1024 * 2
     var error = _websocket.connect_to_url(url)
     
     if error != OK:
