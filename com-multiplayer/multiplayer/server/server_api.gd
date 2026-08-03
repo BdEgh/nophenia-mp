@@ -87,12 +87,11 @@ func _disconnect_player(peer_id: int):
     _names.erase(peer_id)
     _make_uniq_names()
 
-# get rid of this bs later
-# way too expensive and pretty much useless
 func _make_uniq_names() -> void:
     var used := {}
     var peer_ids := _raw_names.keys()
     peer_ids.sort()
+    var changed_peer_ids: Array = []
     for peer_id in peer_ids:
         var raw_name = _raw_names[peer_id]
         var uniq_name = raw_name
@@ -101,9 +100,22 @@ func _make_uniq_names() -> void:
             uniq_name = "%s(%d)" % [raw_name, suffix]
             suffix += 1
         used[uniq_name] = true
+        if _names.get(peer_id) != uniq_name:
+            changed_peer_ids.append(peer_id)
         _names[peer_id] = uniq_name
-    for peer_id in socket.get_connected_peers():
-        _send_other_players_data(peer_id)
+    for peer_id in changed_peer_ids:
+        _broadcast_name_change(peer_id)
+
+func _broadcast_name_change(peer_id: int) -> void:
+    if players.get(peer_id) == null:
+        return
+    var data = Api.TServerData.new()
+    var signed_state = data.new_players().add_signed_state()
+    signed_state.set_action(Api.EAction.SET)
+    signed_state.set_uid(peer_id)
+    signed_state.set_name(_names[peer_id])
+    signed_state.__state.value = players[peer_id]
+    socket.send_data(data.to_bytes(), -peer_id)
 
 func _set_player(peer_id: int, signed_state):
     var source = signed_state.get_state()
