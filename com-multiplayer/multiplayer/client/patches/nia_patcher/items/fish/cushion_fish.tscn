@@ -47,7 +47,7 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_laybr")
 
-[node name="cushion_fish" type="MeshInstance3D" unique_id=415491956]
-transform = Transform3D(1, 0, 0, 0, 0.90630776, 0.4226183, 0, -0.4226183, 0.90630776, 0, 0, 0)
+[node name="cushion_fish" type="MeshInstance3D" unique_id=415491956 groups=["stage_lit"]]
+transform = Transform3D(0.17364822, -0.98480767, 0, 0.9848077, 0.17364821, 0, 0, 0, 0.99999994, 0, 0, 0)
 mesh = SubResource("ArrayMesh_lehts")
 skeleton = NodePath("")

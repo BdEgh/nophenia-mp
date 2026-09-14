@@ -22,6 +22,7 @@ stencil_flags = 2
 resource_name = "Tex_LOPO_Dorothy"
 render_priority = -2
 next_pass = SubResource("StandardMaterial3D_w38v7")
+transparency = 4
 no_depth_test = true
 shading_mode = 0
 specular_mode = 2

@@ -3,6 +3,8 @@ extends Node
 var phys_skel_scene = load(get_script().resource_path.get_base_dir() + "/actions/phys_skel.tscn")
 var halo_attachment_scene = load(get_script().resource_path.get_base_dir() + "/items/halo/halo_attachment.tscn")
 var halo_follower_scene = load(get_script().resource_path.get_base_dir() + "/items/halo/halo_follower.tscn")
+var seal_attachment_scene = load(get_script().resource_path.get_base_dir() + "/items/seal/seal_attachment.tscn")
+var seal_scene = load(get_script().resource_path.get_base_dir() + "/items/seal/seal.tscn")
 var eye_fix_material = load(get_script().resource_path.get_base_dir() + "/player_mat_with_vertex_color_fix.tres")
 var items_glb = load(get_script().resource_path.get_base_dir() + "/items/1420-MHz/items/items_model.glb")
 var heads_glb = load(get_script().resource_path.get_base_dir() + "/items/1420-MHz/items/heads.glb")
@@ -39,6 +41,10 @@ var neko_items: Array
 var head_items: Node3D
 var heads: Dictionary
 
+var ahoge_idx := 0
+var ahoge_default_pos := Vector3.ZERO
+var ahoge_coverage_nodes := []
+
 func _ready() -> void:
     skeleton = model.get_node("chara/Armature/Skeleton3D")
     head = skeleton.get_node("head")
@@ -63,10 +69,22 @@ func _ready() -> void:
     halo_fol.visible = false
     model.add_child(halo_fol)
     
+    var seal_att = seal_attachment_scene.instantiate()
+    skeleton.add_child(seal_att)
+    var seal: Node3D = seal_scene.instantiate()
+    seal.visible = false
+    model.add_child(seal)
+    ahoge_coverage_nodes.append(seal)
+    var seal_rt: RemoteTransform3D = seal_att.get_node("remote_transform_3d")
+    seal_rt.remote_path = seal.get_path()
+    
     var items_root: Node3D = items_glb.instantiate()
     var items_skel = items_root.get_node("Armature/Skeleton3D")
     var heads_root: Node3D = heads_glb.instantiate()
     var heads_skel = heads_root.get_node("Armature/Skeleton3D")
+    
+    ahoge_idx = skeleton.find_bone("Hair_Ahoge")
+    ahoge_default_pos = skeleton.get_bone_pose_position(ahoge_idx)
     
     heads[head.name] = head
     head_items = Node3D.new()
@@ -74,6 +92,9 @@ func _ready() -> void:
     skeleton.add_child(head_items)
     for child: MeshInstance3D in items_skel.get_children():
         var new_mesh = child.duplicate()
+        if new_mesh.name == "Hat":
+            ahoge_coverage_nodes.append(new_mesh)
+        
         if new_mesh.name in ["Hat", "Paws"]:
             neko_items.append(new_mesh)
         
@@ -86,11 +107,13 @@ func _ready() -> void:
     
     for child: MeshInstance3D in heads_skel.get_children():
         var new_mesh = child.duplicate()
+        if new_mesh.name != "Short hair head":
+            continue
         heads[new_mesh.name] = new_mesh
+        skeleton.add_child(new_mesh)
         new_mesh.skeleton = new_mesh.get_path_to(skeleton)
         new_mesh.visible = false
         item_meshes.append(new_mesh)
-        skeleton.add_child(new_mesh)
     for v in heads.values():
         v.visibility_changed.connect(_on_head_visibility_changed.bind(v))
     
@@ -100,13 +123,18 @@ func _ready() -> void:
     bell = bell_scene.instantiate()
     model.add_child(bell)
     skeleton.add_child(bell_bone_attachment_scene.instantiate())
+    
     var bell_mesh = bell.get_node("Armature_001/Skeleton3D/bell")
     bell_mesh.name = "Bell"
     bell_mesh.chara = model
     item_meshes.append(bell_mesh)
-    #var blue_bell_mesh = bell.get_node("Armature_001/Skeleton3D/bell blue")
-    #blue_bell_mesh.name = "Blue Bell"
+    
+    var blue_bell_mesh = bell.get_node("Armature_001/Skeleton3D/bell blue")
+    blue_bell_mesh.name = "Blue Bell"
+    blue_bell_mesh.chara = model
+    blue_bell_mesh.visible = false
     #item_meshes.append(blue_bell_mesh)
+    
     #if rain_boots:
         #item_meshes.append(rain_boots)
     if umbrella:
@@ -120,6 +148,21 @@ func _ready() -> void:
     for i in item_meshes:
         #i.visibility_changed.connect(_on_custom_item_visibility_changed.bind(i))
         i.visible = false
+    
+    for i in ahoge_coverage_nodes:
+        i.visibility_changed.connect(_on_ahoge_coverage_visibility_changed.bind())
+    _on_ahoge_coverage_visibility_changed()
+
+func _on_ahoge_coverage_visibility_changed() -> void:
+    var turn_on := false
+    for i in ahoge_coverage_nodes:
+        if i.visible:
+            turn_on = true
+            break
+    if turn_on:
+        skeleton.set_bone_pose_position(ahoge_idx, Vector3.ZERO)
+    else:
+        skeleton.set_bone_pose_position(ahoge_idx, ahoge_default_pos)
 
 var _mat_next_pass: StandardMaterial3D
 

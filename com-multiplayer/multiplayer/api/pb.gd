@@ -650,6 +650,117 @@ enum EAction {
     SET = 1
 }
 
+class TAdminRequest:
+    func _init():
+        var service
+        
+        __key = PBField.new("key", PB_DATA_TYPE.STRING, PB_RULE.OPTIONAL, 1, true, DEFAULT_VALUES_3[PB_DATA_TYPE.STRING])
+        service = PBServiceField.new()
+        service.field = __key
+        data[__key.tag] = service
+        
+        __players = PBField.new("players", PB_DATA_TYPE.MESSAGE, PB_RULE.OPTIONAL, 2, true, DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE])
+        service = PBServiceField.new()
+        service.field = __players
+        service.func_ref = Callable(self, "new_players")
+        data[__players.tag] = service
+        
+    var data = {}
+    
+    var __key: PBField
+    func has_key() -> bool:
+        if __key.value != null:
+            return true
+        return false
+    func get_key() -> String:
+        return __key.value
+    func clear_key() -> void:
+        data[1].state = PB_SERVICE_STATE.UNFILLED
+        __key.value = DEFAULT_VALUES_3[PB_DATA_TYPE.STRING]
+    func set_key(value : String) -> void:
+        __key.value = value
+    
+    var __players: PBField
+    func has_players() -> bool:
+        if __players.value != null:
+            return true
+        return false
+    func get_players() -> TPlayersState:
+        return __players.value
+    func clear_players() -> void:
+        data[2].state = PB_SERVICE_STATE.UNFILLED
+        __players.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
+    func new_players() -> TPlayersState:
+        data[2].state = PB_SERVICE_STATE.FILLED
+        __players.value = TPlayersState.new()
+        return __players.value
+    
+    func _to_string() -> String:
+        return PBPacker.message_to_string(data)
+        
+    func to_bytes() -> PackedByteArray:
+        return PBPacker.pack_message(data)
+        
+    func from_bytes(bytes : PackedByteArray, offset : int = 0, limit : int = -1) -> int:
+        var cur_limit = bytes.size()
+        if limit != -1:
+            cur_limit = limit
+        var result = PBPacker.unpack_message(data, bytes, offset, cur_limit)
+        if result == cur_limit:
+            if PBPacker.check_required(data):
+                if limit == -1:
+                    return PB_ERR.NO_ERRORS
+            else:
+                return PB_ERR.REQUIRED_FIELDS
+        elif limit == -1 && result > 0:
+            return PB_ERR.PARSE_INCOMPLETE
+        return result
+    
+class TBlockRequest:
+    func _init():
+        var service
+        
+        __name = PBField.new("name", PB_DATA_TYPE.STRING, PB_RULE.OPTIONAL, 1, true, DEFAULT_VALUES_3[PB_DATA_TYPE.STRING])
+        service = PBServiceField.new()
+        service.field = __name
+        data[__name.tag] = service
+        
+    var data = {}
+    
+    var __name: PBField
+    func has_name() -> bool:
+        if __name.value != null:
+            return true
+        return false
+    func get_name() -> String:
+        return __name.value
+    func clear_name() -> void:
+        data[1].state = PB_SERVICE_STATE.UNFILLED
+        __name.value = DEFAULT_VALUES_3[PB_DATA_TYPE.STRING]
+    func set_name(value : String) -> void:
+        __name.value = value
+    
+    func _to_string() -> String:
+        return PBPacker.message_to_string(data)
+        
+    func to_bytes() -> PackedByteArray:
+        return PBPacker.pack_message(data)
+        
+    func from_bytes(bytes : PackedByteArray, offset : int = 0, limit : int = -1) -> int:
+        var cur_limit = bytes.size()
+        if limit != -1:
+            cur_limit = limit
+        var result = PBPacker.unpack_message(data, bytes, offset, cur_limit)
+        if result == cur_limit:
+            if PBPacker.check_required(data):
+                if limit == -1:
+                    return PB_ERR.NO_ERRORS
+            else:
+                return PB_ERR.REQUIRED_FIELDS
+        elif limit == -1 && result > 0:
+            return PB_ERR.PARSE_INCOMPLETE
+        return result
+    
 class TPosition:
     func _init():
         var service
@@ -1354,6 +1465,12 @@ class TClientData:
         service.field = __sync_request
         data[__sync_request.tag] = service
         
+        __admin_req = PBField.new("admin_req", PB_DATA_TYPE.MESSAGE, PB_RULE.OPTIONAL, 6, true, DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE])
+        service = PBServiceField.new()
+        service.field = __admin_req
+        service.func_ref = Callable(self, "new_admin_req")
+        data[__admin_req.tag] = service
+        
     var data = {}
     
     var __name: PBField
@@ -1387,6 +1504,8 @@ class TClientData:
         data[4].state = PB_SERVICE_STATE.UNFILLED
         __sync_request.value = DEFAULT_VALUES_3[PB_DATA_TYPE.BOOL]
         data[5].state = PB_SERVICE_STATE.UNFILLED
+        __admin_req.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
+        data[6].state = PB_SERVICE_STATE.UNFILLED
         __chat_message.value = TSignedClientMessage.new()
         return __chat_message.value
     
@@ -1408,6 +1527,8 @@ class TClientData:
         data[4].state = PB_SERVICE_STATE.UNFILLED
         __sync_request.value = DEFAULT_VALUES_3[PB_DATA_TYPE.BOOL]
         data[5].state = PB_SERVICE_STATE.UNFILLED
+        __admin_req.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
+        data[6].state = PB_SERVICE_STATE.UNFILLED
         __ping.value = TPing.new()
         return __ping.value
     
@@ -1429,6 +1550,8 @@ class TClientData:
         data[4].state = PB_SERVICE_STATE.FILLED
         __sync_request.value = DEFAULT_VALUES_3[PB_DATA_TYPE.BOOL]
         data[5].state = PB_SERVICE_STATE.UNFILLED
+        __admin_req.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
+        data[6].state = PB_SERVICE_STATE.UNFILLED
         __signed_state.value = TSignedClientState.new()
         return __signed_state.value
     
@@ -1450,7 +1573,32 @@ class TClientData:
         __signed_state.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
         data[4].state = PB_SERVICE_STATE.UNFILLED
         data[5].state = PB_SERVICE_STATE.FILLED
+        __admin_req.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
+        data[6].state = PB_SERVICE_STATE.UNFILLED
         __sync_request.value = value
+    
+    var __admin_req: PBField
+    func has_admin_req() -> bool:
+        if __admin_req.value != null:
+            return true
+        return false
+    func get_admin_req() -> TAdminRequest:
+        return __admin_req.value
+    func clear_admin_req() -> void:
+        data[6].state = PB_SERVICE_STATE.UNFILLED
+        __admin_req.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
+    func new_admin_req() -> TAdminRequest:
+        __chat_message.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
+        data[2].state = PB_SERVICE_STATE.UNFILLED
+        __ping.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
+        data[3].state = PB_SERVICE_STATE.UNFILLED
+        __signed_state.value = DEFAULT_VALUES_3[PB_DATA_TYPE.MESSAGE]
+        data[4].state = PB_SERVICE_STATE.UNFILLED
+        __sync_request.value = DEFAULT_VALUES_3[PB_DATA_TYPE.BOOL]
+        data[5].state = PB_SERVICE_STATE.UNFILLED
+        data[6].state = PB_SERVICE_STATE.FILLED
+        __admin_req.value = TAdminRequest.new()
+        return __admin_req.value
     
     func _to_string() -> String:
         return PBPacker.message_to_string(data)

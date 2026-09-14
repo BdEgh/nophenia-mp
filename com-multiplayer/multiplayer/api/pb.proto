@@ -7,6 +7,17 @@ enum EAction {
   SET = 1;
 }
 
+message TAdminRequest {
+  string key = 1;
+  oneof payload {
+    TPlayersState players = 2;
+  }
+}
+
+message TBlockRequest {
+  string name = 1;
+}
+
 message TPosition {
   repeated float vector = 1;
 }
@@ -67,6 +78,7 @@ message TClientData {
     TPing ping = 3;
     TSignedClientState signed_state = 4;
     bool sync_request = 5;
+    TAdminRequest admin_req = 6;
   }
 }
 

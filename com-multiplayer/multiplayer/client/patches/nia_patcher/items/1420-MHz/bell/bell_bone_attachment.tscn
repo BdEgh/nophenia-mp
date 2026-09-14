@@ -6,5 +6,9 @@ bone_name = "Neck"
 bone_idx = 3
 
 [node name="remote_transform_3d" type="RemoteTransform3D" parent="." unique_id=554077461]
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
 remote_path = NodePath("../../../../../bell2/Armature_001/Skeleton3D/bell")
-update_scale = false
+
+[node name="remote_transform_3d2" type="RemoteTransform3D" parent="." unique_id=763852272]
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
+remote_path = NodePath("../../../../../bell2/Armature_001/Skeleton3D/bell blue")

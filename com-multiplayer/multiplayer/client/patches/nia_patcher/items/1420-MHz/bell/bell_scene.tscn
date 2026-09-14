@@ -28,10 +28,10 @@ blend_shape_mode = 0
 
 [node name="bell2" unique_id=2065824123 instance=ExtResource("1_ueoi4")]
 
-[node name="Skeleton3D" parent="Armature_001" parent_id_path=PackedInt32Array(425038448) index="0" unique_id=860505402]
+[node name="Skeleton3D" parent="Armature_001" parent_id_path=PackedInt32Array(413201668) index="0" unique_id=1606245326]
 modifier_callback_mode_process = 0
 
-[node name="bell" parent="Armature_001/Skeleton3D" index="0" unique_id=1994588216]
+[node name="bell" parent="Armature_001/Skeleton3D" index="0" unique_id=1506027561 groups=["stage_lit"]]
 script = ExtResource("3_uwjxm")
 
 [node name="jiggle" type="AudioStreamPlayer3D" parent="Armature_001/Skeleton3D/bell" index="0" unique_id=1619288129]
@@ -64,6 +64,10 @@ settings/0/joints/1/bone = 2
 settings/0/enable_all_child_collisions = true
 settings/0/exclude_collision_count = 0
 
-[node name="bell blue" parent="Armature_001/Skeleton3D" index="2" unique_id=1188285723]
-visible = false
+[node name="bell blue" parent="Armature_001/Skeleton3D" index="2" unique_id=1564950035 groups=["stage_lit"]]
 mesh = SubResource("ArrayMesh_s31on")
+script = ExtResource("3_uwjxm")
+
+[node name="jiggle" type="AudioStreamPlayer3D" parent="Armature_001/Skeleton3D/bell blue" index="0" unique_id=437366639]
+stream = ExtResource("2_g36vy")
+unit_size = 4.0

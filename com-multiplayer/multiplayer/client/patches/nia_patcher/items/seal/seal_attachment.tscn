@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://byhjvp4poslud"]
+
+[node name="bone_attachment_seal" type="BoneAttachment3D" unique_id=537842239]
+transform = Transform3D(0.9990111, -0.040759373, 0.017943934, -0.00046578795, -0.4387219, -0.95728815, 0.04848174, 0.99727565, -0.39382827, 0, 0, 0)
+bone_name = "Head"
+bone_idx = 4
+
+[node name="remote_transform_3d" type="RemoteTransform3D" parent="." unique_id=554077461]
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
+remote_path = NodePath("../../../../../seal")

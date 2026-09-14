@@ -9,3 +9,4 @@ var rng_seed := 1337
 var collision := true
 # var items_unlocked: Array
 var items_visible: Dictionary
+var key := "the door is shut"
