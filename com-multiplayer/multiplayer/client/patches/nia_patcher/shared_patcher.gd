@@ -12,6 +12,7 @@ var bell_scene = load(get_script().resource_path.get_base_dir() + "/items/1420-M
 var bell_bone_attachment_scene = load(get_script().resource_path.get_base_dir() + "/items/1420-MHz/bell/bell_bone_attachment.tscn")
 var items_cloth_sound = load(get_script().resource_path.get_base_dir() + "/items/1420-MHz/sfx/items_cloth.ogg")
 var squeak_sound = load(get_script().resource_path.get_base_dir() + "/items/1420-MHz/sfx/squeak.wav")
+var amelia_scene = load("res://resource/amelia.tscn")
 
 @export var model: Node
 
@@ -76,7 +77,7 @@ func _ready() -> void:
     model.add_child(seal)
     ahoge_coverage_nodes.append(seal)
     var seal_rt: RemoteTransform3D = seal_att.get_node("remote_transform_3d")
-    seal_rt.remote_path = seal.get_path()
+    seal_rt.remote_path = seal_rt.get_path_to(seal)
     
     var items_root: Node3D = items_glb.instantiate()
     var items_skel = items_root.get_node("Armature/Skeleton3D")
@@ -152,6 +153,32 @@ func _ready() -> void:
     for i in ahoge_coverage_nodes:
         i.visibility_changed.connect(_on_ahoge_coverage_visibility_changed.bind())
     _on_ahoge_coverage_visibility_changed()
+    
+    var amelia: Node3D = amelia_scene.instantiate()
+    var a_skel = amelia.get_node("amelia_model/Armature/Skeleton3D")
+    var a_body = amelia.get_node("amelia_model/Armature/Skeleton3D/body").duplicate()
+    var a_sbone = amelia.get_node("amelia_model/Armature/Skeleton3D/spring_bone").duplicate()
+    a_body.visible = false
+    skeleton.add_child(a_body)
+    skeleton.add_child(a_sbone)
+    a_body.skeleton = a_body.get_path_to(skeleton)
+    merge_skeletons(a_skel, skeleton)
+    amelia.queue_free()
+
+func merge_skeletons(source: Skeleton3D, target: Skeleton3D):
+    for source_idx in range(source.get_bone_count()):
+        var bone_name: String = source.get_bone_name(source_idx)
+        if target.find_bone(bone_name) != -1:
+            continue
+        var source_parent_idx: int = source.get_bone_parent(source_idx)
+        var target_parent_idx: int = -1
+        if source_parent_idx != -1:
+            var parent_name: String = source.get_bone_name(source_parent_idx)
+            target_parent_idx = target.find_bone(parent_name)
+        target.add_bone(bone_name)
+        var new_target_idx: int = target.find_bone(bone_name)
+        target.set_bone_parent(new_target_idx, target_parent_idx)
+        target.set_bone_rest(new_target_idx, source.get_bone_rest(source_idx))
 
 func _on_ahoge_coverage_visibility_changed() -> void:
     var turn_on := false

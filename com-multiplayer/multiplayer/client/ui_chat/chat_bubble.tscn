@@ -30,6 +30,7 @@ custom_minimum_size = Vector2(0, 39)
 layout_mode = 2
 focus_mode = 2
 theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_colors/selection_color = Color(0.1, 0.1, 1, 0.8)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.63529414)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.63529414)
 theme_override_constants/shadow_outline_size = 0
@@ -56,3 +57,7 @@ selection_enabled = true
 [node name="RightSpacer" type="Control" parent="." unique_id=444444444]
 unique_name_in_owner = true
 layout_mode = 2
+
+[connection signal="meta_clicked" from="MessageLabel" to="." method="_on_message_label_meta_clicked"]
+[connection signal="meta_hover_ended" from="MessageLabel" to="." method="_on_message_label_meta_hover_ended"]
+[connection signal="meta_hover_started" from="MessageLabel" to="." method="_on_message_label_meta_hover_started"]

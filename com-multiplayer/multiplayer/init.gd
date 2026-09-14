@@ -5,6 +5,7 @@ var client_res := load(get_script().resource_path.get_base_dir() + "/client/clie
 var network_server_res := load(get_script().resource_path.get_base_dir() + "/server/server.tscn")
 var network_client_res := load(get_script().resource_path.get_base_dir() + "/client/client_api.gd")
 var mp_version_res := load(get_script().resource_path.get_base_dir() + "/client/mp_version.tscn")
+var temp := load(get_script().resource_path.get_base_dir() + "/remote_stage_loader/node.tscn")
 
 signal client_loaded
 
@@ -31,6 +32,7 @@ var mod_version: String
 const _SETTINGS_PATH := "user://mp.cfg"
 
 func _ready() -> void:
+    add_child(temp.instantiate())
     _load_config()
     if "--server" in OS.get_cmdline_args():
         var port_override := -1

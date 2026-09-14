@@ -24,3 +24,14 @@ func set_message(text: String, sender: String):
     
     create_tween().tween_property(message_label, "modulate:a", 1.0, 0.5) \
         .from(0).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+
+func _on_message_label_meta_hover_started(meta: Variant) -> void:
+    message_label.tooltip_text = str(meta)
+    self.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+
+func _on_message_label_meta_hover_ended(meta: Variant) -> void:
+    message_label.tooltip_text = ""
+    self.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+
+func _on_message_label_meta_clicked(meta: Variant) -> void:
+    OS.shell_open(str(meta))
