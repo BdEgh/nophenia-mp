@@ -5,14 +5,15 @@ var client_res := load(get_script().resource_path.get_base_dir() + "/client/clie
 var network_server_res := load(get_script().resource_path.get_base_dir() + "/server/server.tscn")
 var network_client_res := load(get_script().resource_path.get_base_dir() + "/client/client_api.gd")
 var mp_version_res := load(get_script().resource_path.get_base_dir() + "/client/mp_version.tscn")
-var temp := load(get_script().resource_path.get_base_dir() + "/remote_stage_loader/node.tscn")
+var remote_loader_res := load(get_script().resource_path.get_base_dir() + "/webserver/remote_loader.gd")
 
 signal client_loaded
 
 var chat: CanvasLayer
-var client : Node
-var network_server : Node
-var network_client : Node
+var client: Node
+var network_server: Node
+var network_client: Node
+var remote_loader: Node
 
 var mp_cfg_res := load(get_script().resource_path.get_base_dir() + "/mp_cfg.gd")
 var mp_cfg = mp_cfg_res.new()
@@ -32,7 +33,6 @@ var mod_version: String
 const _SETTINGS_PATH := "user://mp.cfg"
 
 func _ready() -> void:
-    add_child(temp.instantiate())
     _load_config()
     if "--server" in OS.get_cmdline_args():
         var port_override := -1
@@ -51,6 +51,9 @@ func _ready() -> void:
     
     chat = chat_ui_layer_res.instantiate()
     add_child(chat)
+    
+    remote_loader = remote_loader_res.new()
+    add_child(remote_loader)
     
     mod_version = ModLoaderMod.get_mod_data("com-multiplayer").manifest.version_number
     if mod_version.ends_with(".0"):
@@ -123,6 +126,16 @@ func _update_network_client() -> void:
     client.get_node("PlayerSync").client = network_client
     chat.get_node("ChatUI").client = network_client
 
+func update_http_server_addr(ws_addr: String):
+    var regex = RegEx.new()
+    regex.compile("^(wss?)(://[^:/]+):(\\d+)$")
+    var result = regex.search(ws_addr)
+    if result:
+        var scheme = "https" if result.get_string(1) == "wss" else "http"
+        var host = result.get_string(2)
+        var port = str(result.get_string(3).to_int() + 1)
+        remote_loader.addr = scheme + host + ":" + port
+
 func set_network_client() -> void:
     if network_client:
         return
@@ -134,6 +147,7 @@ func set_network_client() -> void:
         network_client.url = "ws://127.0.0.1:%d" % mp_cfg.server_port
     else:
         network_client.url = mp_cfg.address
+    update_http_server_addr(network_client.url)
     add_child(network_client)
     _update_network_client()
     network_client.request_sync()

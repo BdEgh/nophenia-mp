@@ -34,6 +34,8 @@ func change_stage(_stage: String = ""):
     if !_stage:
         change_stage_rand()
         return
+    var rl = get_tree().get_first_node_in_group("mp").remote_loader
+    _stage = await rl.fetch_stage(_stage)
     game.change_stage(_stage)
 
 func change_stage_rand():

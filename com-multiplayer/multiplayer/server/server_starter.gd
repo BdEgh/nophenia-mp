@@ -1,10 +1,9 @@
 extends Control
 
-var MultiplayerServerProto = load(get_script().resource_path.get_base_dir() + "/server_api.gd")
-
 @export var port: int = 42424
 
 @onready var server = %ServerApi
+@onready var web_server: Node = $WebServer
 @onready var status_label: Label = %StatusLabel
 @onready var log_text: RichTextLabel = %LogText
 
@@ -13,6 +12,7 @@ func _ready():
     if ModLoader:
         ModLoader.logged.connect(_on_mod_loader_logged)
     server.start_server(port)
+    web_server.start_server(port + 1)
 
 func _on_mod_loader_logged(log_entry) -> void:
     if log_entry.mod_name != server.name:

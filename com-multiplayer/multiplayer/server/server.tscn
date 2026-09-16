@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://3b3crx7tctf2" path="res://mods-unpacked/com-multiplayer/multiplayer/server/server_starter.gd" id="1_s4nhi"]
 [ext_resource type="Script" uid="uid://dot1uuaw5morm" path="res://mods-unpacked/com-multiplayer/multiplayer/server/server_api.gd" id="2_4q2n6"]
+[ext_resource type="Script" uid="uid://do4xi3um7u8f7" path="res://mods-unpacked/com-multiplayer/multiplayer/webserver/start_server.gd" id="3_4q2n6"]
 
 [node name="Server" type="Control" unique_id=1493541777]
 visible = false
@@ -17,6 +18,9 @@ metadata/_edit_use_anchors_ = true
 [node name="ServerApi" type="Node" parent="." unique_id=960055487]
 unique_name_in_owner = true
 script = ExtResource("2_4q2n6")
+
+[node name="WebServer" type="Node" parent="." unique_id=1022659030]
+script = ExtResource("3_4q2n6")
 
 [node name="Panel" type="Panel" parent="." unique_id=866804642]
 layout_mode = 1

@@ -42,7 +42,6 @@ func download_and_load(_stage: String):
     if err != OK:
         ModLoaderLog.error("%s request failed" % [_stage], self.name)
         return
-    print("in await line")
     var response = await http.request_completed
     var res = response[0]
     var code = response[1]

@@ -34,4 +34,12 @@ func _on_message_label_meta_hover_ended(meta: Variant) -> void:
     self.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 
 func _on_message_label_meta_clicked(meta: Variant) -> void:
+    if meta is String and meta.begins_with("s="):
+        var mp = get_tree().get_first_node_in_group("mp")
+        var _stage = meta.substr(2)
+        var chat = mp.chat.get_node("ChatUI")
+        var rl = mp.remote_loader
+        chat.toggle_chat()
+        rl.change_stage(_stage)
+        return
     OS.shell_open(str(meta))
