@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b6ktgxpymiywa"]
 
 [ext_resource type="Texture2D" uid="uid://buv217vyrxvqy" path="res://texture/phone_ui.png" id="1_ruvke"]
-[ext_resource type="Script" uid="uid://coyio8aii0u5v" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/phone_button_text.gd" id="2_3t52j"]
+[ext_resource type="Script" uid="uid://coyio8aii0u5v" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/option_button.gd" id="2_3t52j"]
 [ext_resource type="Shader" uid="uid://cwl71jfhkvigs" path="res://gdshader/ui_invert.gdshader" id="3_r6pw4"]
 [ext_resource type="FontFile" uid="uid://dho0yytyts0c3" path="res://resource/font/menu_large.ttf" id="3_ruvke"]
 
@@ -39,7 +39,7 @@ content_margin_bottom = 1.0
 content_margin_top = 1.0
 content_margin_bottom = 1.0
 
-[node name="option_text" type="Button" unique_id=1286730078]
+[node name="option_button" type="Button" unique_id=1286730078]
 custom_minimum_size = Vector2(130, 19)
 offset_right = 25.0
 offset_bottom = 32.0
@@ -149,6 +149,31 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_2oqt2")
 theme_override_styles/read_only = SubResource("StyleBoxEmpty_4k3t0")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_0uof3")
 caret_blink = true
+
+[node name="multiple_option" type="MarginContainer" parent="v_box_container" unique_id=2073955340]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="h_box_container" type="HBoxContainer" parent="v_box_container/multiple_option" unique_id=1235250438]
+custom_minimum_size = Vector2(122, 0)
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="right" type="TextureRect" parent="v_box_container/multiple_option/h_box_container" unique_id=722888769]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_3t52j")
+stretch_mode = 2
+
+[node name="option_text" type="Label" parent="v_box_container/multiple_option/h_box_container" unique_id=131008153]
+unique_name_in_owner = true
+layout_mode = 2
+text = "<gd>"
+vertical_alignment = 1
 
 [connection signal="toggled" from="." to="." method="_on_toggled"]
 [connection signal="text_changed" from="v_box_container/text_option/h_box_container/line_edit" to="." method="_on_line_edit_text_changed"]

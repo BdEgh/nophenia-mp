@@ -5,6 +5,7 @@ extends Button
 @export var _is_option: bool = false
 @export var _hide_option: bool = false
 @export var _is_text: bool = false
+@export var _is_multiple_option: bool = false
 @export var _config_option: String
 @export var exclude_steamdeck: bool = false
 var _press_cd: bool = false
@@ -49,6 +50,10 @@ func _ready() -> void :
     _title_size_check()
     self.pressed.connect(click)
     _config_adjust()
+    if _is_multiple_option:
+        %multiple_option.visible = true
+        self.custom_minimum_size.y = 45.0
+        %display_title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 
 func click(from_button: bool = true):
     if _press_cd: return
@@ -70,6 +75,8 @@ func click(from_button: bool = true):
         %check_box.button_pressed = ! %check_box.button_pressed
         _mp_config().set(_config_option, %check_box.button_pressed)
         get_tree().get_first_node_in_group("mp").save_config()
+    elif _is_multiple_option:
+        pass
     await game.find("pause_menu").phone_feedback()
     await get_tree().create_timer(0.1).timeout
     _press_cd = false

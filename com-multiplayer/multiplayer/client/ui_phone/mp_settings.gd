@@ -22,6 +22,7 @@ shuffles after completing the game"
 func _on_visibility_changed() -> void:
     if visible:
         _connect_lb()
+        get_node(get_meta("focus")).grab_focus()
     else:
         _disconnect_lb()
 

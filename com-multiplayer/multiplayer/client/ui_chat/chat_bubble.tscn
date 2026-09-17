@@ -39,7 +39,6 @@ theme_override_constants/shadow_offset_y = 0
 theme_override_constants/outline_size = 2
 theme_override_constants/text_highlight_h_padding = 0
 theme_override_constants/text_highlight_v_padding = 0
-theme_override_constants/underline_alpha = 0
 theme_override_constants/strikethrough_alpha = 0
 theme_override_constants/table_h_separation = 0
 theme_override_constants/table_v_separation = 0

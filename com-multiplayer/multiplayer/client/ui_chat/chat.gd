@@ -184,8 +184,16 @@ func _scroll_to_bottom() -> void:
     await get_tree().create_timer(0.1).timeout
     scroll_container.scroll_vertical = int(scroll_container.get_v_scroll_bar().max_value)
 
+func _replace_here_tag(text):
+    var active = game.active_stage
+    if not active:
+        return null
+    var _stage = get_tree().current_scene.scene_file_path.get_file().get_basename()
+    return text.replace("[here]", "[url=s=%s]%s[/url]" % [_stage, game.active_stage.name])
+
 func _send_message():
-    var text = message_input.text.strip_edges()
+    var text: String = message_input.text.strip_edges()
+    text = _replace_here_tag(text)
     if text.is_empty():
         return
     

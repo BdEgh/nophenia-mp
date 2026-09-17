@@ -58,6 +58,8 @@ func fetch_mounted_stage(_stage: String):
     return null
 
 func fetch_stage(_stage: String):
+    if FileAccess.file_exists(_stage):
+        return _stage
     var original_stage = "res://stage/%s.tscn" % _stage
     if FileAccess.file_exists(original_stage):
         return original_stage

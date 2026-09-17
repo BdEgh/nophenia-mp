@@ -10,3 +10,4 @@ var collision := true
 # var items_unlocked: Array
 var items_visible: Dictionary
 var key := "the door is shut"
+var remote_stage_usage := 0

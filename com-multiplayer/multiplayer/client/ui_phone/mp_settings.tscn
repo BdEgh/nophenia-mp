@@ -3,9 +3,9 @@
 [ext_resource type="PackedScene" uid="uid://cklnynrgg1w20" path="res://resource/pause_menu_phone_option.tscn" id="1_fl340"]
 [ext_resource type="Script" uid="uid://yw0b5r8dhbwl" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/mp_settings.gd" id="1_txyjr"]
 [ext_resource type="Texture2D" uid="uid://buv217vyrxvqy" path="res://texture/phone_ui.png" id="2_hrwg5"]
-[ext_resource type="PackedScene" uid="uid://b6ktgxpymiywa" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/option_text.tscn" id="3_txyjr"]
+[ext_resource type="PackedScene" uid="uid://b6ktgxpymiywa" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/option_button.tscn" id="3_txyjr"]
 [ext_resource type="Shader" uid="uid://cwl71jfhkvigs" path="res://gdshader/ui_invert.gdshader" id="4_ijoox"]
-[ext_resource type="Script" uid="uid://coyio8aii0u5v" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/phone_button_text.gd" id="4_umhcn"]
+[ext_resource type="Script" uid="uid://coyio8aii0u5v" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/option_button.gd" id="4_umhcn"]
 [ext_resource type="Script" uid="uid://bneelvmn45klm" path="res://gdscript/ui/scroll_arrow.gd" id="5_lndxn"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_txyjr"]
@@ -27,6 +27,10 @@ resource_local_to_scene = true
 shader = ExtResource("4_ijoox")
 shader_parameter/invert = false
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_31yyh"]
+atlas = ExtResource("2_hrwg5")
+region = Rect2(149, 18, 19, 19)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_31yyh"]
 resource_local_to_scene = true
 shader = ExtResource("4_ijoox")
@@ -47,6 +51,11 @@ resource_local_to_scene = true
 shader = ExtResource("4_ijoox")
 shader_parameter/invert = false
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iblck"]
+resource_local_to_scene = true
+shader = ExtResource("4_ijoox")
+shader_parameter/invert = false
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_hrwg5"]
 atlas = ExtResource("2_hrwg5")
 region = Rect2(39, 114, 17, 10)
@@ -62,9 +71,9 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_txyjr")
 metadata/title = "MP Settings"
-metadata/last_focus = NodePath("margin_container/scroll_container/v_box_container/option_col")
+metadata/last_focus = NodePath("margin_container/scroll_container/v_box_container/option_port")
 metadata/right_text = "menu_nav_apply"
-metadata/focus = NodePath("margin_container/scroll_container/v_box_container")
+metadata/focus = NodePath("margin_container/scroll_container/v_box_container/option_autoconnect")
 metadata/left_text = "Reset"
 
 [node name="margin_container" type="MarginContainer" parent="." unique_id=1765423701]
@@ -112,6 +121,7 @@ text = "Connect"
 script = ExtResource("4_umhcn")
 _is_option = true
 _is_text = false
+_is_multiple_option = false
 _config_option = "auto_connect"
 
 [node name="preview_tex" parent="margin_container/scroll_container/v_box_container/option_autoconnect/option_box" parent_id_path=PackedInt32Array(2081589790, 584397762) index="0" unique_id=2069315580]
@@ -165,6 +175,21 @@ vertical_alignment = 1
 [node name="h_separator2" type="HSeparator" parent="margin_container/scroll_container/v_box_container/game_settings_separator" unique_id=1813739000]
 layout_mode = 2
 
+[node name="option_stage" parent="margin_container/scroll_container/v_box_container" unique_id=725637576 instance=ExtResource("3_txyjr")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Stages"
+icon = SubResource("AtlasTexture_31yyh")
+_is_multiple_option = true
+_config_option = "remote_stage_usage"
+
+[node name="preview_tex" parent="margin_container/scroll_container/v_box_container/option_stage/v_box_container/option_box" parent_id_path=PackedInt32Array(725637576, 584397762) index="0" unique_id=2069315580]
+material = SubResource("ShaderMaterial_31yyh")
+
+[node name="display_title" parent="margin_container/scroll_container/v_box_container/option_stage/v_box_container/option_box/display_title_box" parent_id_path=PackedInt32Array(725637576, 1337163063) index="0" unique_id=1810180602]
+size_flags_vertical = 0
+
 [node name="option_col" parent="margin_container/scroll_container/v_box_container" unique_id=1159056380 instance=ExtResource("1_fl340")]
 unique_name_in_owner = true
 layout_mode = 2
@@ -172,10 +197,11 @@ text = "Collision With Players"
 script = ExtResource("4_umhcn")
 _is_option = true
 _is_text = false
+_is_multiple_option = false
 _config_option = "collision"
 
 [node name="preview_tex" parent="margin_container/scroll_container/v_box_container/option_col/option_box" parent_id_path=PackedInt32Array(1159056380, 584397762) index="0" unique_id=2069315580]
-material = SubResource("ShaderMaterial_31yyh")
+material = SubResource("ShaderMaterial_jriyt")
 
 [node name="option_seed" parent="margin_container/scroll_container/v_box_container" unique_id=984473993 instance=ExtResource("3_txyjr")]
 unique_name_in_owner = true
@@ -186,7 +212,7 @@ _is_text = true
 _config_option = "rng_seed"
 
 [node name="preview_tex" parent="margin_container/scroll_container/v_box_container/option_seed/v_box_container/option_box" parent_id_path=PackedInt32Array(984473993, 584397762) index="0" unique_id=2069315580]
-material = SubResource("ShaderMaterial_jriyt")
+material = SubResource("ShaderMaterial_16a2a")
 
 [node name="display_title" parent="margin_container/scroll_container/v_box_container/option_seed/v_box_container/option_box/display_title_box" parent_id_path=PackedInt32Array(984473993, 1337163063) index="0" unique_id=1810180602]
 size_flags_vertical = 0
@@ -215,10 +241,11 @@ text = "Start Server"
 script = ExtResource("4_umhcn")
 _is_option = true
 _is_text = false
+_is_multiple_option = false
 _config_option = "start_server"
 
 [node name="preview_tex" parent="margin_container/scroll_container/v_box_container/option_start_server/option_box" parent_id_path=PackedInt32Array(868351892, 584397762) index="0" unique_id=2069315580]
-material = SubResource("ShaderMaterial_16a2a")
+material = SubResource("ShaderMaterial_26gbm")
 
 [node name="option_port" parent="margin_container/scroll_container/v_box_container" unique_id=825545085 instance=ExtResource("3_txyjr")]
 unique_name_in_owner = true
@@ -229,7 +256,7 @@ _is_text = true
 _config_option = "server_port"
 
 [node name="preview_tex" parent="margin_container/scroll_container/v_box_container/option_port/v_box_container/option_box" parent_id_path=PackedInt32Array(825545085, 584397762) index="0" unique_id=2069315580]
-material = SubResource("ShaderMaterial_26gbm")
+material = SubResource("ShaderMaterial_iblck")
 
 [node name="display_title" parent="margin_container/scroll_container/v_box_container/option_port/v_box_container/option_box/display_title_box" parent_id_path=PackedInt32Array(825545085, 1337163063) index="0" unique_id=1810180602]
 size_flags_vertical = 0
@@ -279,6 +306,8 @@ _is_down = true
 [connection signal="text_submitted" from="margin_container/scroll_container/v_box_container/option_address/v_box_container/text_option/h_box_container/line_edit" to="." method="_on_address_submitted"]
 [connection signal="focus_exited" from="margin_container/scroll_container/v_box_container/option_name/v_box_container/text_option/h_box_container/line_edit" to="." method="_on_name_focus_exited"]
 [connection signal="text_submitted" from="margin_container/scroll_container/v_box_container/option_name/v_box_container/text_option/h_box_container/line_edit" to="." method="_on_name_submitted"]
+[connection signal="focus_exited" from="margin_container/scroll_container/v_box_container/option_stage/v_box_container/text_option/h_box_container/line_edit" to="." method="_on_port_focus_exited"]
+[connection signal="text_submitted" from="margin_container/scroll_container/v_box_container/option_stage/v_box_container/text_option/h_box_container/line_edit" to="." method="_on_port_submitted"]
 [connection signal="toggled" from="margin_container/scroll_container/v_box_container/option_col/option_box/check_box" to="." method="_on_option_col_toggled"]
 [connection signal="focus_exited" from="margin_container/scroll_container/v_box_container/option_seed/v_box_container/text_option/h_box_container/line_edit" to="." method="_on_seed_focus_exited"]
 [connection signal="text_submitted" from="margin_container/scroll_container/v_box_container/option_seed/v_box_container/text_option/h_box_container/line_edit" to="." method="_on_seed_submitted"]
@@ -289,6 +318,7 @@ _is_down = true
 [editable path="margin_container/scroll_container/v_box_container/option_autoconnect"]
 [editable path="margin_container/scroll_container/v_box_container/option_address"]
 [editable path="margin_container/scroll_container/v_box_container/option_name"]
+[editable path="margin_container/scroll_container/v_box_container/option_stage"]
 [editable path="margin_container/scroll_container/v_box_container/option_col"]
 [editable path="margin_container/scroll_container/v_box_container/option_seed"]
 [editable path="margin_container/scroll_container/v_box_container/option_start_server"]

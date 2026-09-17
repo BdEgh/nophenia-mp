@@ -43,18 +43,26 @@ func change_stage_rand():
     var rng_seed = mp.mp_cfg.rng_seed
     seed(rng_seed)
     var pool = game._traverse_random.duplicate()
+    if mp.mp_cfg.remote_stage_usage == 1:
+        pool += mp.remote_stages_list
+    if mp.mp_cfg.remote_stage_usage == 2:
+        pool = mp.remote_stages_list
     pool.shuffle()
     game.to_entrance = 0
-    for _n in pool:
-        var _dream = ResourceUID.get_id_path(ResourceUID.text_to_id(_n)).get_file().get_basename()
+    for _n: String in pool:
+        var _dream: String
+        if FileAccess.file_exists(_n):
+            _dream = ResourceUID.get_id_path(ResourceUID.text_to_id(_n)).get_file().get_basename()
+        else:
+            _dream = _n
         if _dream not in config.visited:
             change_stage(_dream)
             return
-
+    
     config.visited.clear()
     config.last_visited = "stage_end"
     game._dream_attempt = 0
     mp.mp_cfg.rng_seed = randi()
-
+    
     change_stage("stage_title")
     get_window().request_attention()

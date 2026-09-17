@@ -14,6 +14,7 @@ var client: Node
 var network_server: Node
 var network_client: Node
 var remote_loader: Node
+var webserver_http: HTTPRequest
 
 var mp_cfg_res := load(get_script().resource_path.get_base_dir() + "/mp_cfg.gd")
 var mp_cfg = mp_cfg_res.new()
@@ -51,9 +52,6 @@ func _ready() -> void:
     
     chat = chat_ui_layer_res.instantiate()
     add_child(chat)
-    
-    remote_loader = remote_loader_res.new()
-    add_child(remote_loader)
     
     mod_version = ModLoaderMod.get_mod_data("com-multiplayer").manifest.version_number
     if mod_version.ends_with(".0"):
@@ -126,7 +124,7 @@ func _update_network_client() -> void:
     client.get_node("PlayerSync").client = network_client
     chat.get_node("ChatUI").client = network_client
 
-func update_http_server_addr(ws_addr: String):
+func ws_to_http(ws_addr: String):
     var regex = RegEx.new()
     regex.compile("^(wss?)(://[^:/]+):(\\d+)$")
     var result = regex.search(ws_addr)
@@ -134,7 +132,27 @@ func update_http_server_addr(ws_addr: String):
         var scheme = "https" if result.get_string(1) == "wss" else "http"
         var host = result.get_string(2)
         var port = str(result.get_string(3).to_int() + 1)
-        remote_loader.addr = scheme + host + ":" + port
+        return scheme + host + ":" + port
+    return null
+
+func update_http_client(ws_addr: String):
+    if not remote_loader:
+        remote_loader = remote_loader_res.new()
+        remote_loader.addr = ws_to_http(ws_addr)
+        add_child(remote_loader)
+        webserver_http = HTTPRequest.new()
+        add_child(webserver_http)
+        update_remote_stage_usage()
+        var remote_autoupdate = Timer.new()
+        remote_autoupdate.autostart = true
+        remote_autoupdate.wait_time = 60
+        remote_autoupdate.timeout.connect(func():
+            update_remote_stage_usage()
+        )
+        add_child(remote_autoupdate)
+    else:
+        remote_loader.addr = ws_to_http(ws_addr)
+        update_remote_stage_usage()
 
 func set_network_client() -> void:
     if network_client:
@@ -147,7 +165,7 @@ func set_network_client() -> void:
         network_client.url = "ws://127.0.0.1:%d" % mp_cfg.server_port
     else:
         network_client.url = mp_cfg.address
-    update_http_server_addr(network_client.url)
+    update_http_client(network_client.url)
     add_child(network_client)
     _update_network_client()
     network_client.request_sync()
@@ -186,7 +204,7 @@ func _on_nia_exited() -> void:
         client.queue_free()
         client = null
 
-var http: HTTPRequest
+var menu_http: HTTPRequest
 
 func _on_stage_title(stage_title: Node3D) -> void:
     var canvas = stage_title.get_node("canvas_layer")
@@ -200,8 +218,9 @@ func _on_stage_title(stage_title: Node3D) -> void:
     canvas.add_child(mp_control)
     canvas.move_child(mp_control, stage_title.get_node("canvas_layer/info_version").get_index() + 1)
     
-    http = HTTPRequest.new()
-    add_child(http)
+    if not menu_http:
+        menu_http = HTTPRequest.new()
+        add_child(menu_http)
     var git_version = await _fetch_latest_version()
     if git_version != mod_version:
         mp_upd.text = "(update to v%s available)" % [git_version]
@@ -212,8 +231,8 @@ func _on_stage_title(stage_title: Node3D) -> void:
         mp_ver.text += " (latest)"
 
 func _fetch_latest_version() -> String:
-    http.request("https://api.github.com/repos/bdegh/nophenia-mp/tags")
-    var result = await http.request_completed
+    menu_http.request("https://api.github.com/repos/bdegh/nophenia-mp/tags")
+    var result = await menu_http.request_completed
     var res = result[0]
     var code = result[1]
     var body = result[3]
@@ -232,9 +251,9 @@ func _on_update_pressed(label: RichTextLabel) -> void:
     if not DirAccess.dir_exists_absolute("res://mods"):
         DirAccess.make_dir_absolute("res://mods")
     label.text = "Downloading..."
-    http.download_file = "res://mods/com-multiplayer.zip"
-    http.request("https://github.com/BdEgh/nophenia-mp/releases/download/%s/com-multiplayer.zip" % latest_version, ["User-Agent: Godot"])
-    var result = await http.request_completed
+    menu_http.download_file = "res://mods/com-multiplayer.zip"
+    menu_http.request("https://github.com/BdEgh/nophenia-mp/releases/download/%s/com-multiplayer.zip" % latest_version, ["User-Agent: Godot"])
+    var result = await menu_http.request_completed
     var code = result[1]
     if result[0] == OK and code == 200:
         label.text = "Updated. Restarting..."
@@ -243,3 +262,34 @@ func _on_update_pressed(label: RichTextLabel) -> void:
         get_tree().quit()
     else:
         label.text = "Update failed. Code: %d" % code
+
+var remote_stages_list: Array[String]
+func update_remote_stage_usage():
+    if mp_cfg.remote_stage_usage == 0:
+        return
+    
+    webserver_http.cancel_request()
+    print("ADDR:", remote_loader.addr)
+    webserver_http.request(remote_loader.addr.path_join("get_stages"))
+    var result = await webserver_http.request_completed
+    var res: int = result[0]
+    var code: int = result[1]
+    var body: PackedByteArray = result[3]
+    var data
+    if res == OK and code == 200:
+        var json = JSON.new()
+        json.parse(body.get_string_from_ascii())
+        data = json.get_data()
+        var valid = true
+        if data is Array:
+            for i in data:
+                if not (i is String):
+                    valid = false
+        else:
+            valid = false
+        if not valid:
+            return
+    else:
+        return
+    remote_stages_list.assign(data)
+    #print("fetched remote stages: ", str(remote_stages_list))
