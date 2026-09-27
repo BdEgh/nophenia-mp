@@ -8,10 +8,6 @@
 [sub_resource type="ButtonGroup" id="ButtonGroup_3t52j"]
 resource_local_to_scene = false
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_sk0b0"]
-atlas = ExtResource("1_ruvke")
-region = Rect2(169, 20, 17, 17)
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jskkd"]
 resource_local_to_scene = true
 shader = ExtResource("3_r6pw4")
@@ -46,7 +42,6 @@ offset_bottom = 32.0
 toggle_mode = true
 button_group = SubResource("ButtonGroup_3t52j")
 shortcut_in_tooltip = false
-icon = SubResource("AtlasTexture_sk0b0")
 flat = true
 script = ExtResource("2_3t52j")
 
@@ -54,7 +49,6 @@ script = ExtResource("2_3t52j")
 layout_mode = 0
 offset_right = 57.0
 offset_bottom = 49.0
-theme_override_constants/separation = 4
 
 [node name="option_box" type="HBoxContainer" parent="v_box_container" unique_id=584397762]
 layout_mode = 2
@@ -75,6 +69,7 @@ mouse_filter = 2
 
 [node name="display_title_box" type="Control" parent="v_box_container/option_box" unique_id=1337163063]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2

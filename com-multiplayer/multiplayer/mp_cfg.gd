@@ -11,3 +11,4 @@ var collision := true
 var items_visible: Dictionary
 var key := "the door is shut"
 var remote_stage_usage := 0
+var init_stage := ""

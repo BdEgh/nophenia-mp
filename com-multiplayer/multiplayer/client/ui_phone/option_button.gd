@@ -53,7 +53,6 @@ func _ready() -> void :
     if _is_multiple_option:
         %multiple_option.visible = true
         self.custom_minimum_size.y = 45.0
-        %display_title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 
 func click(from_button: bool = true):
     if _press_cd: return
@@ -62,13 +61,15 @@ func click(from_button: bool = true):
     audio.play_snd(game.loadres("keypad"))
     self.pivot_offset = Vector2(self.size.x / 2, self.size.y / 2)
     create_tween().tween_property(self, "scale", Vector2.ONE, 0.1).from(Vector2(0.9, 0.9))
+    match _config_option:
+        "open_userdata":
+            OS.shell_open(ProjectSettings.globalize_path("user://"))
     if _is_text:
         if self.custom_minimum_size.y == 19.0:
             %text_option.show()
             %line_edit.grab_focus()
             %line_edit.caret_column = %line_edit.text.length()
             self.custom_minimum_size.y = 45.0
-            %display_title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
         elif from_button:
             hide_text()
     elif _is_option:
@@ -89,10 +90,11 @@ func _config_adjust():
     if _config_option == "":
         return
     var cfg = _mp_config()
+    var value = cfg.get(_config_option)
     if _is_option and !_hide_option:
-        %check_box.button_pressed = bool(cfg.get(_config_option))
+        %check_box.button_pressed = bool(value if value else false)
     if _is_text:
-        %line_edit.text = str(cfg.get(_config_option))
+        %line_edit.text = str(value if value else "")
 
 func disable(_state: bool):
     self.disabled = _state
@@ -132,7 +134,6 @@ func _title_size_check():
         _display_title_tween.tween_property( %display_title, "position:x", 0.0, 1.0).set_delay(0.5)
     else:
         if _display_title_tween: _display_title_tween.kill()
-        %display_title.position.x = 0
 
 func hide_text() -> void:
     %text_option.hide()

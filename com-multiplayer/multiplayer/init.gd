@@ -35,6 +35,12 @@ const _SETTINGS_PATH := "user://mp.cfg"
 
 func _ready() -> void:
     _load_config()
+    if mp_cfg.init_stage != "":
+        var _stage = mp_cfg.init_stage
+        mp_cfg.init_stage = ""
+        save_config()
+        update_http_client(mp_cfg.address)
+        remote_loader.change_stage(_stage, true)
     if "--server" in OS.get_cmdline_args():
         var port_override := -1
         for arg in OS.get_cmdline_args():
@@ -88,6 +94,12 @@ func _on_node_added(node: Node) -> void:
     if node.name == "stage_title":
         call_deferred("_on_stage_title", node)
 
+func _on_nia_exited() -> void:
+    if client:
+        client.queue_free()
+        client = null
+
+#region Client/Server
 func _attach_client() -> void:
     var nia = get_tree().get_first_node_in_group("player")
     
@@ -198,12 +210,9 @@ func drop_network_server() -> void:
     drop_network_client()
     if mp_cfg.auto_connect:
         set_network_client()
+#endregion
 
-func _on_nia_exited() -> void:
-    if client:
-        client.queue_free()
-        client = null
-
+#region ModUpdater
 var menu_http: HTTPRequest
 
 func _on_stage_title(stage_title: Node3D) -> void:
@@ -262,14 +271,16 @@ func _on_update_pressed(label: RichTextLabel) -> void:
         get_tree().quit()
     else:
         label.text = "Update failed. Code: %d" % code
+#endregion
 
+#region RemoteStages
 var remote_stages_list: Array[String]
 func update_remote_stage_usage():
     if mp_cfg.remote_stage_usage == 0:
         return
     
     webserver_http.cancel_request()
-    print("ADDR:", remote_loader.addr)
+    #print("ADDR:", remote_loader.addr)
     webserver_http.request(remote_loader.addr.path_join("get_stages"))
     var result = await webserver_http.request_completed
     var res: int = result[0]
@@ -293,3 +304,64 @@ func update_remote_stage_usage():
         return
     remote_stages_list.assign(data)
     #print("fetched remote stages: ", str(remote_stages_list))
+#endregion
+
+#region ProjectPatcher
+var default_overrides = {
+    ["display", "window/subwindows/embed_subwindows"]: true,
+    ["xr", "openxr/enabled"]: true,
+    ["xr", "shaders/enabled"]: true,
+    ["rendering", "renderer/rendering_method"]: "gl_compatibility"
+}
+
+func d_to_a(d: Dictionary) -> Array:
+    var a: Array
+    for k: Array in d:
+        a.append([k[0], k[1], d[k]])
+    return a
+
+func fetch_all_properties() -> ConfigFile:
+    var cfg := ConfigFile.new()
+    if game.is_debug:
+        if cfg.load("res://project.godot") != OK:
+            return null
+    else:
+        if cfg.load(ProjectSettings.globalize_path("res://override.cfg")) != OK:
+            return null
+    return cfg
+    #cfg.set_value("display", "window/subwindows/embed_subwindows", true)
+    #print("Cfgs", cfg.encode_to_text())
+
+func save_all_properties(cfg: ConfigFile) -> void:
+    if game.is_debug:
+        cfg.save("res://project.godot")
+    else:
+        cfg.save(ProjectSettings.globalize_path("res://override.cfg"))
+
+func patch_properties(new_props: Array) -> void:
+    var cfg := fetch_all_properties()
+    if not cfg:
+        ModLoaderLog.error("Failed to load project properties", self.name)
+        return
+    var need_restart := false
+    for p in new_props:
+        var s = p[0]
+        var k = p[1]
+        var v = p[2]
+        var cur_v = cfg.get_value(s, k, default_overrides.get([s, k]))
+        if cur_v != v:
+            print("Project property changed: %s %s from %s to %s", [s, k, cur_v, v])
+            cfg.set_value(s, k, v)
+            need_restart = true
+    if need_restart:
+        var scene = get_tree().current_scene
+        if not scene:
+            print("bad")
+            return
+        var _stage = scene.scene_file_path.get_file().get_basename()
+        mp_cfg.init_stage = _stage
+        save_all_properties(cfg)
+        save_config()
+        OS.set_restart_on_exit(true, [])
+        get_tree().quit()
+#endregion

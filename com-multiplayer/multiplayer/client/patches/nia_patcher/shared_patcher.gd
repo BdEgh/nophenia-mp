@@ -45,6 +45,7 @@ var heads: Dictionary
 var ahoge_idx := 0
 var ahoge_default_pos := Vector3.ZERO
 var ahoge_coverage_nodes := []
+var a_body: MeshInstance3D
 
 func _ready() -> void:
     skeleton = model.get_node("chara/Armature/Skeleton3D")
@@ -154,16 +155,16 @@ func _ready() -> void:
         i.visibility_changed.connect(_on_ahoge_coverage_visibility_changed.bind())
     _on_ahoge_coverage_visibility_changed()
     
-    var amelia: Node3D = amelia_scene.instantiate()
-    var a_skel = amelia.get_node("amelia_model/Armature/Skeleton3D")
-    var a_body = amelia.get_node("amelia_model/Armature/Skeleton3D/body").duplicate()
-    var a_sbone = amelia.get_node("amelia_model/Armature/Skeleton3D/spring_bone").duplicate()
-    a_body.visible = false
-    skeleton.add_child(a_body)
-    skeleton.add_child(a_sbone)
-    a_body.skeleton = a_body.get_path_to(skeleton)
-    merge_skeletons(a_skel, skeleton)
-    amelia.queue_free()
+    #var amelia: Node3D = amelia_scene.instantiate()
+    #var a_skel = amelia.get_node("amelia_model/Armature/Skeleton3D")
+    #a_body = amelia.get_node("amelia_model/Armature/Skeleton3D/body").duplicate()
+    #var a_sbone = amelia.get_node("amelia_model/Armature/Skeleton3D/spring_bone").duplicate()
+    #a_body.visible = false
+    #skeleton.add_child(a_body)
+    #skeleton.add_child(a_sbone)
+    #a_body.skeleton = a_body.get_path_to(skeleton)
+    #merge_skeletons(a_skel, skeleton)
+    #amelia.queue_free()
 
 func merge_skeletons(source: Skeleton3D, target: Skeleton3D):
     for source_idx in range(source.get_bone_count()):

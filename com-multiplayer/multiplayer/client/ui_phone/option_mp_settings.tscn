@@ -90,7 +90,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="display_title" type="Label" parent="option_box/display_title_box" unique_id=1941282451]
+[node name="display_title" type="Label" parent="option_box/display_title_box" unique_id=1669921382]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15

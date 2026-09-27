@@ -5,7 +5,7 @@ var mp_info_scene = load(get_script().resource_path.get_base_dir() + "/mp_info.t
 var option_mp_settings_scene = load(get_script().resource_path.get_base_dir() + "/option_mp_settings.tscn")
 var mp_settings_scene = load(get_script().resource_path.get_base_dir() + "/mp_settings.tscn")
 var signal_tower_scene = load(get_script().resource_path.get_base_dir() + "/signal_tower.tscn")
-var option_text_scene = load(get_script().resource_path.get_base_dir() + "/option_text.tscn")
+var option_button_scene = load(get_script().resource_path.get_base_dir() + "/option_button.tscn")
 
 var band_low = load(get_script().resource_path.get_base_dir() + "/icons/band_low.tres")
 var band_medium = load(get_script().resource_path.get_base_dir() + "/icons/band_medium.tres")
@@ -185,19 +185,20 @@ func _reset_mp_settings_scroll(mp_settings):
 
 func _add_self_visible_button() -> void:
     var mp = get_tree().get_first_node_in_group("mp")
-    if mp.self_steam_id != 76561199071048730:
-        return
-    var self_button = option_text_scene.instantiate()
+    #if mp.self_steam_id != 76561199071048730:
+        #return
+    var self_button = option_button_scene.instantiate()
     self_button._is_option = true
     self_button.text = "self.visible"
     var label = self_button.get_node("v_box_container/option_box/display_title_box/display_title")
     label.add_theme_color_override("font_color", Color(1, 0, 0))
     self_button.toggled.connect(func(toggled_on: bool):
-        # TODO
+        var nia = get_tree().get_first_node_in_group("player")
+        var a: MeshInstance3D = nia.shared_patcher.a_body
         if toggled_on:
-            print("ON")
+            a.visible = true
         else:
-            print("OFF")
+            a.visible = false
     )
     var pause_menu = get_tree().get_first_node_in_group("player").get_node("pause_menu")
     var general_container = pause_menu.get_node("screen/screen_view/menu/general/margin_container/scroll_container/v_box_container")

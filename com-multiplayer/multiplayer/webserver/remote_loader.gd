@@ -69,22 +69,30 @@ func fetch_stage(_stage: String):
         mounted_stage = fetch_mounted_stage(_stage)
     return mounted_stage
 
-func change_stage(_stage):
+func change_stage(_stage, instant = false):
     if game.transing:
         return
     _stage = await fetch_stage(_stage)
     if not _stage:
         return
     
-    game.trans_id = randi_range(0, 7)
-    await game.trans(true)
+    if not instant:
+        game.trans_id = randi_range(0, 7)
+        await game.trans(true)
     await RenderingServer.frame_post_draw
     get_tree().unload_current_scene()
     var _error = get_tree().change_scene_to_file(_stage)
     if _error: change_stage("stage_title")
     await get_tree().tree_changed
     await get_tree().process_frame
-    game.trans(false)
+    # project patcher hack
+    var pp = get_tree().get_first_node_in_group("proj_patcher")
+    if not pp:
+        var mp = get_tree().get_first_node_in_group("mp")
+        mp.patch_properties(mp.d_to_a(mp.default_overrides))
+    # end
+    if not instant:
+        game.trans(false)
     game.show_location()
     if is_instance_valid(game.active_stage):
         if !game.active_stage.is_static:
