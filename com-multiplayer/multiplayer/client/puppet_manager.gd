@@ -101,6 +101,8 @@ func _handle_puppet_action(puppet, action: String):
             sp.dizzy()
         "RAGDOLL":
             sp.ragdoll()
+        "NO":
+            sp.model.no()
         _:
             pass
 

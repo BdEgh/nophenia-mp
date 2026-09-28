@@ -96,9 +96,15 @@ func _unhandled_input(event: InputEvent) -> void:
         dizzy()
     if event is InputEventKey and event.pressed and event.keycode == KEY_9:
         ragdoll()
+    if event is InputEventKey and event.pressed and event.keycode == KEY_0:
+        no()
     if event is InputEventKey and event.pressed and event.keycode == KEY_U:
         umbrella_toggle()
     super(event)
+
+func no():
+    player_sync.send_action("NO")
+    super()
 
 func _howl():
     if _howling or is_sitting: return

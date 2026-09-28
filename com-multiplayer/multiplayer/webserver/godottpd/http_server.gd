@@ -70,7 +70,7 @@ func _ready() -> void:
 func _print_debug(message: String) -> void:
     var time = Time.get_datetime_dict_from_system()
     var time_return = "%02d-%02d-%02d %02d:%02d:%02d" % [time.year, time.month, time.day, time.hour, time.minute, time.second]
-    ModLoaderLog.info("[SERVER] %s >> %s" % [time_return, message], self.name)
+    ModLoaderLog.debug("[SERVER] %s >> %s" % [time_return, message], self.name)
 
 ## Register a new router to handle a specific path
 ## [br]
@@ -257,6 +257,7 @@ func __perform_current_request(client: StreamPeer, request):
 
                     found = router.router.handle_options(request, response)
             #break
+            return
     if not found:
         response.send(404, "Not found")
 

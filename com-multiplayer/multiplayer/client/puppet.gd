@@ -207,6 +207,22 @@ func meow():
     shared_patcher.set_surprised(false)
     _howling = false
 
+var _denial := false
+var _no_tween: Tween
+func no():
+    if _denial or _howling: return
+    audio.play_snd_spatial(game.loadres("no"), self.global_position, 7.0)
+    _denial = true
+    _no_tween = game.tween(_no_tween)
+    _no_tween.set_loops(2)
+    _no_tween.tween_property( %indicator_marker, "position:x", -0.001, 0.2).set_trans(Tween.TRANS_SINE)
+    _no_tween.tween_property( %indicator_marker, "position:x", 0.001, 0.1).set_trans(Tween.TRANS_CIRC)
+    await _no_tween.finished
+    _no_tween = game.tween(_no_tween)
+    _no_tween.set_loops(1)
+    await _no_tween.tween_property( %indicator_marker, "position:x", 0, 0.1).set_trans(Tween.TRANS_SINE).finished
+    _denial = false
+
 func _on_plinktimer_timeout() -> void :
     if !_howling and playback.get_current_node() != "smile":
         head.set_blend_shape_value(0, 0.5)
