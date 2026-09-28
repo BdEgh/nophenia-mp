@@ -12,7 +12,7 @@ func _ready():
     if ModLoader:
         ModLoader.logged.connect(_on_mod_loader_logged)
     server.start_server(port)
-    web_server.start_server(port + 1)
+    web_server.start_server(port + 1, server, get_parent().mp_cfg.key)
 
 func _on_mod_loader_logged(log_entry) -> void:
     if log_entry.mod_name != server.name:

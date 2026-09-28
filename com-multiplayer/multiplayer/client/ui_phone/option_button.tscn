@@ -70,6 +70,7 @@ mouse_filter = 2
 [node name="display_title_box" type="Control" parent="v_box_container/option_box" unique_id=1337163063]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
+clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2

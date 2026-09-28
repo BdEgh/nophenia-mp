@@ -27,7 +27,8 @@ func _ready() -> void:
     puppet_manager = mp_client.get_node("PuppetManager")
     trans_vignette = get_node("indicator_layer/trans_vignette")
     trans_saturation = get_node("indicator_layer/trans_saturation")
-    default_saturation = game.active_stage.environment.adjustment_saturation
+    if game.active_stage._world_env:
+        default_saturation = game.active_stage._world_env.environment.adjustment_saturation
     
     if game.active_stage.weather != 1: # rain
         %umbrella_rain_feedback.emitting = false
@@ -96,9 +97,15 @@ func _unhandled_input(event: InputEvent) -> void:
         dizzy()
     if event is InputEventKey and event.pressed and event.keycode == KEY_9:
         ragdoll()
+    if event is InputEventKey and event.pressed and event.keycode == KEY_0:
+        no()
     if event is InputEventKey and event.pressed and event.keycode == KEY_U:
         umbrella_toggle()
     super(event)
+
+func no():
+    player_sync.send_action("NO")
+    super()
 
 func _howl():
     if _howling or is_sitting: return
@@ -185,9 +192,10 @@ func _suppress_vignette(impact: float, delta: float) -> void:
     sat_mat.set_shader_parameter("value", move_toward(value, 0.4 + 0.6 * impact, delta / 1.8))
 
 func _tune_saturation(impact: float, delta: float) -> void:
-    var sat = game.active_stage._world_env.environment.adjustment_saturation
-    impact *= 0.2
-    game.active_stage.environment.adjustment_saturation = move_toward(sat, default_saturation + impact, delta)
+    if game.active_stage._world_env:
+        var sat = game.active_stage._world_env.environment.adjustment_saturation
+        impact *= 0.2
+        game.active_stage._world_env.environment.adjustment_saturation = move_toward(sat, default_saturation + impact, delta)
 
 func _nearby_stuff(delta: float) -> void:
     var impact := _suppress_impact()

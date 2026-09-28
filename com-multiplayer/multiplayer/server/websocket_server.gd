@@ -12,17 +12,30 @@ signal peer_disconnected(peer_id: int)
 
 var _server: TCPServer
 var _clients: Dictionary = {}
+var _banned_list := ConfigFile.new()
+var _ban_reload_timer := Timer.new()
+var _ban_reload_error: int = OK
+
+const BANNED_LIST_PATH := "user://banned_list.ini"
 
 func _ready():
-    pass
+    add_child(_ban_reload_timer)
+    _ban_reload_timer.timeout.connect(_reload_banned_list)
 
 func start_server():
+    _ban_reload_error = OK
+    _banned_list = ConfigFile.new()
+    var load_error := _banned_list.load(BANNED_LIST_PATH)
+    if load_error != OK and load_error != ERR_FILE_NOT_FOUND:
+        ModLoaderLog.error("Could not load banned_list.ini: %d" % load_error, self.name)
+        return
     _server = TCPServer.new()
     var error = _server.listen(port)
     if error != OK:
         ModLoaderLog.error("Failed to start server on port %d - Error: %d" % [port, error], self.name)
         return
     
+    _ban_reload_timer.start(1.0)
     ModLoaderLog.info("WebSocket server started on %d" % [port], self.name)
 
 func _process(_delta):
@@ -32,9 +45,27 @@ func _process(_delta):
     _handle_new_connections()
     _process_existing_clients()
 
+func _reload_banned_list() -> void:
+    var banned_list := ConfigFile.new()
+    var error := banned_list.load(BANNED_LIST_PATH)
+    if error != OK:
+        ModLoaderLog.error("Could not reload banned_list.ini: %d" % error, self.name)
+        _ban_reload_error = error
+        return
+    _ban_reload_error = OK
+    if banned_list.encode_to_text() == _banned_list.encode_to_text():
+        return
+    _banned_list = banned_list
+    for uid in _clients.keys():
+        if _is_address_banned(_clients[uid].get_connected_host()):
+            disconnect_peer(uid)
+
 func _handle_new_connections():
     if _server.is_connection_available():
         var tcp_peer = _server.take_connection()
+        if _is_address_banned(tcp_peer.get_connected_host()):
+            tcp_peer.disconnect_from_host()
+            return
         var ws_peer = WebSocketPeer.new()
         ws_peer.outbound_buffer_size = 1024 * 1024 * 2
         ws_peer.accept_stream(tcp_peer)
@@ -71,7 +102,20 @@ func _cleanup_disconnected_peers(disconnected_peers: Array):
         peer_disconnected.emit(peer_id)
 
 func _generate_peer_id() -> int:
-    return randi_range(1000000, 9000000)
+    var peer_id := randi_range(1000000, 9000000)
+    while _clients.has(peer_id) or _banned_list.has_section_key("banned_players", str(peer_id)):
+        peer_id = randi_range(1000000, 9000000)
+    return peer_id
+
+func _is_address_banned(address: String) -> bool:
+    if _banned_list.get_value("banned", address, false):
+        return true
+    if _banned_list.has_section("banned_players"):
+        for uid in _banned_list.get_section_keys("banned_players"):
+            var record = _banned_list.get_value("banned_players", uid)
+            if record is Dictionary and record.get("ip", "") == address:
+                return true
+    return false
 
 func send_data(data: PackedByteArray, peer_id: int = -1):
     if peer_id == -1:
@@ -139,7 +183,46 @@ func get_peer_count() -> int:
 func is_peer_connected(peer_id: int) -> bool:
     return _clients.has(peer_id) and _clients[peer_id].get_ready_state() == WebSocketPeer.STATE_OPEN
 
+func ban_peer(peer_id: int, player_name: String) -> Error:
+    if not is_peer_connected(peer_id):
+        return ERR_DOES_NOT_EXIST
+    var address: String = _clients[peer_id].get_connected_host()
+    var banned_list := ConfigFile.new()
+    var error := banned_list.load(BANNED_LIST_PATH)
+    if error != OK and error != ERR_FILE_NOT_FOUND:
+        return error
+    banned_list.set_value("banned_players", str(peer_id), {
+        "ip": address,
+        "uid": peer_id,
+        "player_name": player_name,
+    })
+    error = banned_list.save(BANNED_LIST_PATH)
+    if error != OK:
+        return error
+    _banned_list = banned_list
+    for uid in _clients.keys():
+        if _clients[uid].get_connected_host() == address:
+            disconnect_peer(uid)
+    return OK
+
+func unban_peer(peer_id: int) -> Error:
+    var banned_list := ConfigFile.new()
+    var error := banned_list.load(BANNED_LIST_PATH)
+    if error == ERR_FILE_NOT_FOUND:
+        return ERR_DOES_NOT_EXIST
+    if error != OK:
+        return error
+    if not banned_list.has_section_key("banned_players", str(peer_id)):
+        return ERR_DOES_NOT_EXIST
+    banned_list.erase_section_key("banned_players", str(peer_id))
+    error = banned_list.save(BANNED_LIST_PATH)
+    if error != OK:
+        return error
+    _banned_list = banned_list
+    return OK
+
 func close_connection():
+    _ban_reload_timer.stop()
     for peer_id in _clients.keys():
         disconnect_peer(peer_id)
     
