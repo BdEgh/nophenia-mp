@@ -1,0 +1,500 @@
+[gd_scene format=3 uid="uid://qlokt8pocbow"]
+
+[ext_resource type="Texture2D" uid="uid://mlhpg3xdsmqt" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/walp.png" id="1_q7psp"]
+[ext_resource type="Texture2D" uid="uid://b5mx22gl4o240" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/mag_glass.png" id="2_up7k3"]
+[ext_resource type="Texture2D" uid="uid://c0e8duvlqdl7q" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/options.png" id="3_556s4"]
+[ext_resource type="Theme" uid="uid://bvgch2a5gbyiw" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/mp3_theme.tres" id="3_x38i2"]
+[ext_resource type="Texture2D" uid="uid://bejaojg1u4qek" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/pic_shadow.png" id="4_ho31i"]
+[ext_resource type="FontFile" uid="uid://dho0yytyts0c3" path="res://resource/font/menu_large.ttf" id="4_rx0mi"]
+[ext_resource type="Texture2D" uid="uid://dnjfoppx16g2f" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/test_pic.png" id="5_6xxex"]
+[ext_resource type="PackedScene" uid="uid://c4fh1v27fouu5" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/map_select_button.tscn" id="5_bywj4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w2s06"]
+
+[sub_resource type="Gradient" id="Gradient_l7shf"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.34183672, 1)
+colors = PackedColorArray(0.2592937, 0.2592937, 0.2592937, 1, 0.06879827, 0.06879828, 0.06879828, 1, 0.41215244, 0.4121525, 0.41215235, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bmmkb"]
+gradient = SubResource("Gradient_l7shf")
+fill_from = Vector2(1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_r3nmj"]
+texture = SubResource("GradientTexture2D_bmmkb")
+
+[sub_resource type="Gradient" id="Gradient_0rxxd"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.28395063)
+colors = PackedColorArray(0, 0, 0, 0.8901961, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_r3nmj"]
+gradient = SubResource("Gradient_0rxxd")
+fill_from = Vector2(1, 0)
+fill_to = Vector2(1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1x3kl"]
+texture = SubResource("GradientTexture2D_r3nmj")
+modulate_color = Color(1, 1, 1, 0.7529412)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r3nmj"]
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="Gradient" id="Gradient_rnwvh"]
+colors = PackedColorArray(1, 1, 1, 1, 0.5409905, 0.5409905, 0.5409905, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_scmmq"]
+gradient = SubResource("Gradient_rnwvh")
+fill_from = Vector2(1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_y5rc2"]
+texture = SubResource("GradientTexture2D_scmmq")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_inmn3"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rlla5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_556s4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_08nqp"]
+bg_color = Color(0.25929368, 0.25929374, 0.2592936, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_shb6h"]
+bg_color = Color(0.5971763, 0.5971761, 0.597176, 1)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="Gradient" id="Gradient_d5j2m"]
+colors = PackedColorArray(0.8089983, 0.8089983, 0.8089982, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1x3kl"]
+gradient = SubResource("Gradient_d5j2m")
+fill_from = Vector2(1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ifeun"]
+texture = SubResource("GradientTexture2D_1x3kl")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_scmmq"]
+border_color = Color(0.3403393, 0.34033933, 0.3403393, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tl8i1"]
+bg_color = Color(0.24840015, 0.24840021, 0.24840006, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_556s4"]
+bg_color = Color(0.9340804, 0.9340805, 0.93408036, 1)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="Gradient" id="Gradient_556s4"]
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_shb6h"]
+gradient = SubResource("Gradient_556s4")
+fill_from = Vector2(1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_08nqp"]
+texture = SubResource("GradientTexture2D_shb6h")
+
+[sub_resource type="Gradient" id="Gradient_14qdi"]
+colors = PackedColorArray(0, 0, 0, 0.5921569, 0.72, 0.72, 0.72, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_lvqvi"]
+gradient = SubResource("Gradient_14qdi")
+fill_from = Vector2(1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bmmkb"]
+texture = SubResource("GradientTexture2D_lvqvi")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bmmkb"]
+
+[sub_resource type="Gradient" id="Gradient_iu1sw"]
+colors = PackedColorArray(0.76240367, 0.7624037, 0.76240337, 1, 0.9955804, 0.99558026, 0.99558026, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_tl8i1"]
+gradient = SubResource("Gradient_iu1sw")
+fill_from = Vector2(1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_scmmq"]
+texture = SubResource("GradientTexture2D_tl8i1")
+
+[sub_resource type="Theme" id="Theme_1x3kl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lvqvi"]
+bg_color = Color(0.27, 0.27, 0.27, 1)
+
+[sub_resource type="Gradient" id="Gradient_tn3h4"]
+offsets = PackedFloat32Array(0, 0.50617284)
+colors = PackedColorArray(1, 1, 1, 0.68235296, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_qsxtc"]
+gradient = SubResource("Gradient_tn3h4")
+fill_from = Vector2(1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_w2s06"]
+texture = SubResource("GradientTexture2D_qsxtc")
+
+[node name="map_select_ui" type="Control" unique_id=785316782]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="Screen" type="PanelContainer" parent="." unique_id=625519912]
+custom_maximum_size = Vector2(270, 350)
+layout_mode = 0
+offset_right = 270.0
+offset_bottom = 350.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_w2s06")
+
+[node name="Maps_menu" type="PanelContainer" parent="Screen" unique_id=1300628224]
+custom_maximum_size = Vector2(270, 350)
+layout_mode = 2
+
+[node name="walp" type="TextureRect" parent="Screen/Maps_menu" unique_id=1264567789]
+layout_mode = 2
+texture = ExtResource("1_q7psp")
+expand_mode = 1
+
+[node name="v_box_container" type="VBoxContainer" parent="Screen/Maps_menu" unique_id=473509798]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="top_bar" type="PanelContainer" parent="Screen/Maps_menu/v_box_container" unique_id=516422905]
+custom_minimum_size = Vector2(0, 40)
+custom_maximum_size = Vector2(-1, 40)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_r3nmj")
+
+[node name="tb_shadow" type="PanelContainer" parent="Screen/Maps_menu/v_box_container/top_bar" unique_id=1542954056]
+z_index = 1
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_vertical = 8
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 20)
+theme_override_styles/panel = SubResource("StyleBoxTexture_1x3kl")
+
+[node name="h_box_container" type="HBoxContainer" parent="Screen/Maps_menu/v_box_container/top_bar" unique_id=1926128232]
+layout_mode = 2
+theme_override_constants/separation = 37
+
+[node name="margin_container" type="MarginContainer" parent="Screen/Maps_menu/v_box_container/top_bar/h_box_container" unique_id=1701872934]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="search_panel" type="PanelContainer" parent="Screen/Maps_menu/v_box_container/top_bar/h_box_container/margin_container" unique_id=674516322]
+clip_children = 2
+custom_minimum_size = Vector2(181.715, 27.79)
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_r3nmj")
+
+[node name="grad" type="PanelContainer" parent="Screen/Maps_menu/v_box_container/top_bar/h_box_container/margin_container/search_panel" unique_id=960071994]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_y5rc2")
+
+[node name="margin_container" type="MarginContainer" parent="Screen/Maps_menu/v_box_container/top_bar/h_box_container/margin_container/search_panel/grad" unique_id=202343971]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="mag_glass" type="TextureRect" parent="Screen/Maps_menu/v_box_container/top_bar/h_box_container/margin_container/search_panel/grad/margin_container" unique_id=1093351439]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
+texture = ExtResource("2_up7k3")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="line_edit" type="LineEdit" parent="Screen/Maps_menu/v_box_container/top_bar/h_box_container/margin_container/search_panel/grad/margin_container" unique_id=1878814023]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_uneditable_color = Color(0.875, 0.875, 0.875, 0.5)
+theme_override_colors/font_selected_color = Color(0.052842118, 0.052842125, 0.052842118, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+theme_override_colors/font_placeholder_color = Color(0.35686275, 0.35686275, 0.35686275, 1)
+theme_override_colors/caret_color = Color(8.7318285e-06, 8.731841e-06, 8.731884e-06, 1)
+theme_override_fonts/font = ExtResource("4_rx0mi")
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("StyleBoxEmpty_inmn3")
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_rlla5")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_556s4")
+placeholder_text = "Search..."
+
+[node name="button" type="Button" parent="Screen/Maps_menu/v_box_container/top_bar/h_box_container" unique_id=1288785844]
+custom_minimum_size = Vector2(33, 33)
+custom_maximum_size = Vector2(33, 33)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_08nqp")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_shb6h")
+toggle_mode = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="texture_rect" type="TextureRect" parent="Screen/Maps_menu/v_box_container/top_bar/h_box_container/button" unique_id=1336739006]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+offset_transform_scale = Vector2(0.655, 0.655)
+texture = ExtResource("3_556s4")
+expand_mode = 4
+
+[node name="panel_container" type="PanelContainer" parent="Screen/Maps_menu/v_box_container/top_bar/h_box_container/button/texture_rect" unique_id=1309854215]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_ifeun")
+
+[node name="map_list" type="ScrollContainer" parent="Screen/Maps_menu/v_box_container" unique_id=1739489584]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("3_x38i2")
+
+[node name="v_box_container" type="VBoxContainer" parent="Screen/Maps_menu/v_box_container/map_list" unique_id=1251468725]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="button" parent="Screen/Maps_menu/v_box_container/map_list/v_box_container" unique_id=1724752639 instance=ExtResource("5_bywj4")]
+layout_mode = 2
+
+[node name="button2" parent="Screen/Maps_menu/v_box_container/map_list/v_box_container" unique_id=1351182479 instance=ExtResource("5_bywj4")]
+layout_mode = 2
+
+[node name="button3" parent="Screen/Maps_menu/v_box_container/map_list/v_box_container" unique_id=363977039 instance=ExtResource("5_bywj4")]
+layout_mode = 2
+
+[node name="button4" parent="Screen/Maps_menu/v_box_container/map_list/v_box_container" unique_id=828147710 instance=ExtResource("5_bywj4")]
+layout_mode = 2
+
+[node name="Options" type="MarginContainer" parent="Screen/Maps_menu" unique_id=133004389]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_top = 40
+
+[node name="panel_container" type="PanelContainer" parent="Screen/Maps_menu/Options" unique_id=1247838567]
+custom_minimum_size = Vector2(192.435, 217.845)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_scmmq")
+
+[node name="margin_container" type="MarginContainer" parent="Screen/Maps_menu/Options/panel_container" unique_id=385462334]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="v_box_container" type="VBoxContainer" parent="Screen/Maps_menu/Options/panel_container/margin_container" unique_id=1320577595]
+layout_mode = 2
+
+[node name="panel_container" type="PanelContainer" parent="Screen/Maps_menu/Options/panel_container/margin_container/v_box_container" unique_id=1731084175]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tl8i1")
+
+[node name="h_box_container" type="HBoxContainer" parent="Screen/Maps_menu/Options/panel_container/margin_container/v_box_container/panel_container" unique_id=568844806]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="margin_container" type="MarginContainer" parent="Screen/Maps_menu/Options/panel_container/margin_container/v_box_container/panel_container/h_box_container" unique_id=461906659]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_right = 6
+
+[node name="rich_text_label" type="RichTextLabel" parent="Screen/Maps_menu/Options/panel_container/margin_container/v_box_container/panel_container/h_box_container/margin_container" unique_id=1935048140]
+layout_mode = 2
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
+theme_override_fonts/normal_font = ExtResource("4_rx0mi")
+theme_override_font_sizes/normal_font_size = 17
+text = "Sort:"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+vertical_alignment = 1
+
+[node name="margin_container2" type="MarginContainer" parent="Screen/Maps_menu/Options/panel_container/margin_container/v_box_container/panel_container/h_box_container" unique_id=1651756936]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="option_button" type="OptionButton" parent="Screen/Maps_menu/Options/panel_container/margin_container/v_box_container/panel_container/h_box_container/margin_container2" unique_id=210679998]
+clip_children = 2
+layout_mode = 2
+theme = ExtResource("3_x38i2")
+theme_override_colors/font_color = Color(0.008201996, 0.008202039, 0.008202008, 1)
+theme_override_fonts/font = ExtResource("4_rx0mi")
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("StyleBoxFlat_556s4")
+theme_override_constants/modulate_arrow = 4
+alignment = 1
+text_overrun_behavior = 1
+selected = 0
+item_count = 4
+popup/item_0/text = "Newest"
+popup/item_0/id = 1
+popup/item_1/text = "Oldest"
+popup/item_1/id = 2
+popup/item_2/text = "Most favorites"
+popup/item_2/id = 3
+popup/item_3/text = "Least favorites"
+popup/item_3/id = 4
+
+[node name="panel_container" type="PanelContainer" parent="Screen/Maps_menu/Options/panel_container/margin_container/v_box_container/panel_container/h_box_container/margin_container2/option_button" unique_id=707336433]
+modulate = Color(1, 1, 1, 0.54509807)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_08nqp")
+
+[node name="bottom_shadow" type="PanelContainer" parent="Screen/Maps_menu" unique_id=1619545423]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_bmmkb")
+metadata/_edit_lock_ = true
+
+[node name="Map_info_menu" type="PanelContainer" parent="Screen" unique_id=1080043043]
+visible = false
+z_index = 2
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bmmkb")
+
+[node name="bg" type="PanelContainer" parent="Screen/Map_info_menu" unique_id=321991131]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_scmmq")
+
+[node name="scroll_container" type="ScrollContainer" parent="Screen/Map_info_menu/bg" unique_id=890950150]
+layout_mode = 2
+theme = SubResource("Theme_1x3kl")
+vertical_scroll_mode = 3
+scroll_hint_mode = 3
+
+[node name="v_box_container" type="VBoxContainer" parent="Screen/Map_info_menu/bg/scroll_container" unique_id=1811773753]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="pic_marg" type="MarginContainer" parent="Screen/Map_info_menu/bg/scroll_container/v_box_container" unique_id=1084074776]
+layout_mode = 2
+theme_override_constants/margin_top = 18
+
+[node name="pic_shadow" type="TextureRect" parent="Screen/Map_info_menu/bg/scroll_container/v_box_container/pic_marg" unique_id=773203824]
+modulate = Color(1, 1, 1, 0.7490196)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+offset_transform_enabled = true
+offset_transform_scale = Vector2(0.685, 0.685)
+texture = ExtResource("4_ho31i")
+expand_mode = 3
+stretch_mode = 3
+
+[node name="pic_panel" type="PanelContainer" parent="Screen/Map_info_menu/bg/scroll_container/v_box_container/pic_marg" unique_id=2038849813]
+clip_children = 2
+custom_minimum_size = Vector2(230, 230)
+custom_maximum_size = Vector2(230, 230)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_lvqvi")
+
+[node name="pic" type="TextureRect" parent="Screen/Map_info_menu/bg/scroll_container/v_box_container/pic_marg/pic_panel" unique_id=997540586]
+layout_mode = 2
+texture = ExtResource("5_6xxex")
+stretch_mode = 6
+
+[node name="World_name" type="RichTextLabel" parent="Screen/Map_info_menu/bg/scroll_container/v_box_container" unique_id=1752175214]
+clip_children = 2
+layout_mode = 2
+theme = ExtResource("3_x38i2")
+theme_override_font_sizes/normal_font_size = 27
+text = "World_name"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+
+[node name="text_grad" type="PanelContainer" parent="Screen/Map_info_menu/bg/scroll_container/v_box_container/World_name" unique_id=1932665412]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_w2s06")
+
+[node name="Author_name" type="RichTextLabel" parent="Screen/Map_info_menu/bg/scroll_container/v_box_container" unique_id=2010994985]
+layout_mode = 2
+theme_override_colors/default_color = Color(0.35686275, 0.35686275, 0.35686275, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 0)
+theme_override_fonts/normal_font = ExtResource("4_rx0mi")
+theme_override_font_sizes/normal_font_size = 20
+text = "Author_Name"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="desc_marg" type="MarginContainer" parent="Screen/Map_info_menu/bg/scroll_container/v_box_container" unique_id=300218092]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 10
+
+[node name="desc" type="RichTextLabel" parent="Screen/Map_info_menu/bg/scroll_container/v_box_container/desc_marg" unique_id=1592429264]
+layout_mode = 2
+theme_override_colors/default_color = Color(0.3968896, 0.39688912, 0.39688924, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
+theme_override_constants/shadow_outline_size = -7
+theme_override_constants/shadow_offset_x = 1
+theme_override_fonts/normal_font = ExtResource("4_rx0mi")
+theme_override_font_sizes/normal_font_size = 18
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus tristique dapibus blandit. Aliquam sodales non erat sed facilisis. Sed eu lacus eget augue ultrices aliquet a sit amet sem. Donec sollicitudin convallis eros, in euismod turpis ornare non. Vestibulum vehicula a justo at tempor. Nam ut hendrerit mi. Cras lobortis sollicitudin ante, eget imperdiet odio tincidunt ut. Nam vulputate convallis sem, in tincidunt libero sollicitudin quis. Fusce efficitur, elit sed scelerisque eleifend, neque dolor vehicula nibh, sed volutpat orci mauris sed purus. Maecenas tempus elit id nisi tempor, a tincidunt enim ultrices. Morbi finibus tellus non luctus volutpat. Donec consequat felis sem, a elementum nibh varius id. Nam interdum, ipsum quis tempor blandit, eros urna dignissim nisi, ut efficitur tortor nisl et lacus. Curabitur condimentum venenatis tincidunt. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; "
+fit_content = true

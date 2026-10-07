@@ -1,0 +1,181 @@
+[gd_scene format=3 uid="uid://c4fh1v27fouu5"]
+
+[ext_resource type="Theme" uid="uid://bvgch2a5gbyiw" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/mp3_theme.tres" id="1_oinl1"]
+[ext_resource type="Texture2D" uid="uid://bejaojg1u4qek" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/pic_shadow.png" id="2_padl8"]
+[ext_resource type="Texture2D" uid="uid://dnjfoppx16g2f" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/test_pic.png" id="3_qjhq8"]
+[ext_resource type="Texture2D" uid="uid://bgg7xmx582il5" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/person.png" id="4_mvwsd"]
+[ext_resource type="FontFile" uid="uid://dho0yytyts0c3" path="res://resource/font/menu_large.ttf" id="4_padl8"]
+[ext_resource type="Texture2D" uid="uid://dyfeqb2idlcvo" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/star.png" id="5_v7xvp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1x3kl"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_ifeun"]
+color = Color(1, 1, 1, 1)
+grow_begin = -10.0
+grow_end = -10.0
+thickness = 2
+vertical = true
+
+[sub_resource type="Gradient" id="Gradient_qqcwl"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(0.7137255, 0.7137255, 0.7137255, 1, 0.34407577, 0.34407574, 0.34407574, 1, 0.7121294, 0.7121294, 0.71212935, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_08nqp"]
+gradient = SubResource("Gradient_qqcwl")
+fill_from = Vector2(1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lvqvi"]
+texture = SubResource("GradientTexture2D_08nqp")
+
+[sub_resource type="Gradient" id="Gradient_tn3h4"]
+offsets = PackedFloat32Array(0, 0.50617284)
+colors = PackedColorArray(1, 1, 1, 0.68235296, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_qsxtc"]
+gradient = SubResource("Gradient_tn3h4")
+fill_from = Vector2(1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_w2s06"]
+texture = SubResource("GradientTexture2D_qsxtc")
+
+[node name="button" type="Button" unique_id=1724752639]
+custom_minimum_size = Vector2(0, 100)
+theme = ExtResource("1_oinl1")
+
+[node name="h_box_container" type="HBoxContainer" parent="." unique_id=1815224491]
+layout_mode = 0
+offset_right = 270.0
+offset_bottom = 100.0
+mouse_filter = 2
+theme_override_constants/separation = 7
+
+[node name="margin_for_pic" type="MarginContainer" parent="h_box_container" unique_id=1032141448]
+custom_minimum_size = Vector2(100, 0)
+custom_maximum_size = Vector2(100, -1)
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="pic_shadow" type="TextureRect" parent="h_box_container/margin_for_pic" unique_id=1542582594]
+modulate = Color(1, 1, 1, 0.8666667)
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_scale = Vector2(1.475, 1.475)
+texture = ExtResource("2_padl8")
+expand_mode = 4
+
+[node name="pic_panel" type="PanelContainer" parent="h_box_container/margin_for_pic" unique_id=477392846]
+clip_children = 2
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1x3kl")
+
+[node name="pic" type="TextureRect" parent="h_box_container/margin_for_pic/pic_panel" unique_id=203248726]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_qjhq8")
+expand_mode = 4
+stretch_mode = 6
+
+[node name="separator_line" type="PanelContainer" parent="h_box_container" unique_id=545660538]
+clip_children = 2
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxLine_ifeun")
+
+[node name="gradient" type="PanelContainer" parent="h_box_container/separator_line" unique_id=329730984]
+custom_minimum_size = Vector2(2, 8.265)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+offset_transform_enabled = true
+offset_transform_scale = Vector2(4.635, 10.17)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_lvqvi")
+
+[node name="margin_container2" type="MarginContainer" parent="h_box_container" unique_id=361367571]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="button_info" type="VBoxContainer" parent="h_box_container/margin_container2" unique_id=2017959022]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 1
+
+[node name="Map_name" type="RichTextLabel" parent="h_box_container/margin_container2/button_info" unique_id=2111620314]
+clip_children = 2
+layout_mode = 2
+size_flags_vertical = 6
+mouse_filter = 2
+theme = ExtResource("1_oinl1")
+text = "Map_Name"
+fit_content = true
+vertical_alignment = 1
+
+[node name="text_grad" type="PanelContainer" parent="h_box_container/margin_container2/button_info/Map_name" unique_id=2143724681]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_w2s06")
+
+[node name="Author_name" type="RichTextLabel" parent="h_box_container/margin_container2/button_info" unique_id=367247623]
+layout_mode = 2
+size_flags_vertical = 6
+mouse_filter = 2
+theme_override_colors/default_color = Color(0.35686275, 0.35686275, 0.35686275, 1)
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 0)
+theme_override_fonts/normal_font = ExtResource("4_padl8")
+theme_override_font_sizes/normal_font_size = 20
+text = "Author_Name"
+fit_content = true
+vertical_alignment = 1
+
+[node name="numbers" type="HBoxContainer" parent="h_box_container/margin_container2/button_info" unique_id=1348474444]
+layout_mode = 2
+size_flags_horizontal = 0
+alignment = 1
+
+[node name="peeps" type="HBoxContainer" parent="h_box_container/margin_container2/button_info/numbers" unique_id=1564905943]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 4
+
+[node name="peeps_pic" type="TextureRect" parent="h_box_container/margin_container2/button_info/numbers/peeps" unique_id=1342538090]
+clip_children = 2
+layout_mode = 2
+size_flags_horizontal = 0
+texture = ExtResource("4_mvwsd")
+expand_mode = 2
+
+[node name="label" type="Label" parent="h_box_container/margin_container2/button_info/numbers/peeps" unique_id=1698948323]
+custom_minimum_size = Vector2(28.17, 0)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.36, 0.36, 0.36, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+text = "0"
+
+[node name="favs" type="HBoxContainer" parent="h_box_container/margin_container2/button_info/numbers" unique_id=823905630]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 4
+
+[node name="favs_pic" type="TextureRect" parent="h_box_container/margin_container2/button_info/numbers/favs" unique_id=412710452]
+clip_children = 2
+layout_mode = 2
+size_flags_horizontal = 0
+texture = ExtResource("5_v7xvp")
+expand_mode = 2
+
+[node name="label" type="Label" parent="h_box_container/margin_container2/button_info/numbers/favs" unique_id=762867586]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.36, 0.36, 0.36, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+text = "0"

@@ -30,6 +30,7 @@ const item_types: Dictionary = {
     "Sweater beige": Type.Body,
     
     "Hat": Type.Head,
+    "Seal": Type.Head,
     #"Short hair head": Type.Head,
     #"head for hats": Type.Head
 }
@@ -89,6 +90,8 @@ func save_state() -> void:
     var mp = get_tree().get_first_node_in_group("mp")
     for item_button in items_container.get_children():
         var item_name: String = item_button.iname
+        if item_name == "Seal":
+            continue
         mp.mp_cfg.items_visible[item_name] = item_button.item.visible
     mp.save_config()
 

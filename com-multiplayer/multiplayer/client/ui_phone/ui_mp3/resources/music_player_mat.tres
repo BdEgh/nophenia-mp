@@ -1,0 +1,30 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://cgfohb4p15gtv"]
+
+[ext_resource type="Texture2D" uid="uid://ckty8lln57ym4" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/music_player_music_player_texture2.png" id="1_5fo7p"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_djg8q"]
+render_priority = 5
+transparency = 1
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 1)
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 5
+metadata/_stencil_owned = true
+
+[resource]
+resource_name = "Material.001"
+render_priority = 4
+next_pass = SubResource("StandardMaterial3D_djg8q")
+transparency = 4
+cull_mode = 2
+shading_mode = 2
+albedo_texture = ExtResource("1_5fo7p")
+metallic = 0.6
+metallic_specular = 0.2
+rim_enabled = true
+texture_filter = 5
+stencil_mode = 2
+stencil_flags = 2
+metadata/_gltf_primary_texture_coord = 0

@@ -1,0 +1,376 @@
+[gd_scene format=3 uid="uid://d05qt2bhcyxgf"]
+
+[ext_resource type="PackedScene" uid="uid://c5c5b6gav0ng2" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/music_player.glb" id="1_bm0kk"]
+[ext_resource type="Script" uid="uid://djgys5adwup1l" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/music_player.gd" id="1_o8am3"]
+[ext_resource type="Script" uid="uid://bf7n4fokgys8a" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/gui_3d.gd" id="2_o8am3"]
+[ext_resource type="PackedScene" uid="uid://qlokt8pocbow" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/map_select_ui.tscn" id="2_vd3b4"]
+
+[sub_resource type="Animation" id="Animation_7ccjc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("3d_gui:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-4.108, -1.311, -1.183)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("3d_gui:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.20071286, 4.2167153, -0.090757124)]
+}
+
+[sub_resource type="Animation" id="Animation_n3x3t"]
+resource_name = "away_zoom_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("3d_gui:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.16666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.75, -0.373, -4.622), Vector3(-4.108, -1.311, -1.183)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("3d_gui:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.16666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.5851136, 2.9106693, 0.072268546), Vector3(-0.20071286, 4.2167153, -0.090757124)]
+}
+
+[sub_resource type="Animation" id="Animation_7h37t"]
+resource_name = "away_zoom_out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("3d_gui:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.13333334),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-1.791, -1.161, -1.062), Vector3(-4.108, -1.311, -1.183)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("3d_gui:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.13333334),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.45553094, 2.9862583, 0.022689281), Vector3(-0.20071286, 4.2167153, -0.090757124)]
+}
+
+[sub_resource type="Animation" id="Animation_bm0kk"]
+resource_name = "popup"
+length = 0.56666666
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("3d_gui:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3, 0.53333336),
+"transitions": PackedFloat32Array(-2, -0.93303245, -2, -2),
+"update": 0,
+"values": [Vector3(-4.108, -1.311, -1.183), Vector3(-1.334, -1.331, -0.561), Vector3(-1.091, -1.016, -1.252), Vector3(-0.75, -0.373, -4.622)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("3d_gui:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.36666667, 0.53333336),
+"transitions": PackedFloat32Array(-2, -2, -2),
+"update": 0,
+"values": [Vector3(-0.20071286, 4.818854, -0.090757124), Vector3(-0.42586035, 2.994985, -0.057595864), Vector3(-0.5851136, 2.9106693, 0.072268546)]
+}
+
+[sub_resource type="Animation" id="Animation_itctd"]
+resource_name = "zoom_out"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("3d_gui:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.23333333),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [Vector3(-0.75, -0.373, -4.622), Vector3(-1.791, -1.161, -1.062)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("3d_gui:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.23333333),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [Vector3(-0.5851136, 2.9106693, 0.072268546), Vector3(-0.45553094, 2.9862583, 0.022689281)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nul1p"]
+_data = {
+&"RESET": SubResource("Animation_7ccjc"),
+&"away_zoom_in": SubResource("Animation_n3x3t"),
+&"away_zoom_out": SubResource("Animation_7h37t"),
+&"popup": SubResource("Animation_bm0kk"),
+&"zoom_out": SubResource("Animation_itctd")
+}
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_3ahtj"]
+viewport_path = NodePath("sub_viewport")
+
+[sub_resource type="QuadMesh" id="QuadMesh_o8am3"]
+size = Vector2(1.5, 1.95)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_o8am3"]
+viewport_path = NodePath("sub_viewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vd3b4"]
+resource_local_to_scene = true
+render_priority = 4
+transparency = 1
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_o8am3")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mc0v7"]
+size = Vector3(1.5, 1.95, 0.1)
+
+[node name="music_player" type="Node3D" unique_id=1406719581]
+script = ExtResource("1_o8am3")
+
+[node name="sub_viewport" type="SubViewport" parent="." unique_id=598768140]
+unique_name_in_owner = true
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(270, 350)
+render_target_update_mode = 4
+
+[node name="map_select_ui" parent="sub_viewport" unique_id=785316782 instance=ExtResource("2_vd3b4")]
+
+[node name="3d_gui" type="Node3D" parent="." unique_id=1358651604]
+unique_name_in_owner = true
+transform = Transform3D(-0.48956126, 0.13154493, -0.8619887, -0.088813074, 0.9758922, 0.19936779, 0.86743385, 0.17415887, -0.46607572, -4.108, -1.311, -1.183)
+script = ExtResource("2_o8am3")
+
+[node name="menu_camasdf" type="Camera3D" parent="3d_gui" unique_id=1555864820]
+unique_name_in_owner = true
+transform = Transform3D(0.48956168, 0.29036707, -0.8222026, -0.13154483, 0.9567282, 0.25955045, 0.8619899, -0.01890941, 0.5065741, -8.483061, 5.161585, 0.8398695)
+fov = 30.0
+
+[node name="mp_animation_player" type="AnimationPlayer" parent="3d_gui" unique_id=888099976]
+unique_name_in_owner = true
+root_node = NodePath("../..")
+libraries/ = SubResource("AnimationLibrary_nul1p")
+
+[node name="music_player" parent="3d_gui" unique_id=2028014787 instance=ExtResource("1_bm0kk")]
+unique_name_in_owner = true
+
+[node name="bone_attachment_3d" type="BoneAttachment3D" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 3330455) index="0" unique_id=636801810]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2464705e-17, 1.9218986, 0.044964492)
+bone_name = "music_player"
+bone_idx = 0
+
+[node name="center" type="Marker3D" parent="3d_gui/music_player/Armature/Skeleton3D/bone_attachment_3d" unique_id=1142013587]
+unique_name_in_owner = true
+transform = Transform3D(0.9999993, -0.0012277663, -6.660819e-05, 0.0012276024, 0.9999974, -0.0020107925, 6.914139e-05, 0.0020107552, 0.9999986, 0.004362898, 1.2669388, 0.021697411)
+
+[node name="sprite_3d" type="Sprite3D" parent="3d_gui/music_player/Armature/Skeleton3D/bone_attachment_3d" unique_id=196021635]
+transform = Transform3D(-0.2742125, -0.050413866, 0.4856606, 0.07429883, 0.54621214, 0.09864982, -0.4825843, 0.112741195, -0.26077247, -1.1217623, 1.3571076, -3.6722655)
+visible = false
+texture_filter = 0
+render_priority = 7
+texture = SubResource("ViewportTexture_3ahtj")
+
+[node name="quad" type="MeshInstance3D" parent="3d_gui/music_player/Armature/Skeleton3D/bone_attachment_3d" unique_id=1136854805]
+unique_name_in_owner = true
+editor_description = "To setup this MeshInstance3D:
+* Set Surface Material Override to a new StandardMaterial3D.
+* At the bottom of the StandardMaterial3D's properties, set \"Local to Scene\" to true.
+* Set the Albedo Texture of StandardMaterial3D to new ViewportTexture and set the Viewport Path.
+* Transparency to Alpha.
+* Shading to Unshaded."
+transform = Transform3D(1.0000006, 0, 0, 0, 0.9999997, 0, 0, 0, 1.0000004, 3.4924617e-09, 1.2506953, 0.11083143)
+mesh = SubResource("QuadMesh_o8am3")
+skeleton = NodePath("../../../../../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_vd3b4")
+
+[node name="area_3d" type="Area3D" parent="3d_gui/music_player/Armature/Skeleton3D/bone_attachment_3d/quad" unique_id=486166960]
+unique_name_in_owner = true
+collision_layer = 2
+input_capture_on_drag = true
+
+[node name="collision_shape_3d" type="CollisionShape3D" parent="3d_gui/music_player/Armature/Skeleton3D/bone_attachment_3d/quad/area_3d" unique_id=1979599661]
+transform = Transform3D(1.0000007, 7.4505806e-08, 1.1920929e-07, -1.0430813e-07, 0.9999996, 0, 2.682209e-07, -8.195639e-08, 1.0000005, -8.34465e-07, 2.3841858e-07, -7.1525574e-07)
+shape = SubResource("BoxShape3D_mc0v7")
+
+[node name="sbs_ear1" type="SpringBoneSimulator3D" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 3330455) index="1" unique_id=679294999]
+unique_name_in_owner = true
+transform = Transform3D(0.4, 0, 0, 0, -1.7484556e-08, -0.4, 0, 0.4, -1.7484556e-08, 0, -2.0657628, -0.05852139)
+influence = 0.205
+setting_count = 1
+settings/0/root_bone_name = "ear1_2"
+settings/0/root_bone = 1
+settings/0/end_bone_name = "ear1.003"
+settings/0/end_bone = 4
+settings/0/extend_end_bone = false
+settings/0/center_from = 0
+settings/0/individual_config = false
+settings/0/rotation_axis = 3
+settings/0/radius/value = 0.02
+settings/0/radius/damping_curve = null
+settings/0/stiffness/value = 4.0
+settings/0/stiffness/damping_curve = null
+settings/0/drag/value = 0.2
+settings/0/drag/damping_curve = null
+settings/0/gravity/value = 0.19
+settings/0/gravity/damping_curve = null
+settings/0/gravity/direction = Vector3(0, -1, 0)
+settings/0/joints/0/bone_name = "ear1_2"
+settings/0/joints/0/bone = 1
+settings/0/joints/1/bone_name = "ear1.001"
+settings/0/joints/1/bone = 2
+settings/0/joints/2/bone_name = "ear1.002"
+settings/0/joints/2/bone = 3
+settings/0/joints/3/bone_name = "ear1.003"
+settings/0/joints/3/bone = 4
+settings/0/enable_all_child_collisions = true
+settings/0/exclude_collision_count = 0
+
+[node name="sbs_ear2" type="SpringBoneSimulator3D" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 3330455) index="2" unique_id=2079243090]
+unique_name_in_owner = true
+transform = Transform3D(0.4, 0, 3.7252903e-09, 3.7252903e-09, -3.7252903e-09, -0.40000004, 0, 0.40000004, -1.4901161e-08, -2.3841858e-07, -2.0657625, -0.05852127)
+influence = 0.205
+setting_count = 1
+settings/0/root_bone_name = "ear2_2"
+settings/0/root_bone = 5
+settings/0/end_bone_name = "ear2.003"
+settings/0/end_bone = 8
+settings/0/extend_end_bone = false
+settings/0/center_from = 0
+settings/0/individual_config = false
+settings/0/rotation_axis = 3
+settings/0/radius/value = 0.02
+settings/0/radius/damping_curve = null
+settings/0/stiffness/value = 4.0
+settings/0/stiffness/damping_curve = null
+settings/0/drag/value = 0.2
+settings/0/drag/damping_curve = null
+settings/0/gravity/value = 0.19
+settings/0/gravity/damping_curve = null
+settings/0/gravity/direction = Vector3(0, -1, 0)
+settings/0/joints/0/bone_name = "ear2_2"
+settings/0/joints/0/bone = 5
+settings/0/joints/1/bone_name = "ear2.001"
+settings/0/joints/1/bone = 6
+settings/0/joints/2/bone_name = "ear2.002"
+settings/0/joints/2/bone = 7
+settings/0/joints/3/bone_name = "ear2.003"
+settings/0/joints/3/bone = 8
+settings/0/enable_all_child_collisions = true
+settings/0/exclude_collision_count = 0
+
+[node name="sbs_player" type="SpringBoneSimulator3D" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 3330455) index="3" unique_id=2065034571]
+unique_name_in_owner = true
+transform = Transform3D(0.4, 0, 0, 0, -1.7484556e-08, -0.4, 0, 0.4, -1.7484556e-08, 0, -2.0657628, -0.05852139)
+influence = 0.205
+setting_count = 1
+settings/0/root_bone_name = "music_player"
+settings/0/root_bone = 0
+settings/0/end_bone_name = "ear1_2"
+settings/0/end_bone = 1
+settings/0/extend_end_bone = false
+settings/0/center_from = 0
+settings/0/individual_config = false
+settings/0/rotation_axis = 3
+settings/0/radius/value = 0.02
+settings/0/radius/damping_curve = null
+settings/0/stiffness/value = 4.0
+settings/0/stiffness/damping_curve = null
+settings/0/drag/value = 0.2
+settings/0/drag/damping_curve = null
+settings/0/gravity/value = 0.19
+settings/0/gravity/damping_curve = null
+settings/0/gravity/direction = Vector3(0, -1, 0)
+settings/0/joints/0/bone_name = "music_player"
+settings/0/joints/0/bone = 0
+settings/0/joints/1/bone_name = "ear1_2"
+settings/0/joints/1/bone = 1
+settings/0/enable_all_child_collisions = true
+settings/0/exclude_collision_count = 0
+
+[node name="sbs_wires" type="SpringBoneSimulator3D" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 3330455) index="4" unique_id=862493614]
+unique_name_in_owner = true
+transform = Transform3D(0.4, 0, 0, 0, -1.7484556e-08, -0.4, 0, 0.4, -1.7484556e-08, 0, -2.0657628, -0.05852139)
+influence = 0.205
+setting_count = 1
+settings/0/root_bone_name = "wires_2"
+settings/0/root_bone = 9
+settings/0/end_bone_name = "wires.002"
+settings/0/end_bone = 11
+settings/0/extend_end_bone = false
+settings/0/center_from = 0
+settings/0/individual_config = false
+settings/0/rotation_axis = 3
+settings/0/radius/value = 0.02
+settings/0/radius/damping_curve = null
+settings/0/stiffness/value = 4.0
+settings/0/stiffness/damping_curve = null
+settings/0/drag/value = 0.2
+settings/0/drag/damping_curve = null
+settings/0/gravity/value = 0.19
+settings/0/gravity/damping_curve = null
+settings/0/gravity/direction = Vector3(0, -1, 0)
+settings/0/joints/0/bone_name = "wires_2"
+settings/0/joints/0/bone = 9
+settings/0/joints/1/bone_name = "wires.001"
+settings/0/joints/1/bone = 10
+settings/0/joints/2/bone_name = "wires.002"
+settings/0/joints/2/bone = 11
+settings/0/enable_all_child_collisions = true
+settings/0/exclude_collision_count = 0
+
+[node name="ear1" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 3330455) index="5" unique_id=440362648 groups=["stage_lit"]]
+
+[node name="ear2" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 3330455) index="6" unique_id=1293706094 groups=["stage_lit"]]
+
+[node name="Music_player" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 3330455) index="7" unique_id=682205642 groups=["stage_lit"]]
+
+[node name="wires" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 3330455) index="8" unique_id=198090550 groups=["stage_lit"]]
+
+[editable path="3d_gui/music_player"]

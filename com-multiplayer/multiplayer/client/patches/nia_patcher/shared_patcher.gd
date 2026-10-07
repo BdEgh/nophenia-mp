@@ -71,14 +71,14 @@ func _ready() -> void:
     halo_fol.visible = false
     model.add_child(halo_fol)
     
-    var seal_att = seal_attachment_scene.instantiate()
-    skeleton.add_child(seal_att)
     var seal: Node3D = seal_scene.instantiate()
-    seal.visible = false
+    item_meshes.append(seal.get_node("Seal"))
     model.add_child(seal)
     ahoge_coverage_nodes.append(seal)
-    var seal_rt: RemoteTransform3D = seal_att.get_node("remote_transform_3d")
-    seal_rt.remote_path = seal_rt.get_path_to(seal)
+    var seal_att = seal_attachment_scene.instantiate()
+    skeleton.add_child(seal_att)
+    #var seal_rt: RemoteTransform3D = seal_att.get_node("remote_transform_3d")
+    #seal_rt.remote_path = seal_rt.get_path_to(seal)
     
     var items_root: Node3D = items_glb.instantiate()
     var items_skel = items_root.get_node("Armature/Skeleton3D")

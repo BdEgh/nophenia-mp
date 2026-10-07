@@ -47,8 +47,9 @@ shadow_mesh = SubResource("ArrayMesh_ebh5o")
 
 [node name="seal" type="Node3D" unique_id=1409763023]
 
-[node name="mesh" type="MeshInstance3D" parent="." unique_id=392474372 groups=["stage_lit"]]
+[node name="Seal" type="MeshInstance3D" parent="." unique_id=392474372 groups=["stage_lit"]]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0.325, -0.02)
+visible = false
 mesh = SubResource("ArrayMesh_h46od")
 skeleton = NodePath("")
 metadata/extras = {

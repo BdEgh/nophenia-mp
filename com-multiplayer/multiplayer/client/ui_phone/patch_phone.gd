@@ -6,6 +6,8 @@ var option_mp_settings_scene = load(get_script().resource_path.get_base_dir() + 
 var mp_settings_scene = load(get_script().resource_path.get_base_dir() + "/mp_settings.tscn")
 var signal_tower_scene = load(get_script().resource_path.get_base_dir() + "/signal_tower.tscn")
 var option_button_scene = load(get_script().resource_path.get_base_dir() + "/option_button.tscn")
+var option_user_maps_scene = load(get_script().resource_path.get_base_dir() + "/option_user_maps.tscn")
+var music_player_scene = load(get_script().resource_path.get_base_dir() + "/ui_mp3/music_player.tscn")
 
 var band_low = load(get_script().resource_path.get_base_dir() + "/icons/band_low.tres")
 var band_medium = load(get_script().resource_path.get_base_dir() + "/icons/band_medium.tres")
@@ -32,6 +34,7 @@ var _was_connected: bool = false
 func _ready():
     _add_mp_settings_button()
     _add_mp_info_button()
+    _add_user_maps_button()
     _add_icons()
     _add_refresh_timer()
     #_add_self_visible_button()
@@ -135,7 +138,7 @@ func _show_connected_status():
     _signal_status_tween = create_tween()
     _signal_status_tween.tween_method(_revert, 0.0, 0.0, 0).set_delay(randf_range(3.5, 10.0))
 
-func _add_option(option, screen):
+func _add_option(option, screen=null):
     var pause_menu = get_tree().get_first_node_in_group("player").get_node("pause_menu")
     var screen_view = pause_menu.get_node("screen/screen_view")
     var options_vbox = screen_view.get_node("menu/options/margin_container/scroll_container/v_box_container")
@@ -145,8 +148,9 @@ func _add_option(option, screen):
     var cat_option = options_vbox.get_node_or_null("option_cat")
     options_vbox.move_child(option, cat_option.get_index())
     
-    menu_control.add_child(screen)
-    option._screen = screen
+    if screen:
+        menu_control.add_child(screen)
+        option._screen = screen
 
 func _add_mp_info_button():
     var option_multiplayer = option_mp_info_scene.instantiate()
@@ -174,6 +178,19 @@ func _add_mp_settings_button():
     mp_settings.visibility_changed.connect(_reset_mp_settings_scroll.bind(mp_settings))
 
     _add_option(option_mp_settings, mp_settings)
+
+var mp3
+func _add_user_maps_button():
+    var option_user_maps: Button = option_user_maps_scene.instantiate()
+    option_user_maps.name = "option_user_maps"
+    var pause_menu = get_tree().get_first_node_in_group("player").get_node("pause_menu")
+    _add_option(option_user_maps)
+    
+    mp3 = music_player_scene.instantiate()
+    mp3.pause_menu = pause_menu
+    var menu_view = pause_menu.get_node("menu_box/menu_view")
+    menu_view.add_child(mp3)
+    option_user_maps.pressed.connect(mp3.popup)
 
 func _reset_mp_settings_scroll(mp_settings):
     if not mp_settings.visible:
