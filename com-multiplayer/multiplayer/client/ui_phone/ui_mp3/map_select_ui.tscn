@@ -1,20 +1,24 @@
 [gd_scene format=3 uid="uid://qlokt8pocbow"]
 
+[ext_resource type="Script" uid="uid://ddtsmw3pjsklh" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/map_select_ui.gd" id="1_d5j2m"]
 [ext_resource type="Texture2D" uid="uid://mlhpg3xdsmqt" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/walp.png" id="1_q7psp"]
 [ext_resource type="Texture2D" uid="uid://b5mx22gl4o240" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/mag_glass.png" id="2_up7k3"]
 [ext_resource type="Texture2D" uid="uid://c0e8duvlqdl7q" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/options.png" id="3_556s4"]
+[ext_resource type="FontFile" uid="uid://ckr11ujsuvxjv" path="res://resource/font/menu_maru.ttf" id="3_go7gw"]
 [ext_resource type="Theme" uid="uid://bvgch2a5gbyiw" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/mp3_theme.tres" id="3_x38i2"]
+[ext_resource type="Texture2D" uid="uid://bn41f14lei34t" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/battery.png" id="4_3121i"]
 [ext_resource type="Texture2D" uid="uid://bejaojg1u4qek" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/pic_shadow.png" id="4_ho31i"]
 [ext_resource type="FontFile" uid="uid://dho0yytyts0c3" path="res://resource/font/menu_large.ttf" id="4_rx0mi"]
 [ext_resource type="Texture2D" uid="uid://dnjfoppx16g2f" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/test_pic.png" id="5_6xxex"]
 [ext_resource type="PackedScene" uid="uid://c4fh1v27fouu5" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/map_select_button.tscn" id="5_bywj4"]
+[ext_resource type="Texture2D" uid="uid://c5aey5ak2ybnh" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/arrow_back_2.png" id="5_go7gw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w2s06"]
 
 [sub_resource type="Gradient" id="Gradient_l7shf"]
 interpolation_mode = 2
 offsets = PackedFloat32Array(0, 0.34183672, 1)
-colors = PackedColorArray(0.2592937, 0.2592937, 0.2592937, 1, 0.06879827, 0.06879828, 0.06879828, 1, 0.41215244, 0.4121525, 0.41215235, 1)
+colors = PackedColorArray(0.2592937, 0.2592937, 0.2592937, 1, 0.19793725, 0.19793722, 0.19793722, 1, 0.41215244, 0.4121525, 0.41215235, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_bmmkb"]
 gradient = SubResource("Gradient_l7shf")
@@ -36,6 +40,21 @@ fill_to = Vector2(1, 1)
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1x3kl"]
 texture = SubResource("GradientTexture2D_r3nmj")
 modulate_color = Color(1, 1, 1, 0.7529412)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ifeun"]
+
+[sub_resource type="Gradient" id="Gradient_go7gw"]
+colors = PackedColorArray(0.47397572, 0.47397572, 0.47397572, 1, 0.796243, 0.796243, 0.796243, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_08nqp"]
+gradient = SubResource("Gradient_go7gw")
+fill_from = Vector2(1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lvqvi"]
+texture = SubResource("GradientTexture2D_08nqp")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ifeun"]
+bg_color = Color(0.01, 0.01, 0.01, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r3nmj"]
 corner_radius_top_left = 100
@@ -61,10 +80,10 @@ texture = SubResource("GradientTexture2D_scmmq")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_08nqp"]
 bg_color = Color(0.25929368, 0.25929374, 0.2592936, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
 corner_radius_top_left = 100
 corner_radius_top_right = 100
 corner_radius_bottom_right = 100
@@ -115,11 +134,12 @@ fill_from = Vector2(1, 1)
 texture = SubResource("GradientTexture2D_shb6h")
 
 [sub_resource type="Gradient" id="Gradient_14qdi"]
-colors = PackedColorArray(0, 0, 0, 0.5921569, 0.72, 0.72, 0.72, 0)
+colors = PackedColorArray(0, 0, 0, 0.5921569, 0, 0, 0, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_lvqvi"]
 gradient = SubResource("Gradient_14qdi")
 fill_from = Vector2(1, 1)
+fill_to = Vector2(1, 0.8247863)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bmmkb"]
 texture = SubResource("GradientTexture2D_lvqvi")
@@ -159,6 +179,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_d5j2m")
 metadata/_edit_lock_ = true
 
 [node name="Screen" type="PanelContainer" parent="." unique_id=625519912]
@@ -182,8 +203,8 @@ layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="top_bar" type="PanelContainer" parent="Screen/Maps_menu/v_box_container" unique_id=516422905]
-custom_minimum_size = Vector2(0, 40)
-custom_maximum_size = Vector2(-1, 40)
+custom_minimum_size = Vector2(0, 50)
+custom_maximum_size = Vector2(-1, 50)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_r3nmj")
 
@@ -196,37 +217,125 @@ offset_transform_enabled = true
 offset_transform_position = Vector2(0, 20)
 theme_override_styles/panel = SubResource("StyleBoxTexture_1x3kl")
 
-[node name="h_box_container" type="HBoxContainer" parent="Screen/Maps_menu/v_box_container/top_bar" unique_id=1926128232]
+[node name="v_box_container" type="VBoxContainer" parent="Screen/Maps_menu/v_box_container/top_bar" unique_id=1525054412]
 layout_mode = 2
-theme_override_constants/separation = 37
+theme_override_constants/separation = 0
 
-[node name="margin_container" type="MarginContainer" parent="Screen/Maps_menu/v_box_container/top_bar/h_box_container" unique_id=1701872934]
+[node name="cosmetic_stuff" type="PanelContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container" unique_id=1637452820]
+custom_minimum_size = Vector2(0, 12)
+custom_maximum_size = Vector2(-1, 12)
 layout_mode = 2
-theme_override_constants/margin_left = 5
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ifeun")
+
+[node name="User_content" type="RichTextLabel" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/cosmetic_stuff" unique_id=1540463881]
+clip_children = 2
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
+theme_override_fonts/normal_font = ExtResource("3_go7gw")
+theme_override_font_sizes/normal_font_size = 11
+text = "User Content"
+fit_content = true
+scroll_active = false
+
+[node name="panel_container" type="PanelContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/cosmetic_stuff/User_content" unique_id=1344763120]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_lvqvi")
+
+[node name="h_box_container" type="HBoxContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/cosmetic_stuff" unique_id=1468575224]
+layout_mode = 2
+
+[node name="margin_container" type="MarginContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/cosmetic_stuff/h_box_container" unique_id=1912041200]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+
+[node name="clock" type="RichTextLabel" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/cosmetic_stuff/h_box_container/margin_container" unique_id=1747644380]
+layout_mode = 2
+theme_override_colors/default_color = Color(0.8217887, 0.82178867, 0.82178867, 1)
+theme_override_colors/font_outline_color = Color(0.87, 0.87, 0.87, 0)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.43529412)
+theme_override_constants/shadow_outline_size = -9
+theme_override_constants/shadow_offset_x = 0
+theme_override_fonts/normal_font = ExtResource("3_go7gw")
+theme_override_font_sizes/normal_font_size = 11
+text = "16:07"
+fit_content = true
+scroll_active = false
+
+[node name="margin_container2" type="MarginContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/cosmetic_stuff/h_box_container" unique_id=2105025190]
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = -11
+theme_override_constants/margin_bottom = 1
+
+[node name="texture_rect" type="TextureRect" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/cosmetic_stuff/h_box_container/margin_container2" unique_id=367461014]
+layout_mode = 2
+texture = ExtResource("4_3121i")
+stretch_mode = 5
+
+[node name="h_box_container" type="HBoxContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container" unique_id=1926128232]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="back_button" type="Button" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/h_box_container" unique_id=1847823011]
+custom_minimum_size = Vector2(28.22, 0)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_ifeun")
+
+[node name="margin_container" type="MarginContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/h_box_container/back_button" unique_id=1469776330]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_bottom = 5
+
+[node name="texture_rect" type="TextureRect" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/h_box_container/back_button/margin_container" unique_id=297372134]
+layout_mode = 2
+texture = ExtResource("5_go7gw")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="margin_container" type="MarginContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/h_box_container" unique_id=1701872934]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 1
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="search_panel" type="PanelContainer" parent="Screen/Maps_menu/v_box_container/top_bar/h_box_container/margin_container" unique_id=674516322]
+[node name="search_panel" type="PanelContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/h_box_container/margin_container" unique_id=674516322]
 clip_children = 2
-custom_minimum_size = Vector2(181.715, 27.79)
+custom_minimum_size = Vector2(0, 27.79)
 layout_mode = 2
-size_flags_horizontal = 2
+size_flags_horizontal = 3
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_r3nmj")
 
-[node name="grad" type="PanelContainer" parent="Screen/Maps_menu/v_box_container/top_bar/h_box_container/margin_container/search_panel" unique_id=960071994]
+[node name="grad" type="PanelContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/h_box_container/margin_container/search_panel" unique_id=960071994]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_y5rc2")
 
-[node name="margin_container" type="MarginContainer" parent="Screen/Maps_menu/v_box_container/top_bar/h_box_container/margin_container/search_panel/grad" unique_id=202343971]
+[node name="margin_container" type="MarginContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/h_box_container/margin_container/search_panel/grad" unique_id=202343971]
 layout_mode = 2
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 4
 
-[node name="mag_glass" type="TextureRect" parent="Screen/Maps_menu/v_box_container/top_bar/h_box_container/margin_container/search_panel/grad/margin_container" unique_id=1093351439]
+[node name="mag_glass" type="TextureRect" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/h_box_container/margin_container/search_panel/grad/margin_container" unique_id=1093351439]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 0
@@ -234,7 +343,7 @@ texture = ExtResource("2_up7k3")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="line_edit" type="LineEdit" parent="Screen/Maps_menu/v_box_container/top_bar/h_box_container/margin_container/search_panel/grad/margin_container" unique_id=1878814023]
+[node name="line_edit" type="LineEdit" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/h_box_container/margin_container/search_panel/grad/margin_container" unique_id=1878814023]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_uneditable_color = Color(0.875, 0.875, 0.875, 0.5)
@@ -249,8 +358,12 @@ theme_override_styles/read_only = SubResource("StyleBoxEmpty_rlla5")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_556s4")
 placeholder_text = "Search..."
 
-[node name="button" type="Button" parent="Screen/Maps_menu/v_box_container/top_bar/h_box_container" unique_id=1288785844]
-custom_minimum_size = Vector2(33, 33)
+[node name="margin_container2" type="MarginContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/h_box_container" unique_id=860342459]
+layout_mode = 2
+theme_override_constants/margin_right = 5
+
+[node name="options_button" type="Button" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/h_box_container/margin_container2" unique_id=1288785844]
+custom_minimum_size = Vector2(30, 30)
 custom_maximum_size = Vector2(33, 33)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -261,7 +374,7 @@ toggle_mode = true
 icon_alignment = 1
 expand_icon = true
 
-[node name="texture_rect" type="TextureRect" parent="Screen/Maps_menu/v_box_container/top_bar/h_box_container/button" unique_id=1336739006]
+[node name="texture_rect" type="TextureRect" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/h_box_container/margin_container2/options_button" unique_id=1336739006]
 clip_children = 2
 layout_mode = 1
 anchors_preset = 15
@@ -272,9 +385,10 @@ grow_vertical = 2
 offset_transform_enabled = true
 offset_transform_scale = Vector2(0.655, 0.655)
 texture = ExtResource("3_556s4")
-expand_mode = 4
+expand_mode = 5
+stretch_mode = 5
 
-[node name="panel_container" type="PanelContainer" parent="Screen/Maps_menu/v_box_container/top_bar/h_box_container/button/texture_rect" unique_id=1309854215]
+[node name="panel_container" type="PanelContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/h_box_container/margin_container2/options_button/texture_rect" unique_id=1309854215]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -283,27 +397,38 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_ifeun")
 
+[node name="panel_container2" type="PanelContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/h_box_container/margin_container2/options_button" unique_id=1759654201]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
 [node name="map_list" type="ScrollContainer" parent="Screen/Maps_menu/v_box_container" unique_id=1739489584]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("3_x38i2")
 
 [node name="v_box_container" type="VBoxContainer" parent="Screen/Maps_menu/v_box_container/map_list" unique_id=1251468725]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="button" parent="Screen/Maps_menu/v_box_container/map_list/v_box_container" unique_id=1724752639 instance=ExtResource("5_bywj4")]
 layout_mode = 2
+theme = null
 
 [node name="button2" parent="Screen/Maps_menu/v_box_container/map_list/v_box_container" unique_id=1351182479 instance=ExtResource("5_bywj4")]
 layout_mode = 2
+theme = null
 
 [node name="button3" parent="Screen/Maps_menu/v_box_container/map_list/v_box_container" unique_id=363977039 instance=ExtResource("5_bywj4")]
 layout_mode = 2
+theme = null
 
 [node name="button4" parent="Screen/Maps_menu/v_box_container/map_list/v_box_container" unique_id=828147710 instance=ExtResource("5_bywj4")]
 layout_mode = 2
+theme = null
 
 [node name="Options" type="MarginContainer" parent="Screen/Maps_menu" unique_id=133004389]
 visible = false
@@ -397,7 +522,6 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_08nqp")
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_bmmkb")
-metadata/_edit_lock_ = true
 
 [node name="Map_info_menu" type="PanelContainer" parent="Screen" unique_id=1080043043]
 visible = false

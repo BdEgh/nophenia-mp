@@ -2,10 +2,22 @@
 
 [ext_resource type="Theme" uid="uid://bvgch2a5gbyiw" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/mp3_theme.tres" id="1_oinl1"]
 [ext_resource type="Texture2D" uid="uid://bejaojg1u4qek" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/pic_shadow.png" id="2_padl8"]
+[ext_resource type="Script" uid="uid://bnaxcttfiieip" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/map_select_button.gd" id="2_qjhq8"]
 [ext_resource type="Texture2D" uid="uid://dnjfoppx16g2f" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/test_pic.png" id="3_qjhq8"]
 [ext_resource type="Texture2D" uid="uid://bgg7xmx582il5" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/person.png" id="4_mvwsd"]
 [ext_resource type="FontFile" uid="uid://dho0yytyts0c3" path="res://resource/font/menu_large.ttf" id="4_padl8"]
 [ext_resource type="Texture2D" uid="uid://dyfeqb2idlcvo" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/star.png" id="5_v7xvp"]
+
+[sub_resource type="Gradient" id="Gradient_qjhq8"]
+offsets = PackedFloat32Array(0, 0.76862746)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 0.38039216)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1x3kl"]
+gradient = SubResource("Gradient_qjhq8")
+fill_from = Vector2(1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ifeun"]
+texture = SubResource("GradientTexture2D_1x3kl")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1x3kl"]
 
@@ -41,13 +53,23 @@ texture = SubResource("GradientTexture2D_qsxtc")
 [node name="button" type="Button" unique_id=1724752639]
 custom_minimum_size = Vector2(0, 100)
 theme = ExtResource("1_oinl1")
+script = ExtResource("2_qjhq8")
+
+[node name="panel_container" type="PanelContainer" parent="." unique_id=1564310312]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_ifeun")
 
 [node name="h_box_container" type="HBoxContainer" parent="." unique_id=1815224491]
 layout_mode = 0
 offset_right = 270.0
 offset_bottom = 100.0
 mouse_filter = 2
-theme_override_constants/separation = 7
+theme_override_constants/separation = 4
 
 [node name="margin_for_pic" type="MarginContainer" parent="h_box_container" unique_id=1032141448]
 custom_minimum_size = Vector2(100, 0)
@@ -73,6 +95,7 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_1x3kl")
 
 [node name="pic" type="TextureRect" parent="h_box_container/margin_for_pic/pic_panel" unique_id=203248726]
+unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("3_qjhq8")
@@ -105,6 +128,7 @@ size_flags_vertical = 4
 theme_override_constants/separation = 1
 
 [node name="Map_name" type="RichTextLabel" parent="h_box_container/margin_container2/button_info" unique_id=2111620314]
+unique_name_in_owner = true
 clip_children = 2
 layout_mode = 2
 size_flags_vertical = 6
@@ -125,10 +149,11 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_w2s06")
 
 [node name="Author_name" type="RichTextLabel" parent="h_box_container/margin_container2/button_info" unique_id=367247623]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 6
 mouse_filter = 2
-theme_override_colors/default_color = Color(0.35686275, 0.35686275, 0.35686275, 1)
+theme_override_colors/default_color = Color(0.25565878, 0.25565878, 0.25565878, 1)
 theme_override_colors/font_shadow_color = Color(1, 1, 1, 0)
 theme_override_fonts/normal_font = ExtResource("4_padl8")
 theme_override_font_sizes/normal_font_size = 20
@@ -157,7 +182,7 @@ expand_mode = 2
 custom_minimum_size = Vector2(28.17, 0)
 layout_mode = 2
 size_flags_vertical = 1
-theme_override_colors/font_color = Color(0.36, 0.36, 0.36, 1)
+theme_override_colors/font_color = Color(0.25565878, 0.25565878, 0.25565878, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
 text = "0"
 
@@ -176,6 +201,6 @@ expand_mode = 2
 [node name="label" type="Label" parent="h_box_container/margin_container2/button_info/numbers/favs" unique_id=762867586]
 layout_mode = 2
 size_flags_vertical = 1
-theme_override_colors/font_color = Color(0.36, 0.36, 0.36, 1)
+theme_override_colors/font_color = Color(0.25565878, 0.25565878, 0.25565878, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
 text = "0"

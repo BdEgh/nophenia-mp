@@ -1,5 +1,7 @@
 extends Node3D
 
+@export var ui: Control
+
 @export var pause_menu: CanvasLayer
 
 @onready var mp_animation_player: AnimationPlayer = %mp_animation_player
@@ -61,8 +63,26 @@ func _phone_clam():
     screen.process_mode = Node.PROCESS_MODE_DISABLED
     screen.hide()
 
+func make_request_and_add_buttons():
+    http.cancel_request()
+    var remote_loader = get_tree().get_first_node_in_group("mp").remote_loader
+    var url = remote_loader.addr.path_join("/get_stages")
+    var err := http.request(url)
+    if err != OK:
+        ModLoaderLog.error("request failed", self.name)
+        return
+    var response = await http.request_completed
+    var body : PackedByteArray = response[3]
+    var huy = body.get_string_from_ascii()
+    var json = JSON.new()
+    var error = json.parse(huy)
+    
+    for map in json.data:
+        ui.add_map(map)
+        pass
+
 func popup():
-    #make_request_and_add_buttons()
+    make_request_and_add_buttons()
     
     var menu_box: SubViewportContainer = pause_menu.get_node("menu_box")
     menu_box.mouse_filter = Control.MOUSE_FILTER_PASS
