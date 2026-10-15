@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bymvhepkxlv40"
-path="res://.godot/imported/button_normal.png-8719dac5112341ed7d645cd7ea07132d.ctex"
+uid="uid://csdo8qi82evvc"
+path="res://.godot/imported/button_normal.png-45bdad9ea3af6478d2df575199ac2170.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/button_normal.png"
-dest_files=["res://.godot/imported/button_normal.png-8719dac5112341ed7d645cd7ea07132d.ctex"]
+source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/button2/button_normal.png"
+dest_files=["res://.godot/imported/button_normal.png-45bdad9ea3af6478d2df575199ac2170.ctex"]
 
 [params]
 

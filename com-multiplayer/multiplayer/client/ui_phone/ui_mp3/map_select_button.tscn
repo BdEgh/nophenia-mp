@@ -139,6 +139,7 @@ fit_content = true
 vertical_alignment = 1
 
 [node name="text_grad" type="PanelContainer" parent="h_box_container/margin_container2/button_info/Map_name" unique_id=2143724681]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -148,15 +149,25 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_w2s06")
 
-[node name="Author_name" type="RichTextLabel" parent="h_box_container/margin_container2/button_info" unique_id=367247623]
+[node name="h_box_container" type="HBoxContainer" parent="h_box_container/margin_container2/button_info" unique_id=2024902207]
+layout_mode = 2
+theme_override_constants/separation = -5
+
+[node name="by" type="RichTextLabel" parent="h_box_container/margin_container2/button_info/h_box_container" unique_id=470775648]
+layout_mode = 2
+theme_override_colors/default_color = Color(0.35686275, 0.3529412, 0.34117648, 1)
+text = "By: "
+fit_content = true
+autowrap_mode = 0
+
+[node name="Author_name" type="RichTextLabel" parent="h_box_container/margin_container2/button_info/h_box_container" unique_id=367247623]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 6
 mouse_filter = 2
-theme_override_colors/default_color = Color(0.25565878, 0.25565878, 0.25565878, 1)
-theme_override_colors/font_shadow_color = Color(1, 1, 1, 0)
+theme_override_colors/default_color = Color(0.35686275, 0.3529412, 0.34117648, 1)
 theme_override_fonts/normal_font = ExtResource("4_padl8")
-theme_override_font_sizes/normal_font_size = 20
 text = "Author_Name"
 fit_content = true
 vertical_alignment = 1
@@ -164,6 +175,7 @@ vertical_alignment = 1
 [node name="numbers" type="HBoxContainer" parent="h_box_container/margin_container2/button_info" unique_id=1348474444]
 layout_mode = 2
 size_flags_horizontal = 0
+theme_override_constants/separation = 0
 alignment = 1
 
 [node name="peeps" type="HBoxContainer" parent="h_box_container/margin_container2/button_info/numbers" unique_id=1564905943]
@@ -171,7 +183,13 @@ layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 4
 
-[node name="peeps_pic" type="TextureRect" parent="h_box_container/margin_container2/button_info/numbers/peeps" unique_id=1342538090]
+[node name="margin_container" type="MarginContainer" parent="h_box_container/margin_container2/button_info/numbers/peeps" unique_id=1282897878]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="peeps_pic" type="TextureRect" parent="h_box_container/margin_container2/button_info/numbers/peeps/margin_container" unique_id=1342538090]
 clip_children = 2
 layout_mode = 2
 size_flags_horizontal = 0
@@ -179,17 +197,17 @@ texture = ExtResource("4_mvwsd")
 expand_mode = 2
 
 [node name="label" type="Label" parent="h_box_container/margin_container2/button_info/numbers/peeps" unique_id=1698948323]
-custom_minimum_size = Vector2(28.17, 0)
+custom_minimum_size = Vector2(18, 0)
 layout_mode = 2
 size_flags_vertical = 1
-theme_override_colors/font_color = Color(0.25565878, 0.25565878, 0.25565878, 1)
+theme_override_colors/font_color = Color(0.35686275, 0.3529412, 0.34117648, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
 text = "0"
 
 [node name="favs" type="HBoxContainer" parent="h_box_container/margin_container2/button_info/numbers" unique_id=823905630]
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_constants/separation = 4
+theme_override_constants/separation = 2
 
 [node name="favs_pic" type="TextureRect" parent="h_box_container/margin_container2/button_info/numbers/favs" unique_id=412710452]
 clip_children = 2
@@ -201,6 +219,6 @@ expand_mode = 2
 [node name="label" type="Label" parent="h_box_container/margin_container2/button_info/numbers/favs" unique_id=762867586]
 layout_mode = 2
 size_flags_vertical = 1
-theme_override_colors/font_color = Color(0.25565878, 0.25565878, 0.25565878, 1)
+theme_override_colors/font_color = Color(0.35686275, 0.3529412, 0.34117648, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
 text = "0"

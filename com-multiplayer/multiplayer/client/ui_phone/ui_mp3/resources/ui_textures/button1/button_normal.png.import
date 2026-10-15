@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bro7om3sqvp4o"
-path="res://.godot/imported/button_hover.png-51062823a4b8d1f754e651a8f235ca60.ctex"
+uid="uid://bymvhepkxlv40"
+path="res://.godot/imported/button_normal.png-5cd90646ddbe239e5249f1c7780bd45e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/button_hover.png"
-dest_files=["res://.godot/imported/button_hover.png-51062823a4b8d1f754e651a8f235ca60.ctex"]
+source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/button1/button_normal.png"
+dest_files=["res://.godot/imported/button_normal.png-5cd90646ddbe239e5249f1c7780bd45e.ctex"]
 
 [params]
 

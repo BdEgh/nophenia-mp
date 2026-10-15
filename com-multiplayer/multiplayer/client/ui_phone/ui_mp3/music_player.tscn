@@ -162,7 +162,7 @@ viewport_path = NodePath("sub_viewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vd3b4"]
 resource_local_to_scene = true
-render_priority = 4
+render_priority = 5
 transparency = 1
 shading_mode = 0
 albedo_texture = SubResource("ViewportTexture_o8am3")
@@ -203,7 +203,7 @@ libraries/ = SubResource("AnimationLibrary_nul1p")
 unique_name_in_owner = true
 
 [node name="bone_attachment_3d" type="BoneAttachment3D" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 940789952) index="0" unique_id=636801810]
-transform = Transform3D(0.99999917, 0.0012275837, 6.907068e-05, -0.0012277202, 0.99999714, 0.0020106176, -6.6602275e-05, -0.0020107008, 0.999998, 2.2464705e-17, 1.9218986, 0.044964492)
+transform = Transform3D(0.99999917, 0.0012276021, 6.907987e-05, -0.0012277386, 0.99999714, 0.002010624, -6.661142e-05, -0.002010707, 0.999998, 2.2464705e-17, 1.9218986, 0.044964492)
 bone_name = "music_player"
 bone_idx = 0
 

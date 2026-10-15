@@ -1,36 +1,45 @@
 [gd_resource type="Theme" format=3 uid="uid://bvgch2a5gbyiw"]
 
-[ext_resource type="Texture2D" uid="uid://bro7om3sqvp4o" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/button_hover.png" id="1_3ec7f"]
-[ext_resource type="Texture2D" uid="uid://bymvhepkxlv40" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/button_normal.png" id="2_e3qt3"]
+[ext_resource type="Texture2D" uid="uid://b1gh8duuc3n1" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/button2/button_normal2.png" id="2_nk5yf"]
 [ext_resource type="FontFile" uid="uid://dho0yytyts0c3" path="res://resource/font/menu_large.ttf" id="3_dbs1a"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_w2s06"]
-texture = ExtResource("1_3ec7f")
+texture = ExtResource("2_nk5yf")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kv6ax"]
-texture = ExtResource("2_e3qt3")
+texture = ExtResource("2_nk5yf")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0gv6a"]
-bg_color = Color(1, 1, 1, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.2159017, 0.21590173, 0.21590167, 1)
+bg_color = Color(0.8175212, 0.81752133, 0.8175211, 1)
+border_width_left = 7
+border_width_top = 4
+border_width_right = 7
+border_width_bottom = 4
+border_color = Color(0.5132325, 0.513233, 0.51323277, 1)
+border_blend = true
 corner_radius_top_left = 100
 corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
+shadow_color = Color(0, 0, 0, 0.18431373)
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qjhq8"]
+bg_color = Color(0.6789399, 0.67894554, 0.6789427, 1)
+border_width_right = 10
+border_color = Color(0.26293245, 0.26293245, 0.26293245, 1)
+border_blend = true
 
 [resource]
 Button/styles/hover = SubResource("StyleBoxTexture_w2s06")
 Button/styles/normal = SubResource("StyleBoxTexture_kv6ax")
-RichTextLabel/colors/default_color = Color(0, 0, 0, 1)
+RichTextLabel/colors/default_color = Color(0.2195687, 0.21624896, 0.2029728, 1)
 RichTextLabel/colors/font_outline_color = Color(1, 1, 1, 0)
-RichTextLabel/colors/font_shadow_color = Color(1, 1, 1, 1)
+RichTextLabel/colors/font_shadow_color = Color(1, 1, 1, 0)
 RichTextLabel/colors/selection_color = Color(1, 1, 1, 0.8)
 RichTextLabel/constants/shadow_offset_x = 1
 RichTextLabel/constants/shadow_outline_size = 1
-RichTextLabel/font_sizes/normal_font_size = 25
+RichTextLabel/font_sizes/normal_font_size = 20
 RichTextLabel/fonts/normal_font = ExtResource("3_dbs1a")
 VScrollBar/styles/grabber = SubResource("StyleBoxFlat_0gv6a")
+VScrollBar/styles/scroll = SubResource("StyleBoxFlat_qjhq8")
