@@ -138,15 +138,18 @@ func _show_connected_status():
     _signal_status_tween = create_tween()
     _signal_status_tween.tween_method(_revert, 0.0, 0.0, 0).set_delay(randf_range(3.5, 10.0))
 
-func _add_option(option, screen=null):
+func _add_option(option, screen = null, position: int = -1):
     var pause_menu = get_tree().get_first_node_in_group("player").get_node("pause_menu")
     var screen_view = pause_menu.get_node("screen/screen_view")
     var options_vbox = screen_view.get_node("menu/options/margin_container/scroll_container/v_box_container")
     var menu_control = screen_view.get_node("menu")
     
     options_vbox.add_child(option)
-    var cat_option = options_vbox.get_node_or_null("option_cat")
-    options_vbox.move_child(option, cat_option.get_index())
+    if position == -1:
+        var cat_option = options_vbox.get_node_or_null("option_cat")
+        options_vbox.move_child(option, cat_option.get_index())
+    else:
+        options_vbox.move_child(option, 1)
     
     if screen:
         menu_control.add_child(screen)
@@ -184,7 +187,7 @@ func _add_user_maps_button():
     var option_user_maps: Button = option_user_maps_scene.instantiate()
     option_user_maps.name = "option_user_maps"
     var pause_menu = get_tree().get_first_node_in_group("player").get_node("pause_menu")
-    _add_option(option_user_maps)
+    _add_option(option_user_maps, null, 1)
     
     mp3 = music_player_scene.instantiate()
     mp3.pause_menu = pause_menu

@@ -17,21 +17,8 @@ func _ready() -> void:
     http.use_threads = true
     add_child(http)
 
-var _afterimage_tween: Tween
-var _cd_ghosting: bool = false
-func add_ghosting():
-    if _cd_ghosting: return
-    _cd_ghosting = true
-    var _capture = ImageTexture.create_from_image( %screen_view.get_texture().get_image())
-    %afterimage.texture = _capture
-    _afterimage_tween = game.tween(_afterimage_tween)
-    create_tween().tween_property( %bg.material, "shader_parameter/saturation", 0.3, 0.4).from(0.6)
-    await _afterimage_tween.tween_property( %afterimage, "modulate:a", 0.2, 0.2).from(1.0).set_trans(Tween.TRANS_CUBIC).finished
-    _cd_ghosting = false
-    _afterimage_tween = game.tween(_afterimage_tween)
-    _afterimage_tween.tween_property( %afterimage, "modulate:a", 0.0, randf_range(0.2, 1.0)).set_trans(Tween.TRANS_SINE)
 func phone_feedback():
-    add_ghosting()
+    #add_ghosting()
     #_play_keychain_snd(true)
     await create_tween().tween_property( %phone, "scale", Vector3.ONE, 0.1).from(Vector3(0.96, 1.02, 1.01)).set_trans(Tween.TRANS_SINE).finished
 
@@ -63,7 +50,7 @@ func _phone_clam():
     screen.process_mode = Node.PROCESS_MODE_DISABLED
     screen.hide()
 
-func make_request_and_add_buttons():
+func _make_request_and_add_buttons():
     http.cancel_request()
     var remote_loader = get_tree().get_first_node_in_group("mp").remote_loader
     var url = remote_loader.addr.path_join("/get_stages")
@@ -77,32 +64,78 @@ func make_request_and_add_buttons():
     var json = JSON.new()
     var error = json.parse(huy)
     
+    if typeof(json.data) != TYPE_ARRAY:
+        ModLoaderLog.error("request failed", self.name)
+        return
     for map in json.data:
         ui.add_map(map)
-        pass
+
+func _add_offline_buttons():
+    var remote_loader = get_tree().get_first_node_in_group("mp").remote_loader
+    for file in DirAccess.get_files_at(remote_loader.remote_stages_physical):
+        var map := {"name": file.get_basename()}
+        ui.add_map(map)
 
 func popup():
-    make_request_and_add_buttons()
+    self.visible = true
+    pause_menu.set_process_unhandled_input(false)
+    _make_request_and_add_buttons()
+    _add_offline_buttons()
+    ui.show_map_list()
     
     var menu_box: SubViewportContainer = pause_menu.get_node("menu_box")
     menu_box.mouse_filter = Control.MOUSE_FILTER_PASS
     var menu_view: SubViewport = pause_menu.get_node("menu_box/menu_view")
     menu_view.physics_object_picking = true
-    
-    set_physics_process(true)
     _phone_clam()
+    set_physics_process(true)
+    
     shown = true
     mp_animation_player.play("popup", 0.2)
     
-    Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-    _set_player_input_enabled(false)
+    #Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+    #_set_player_input_enabled(false)
+    
     var cam_arm = get_tree().get_first_node_in_group("player").get_node("cam_box/cam_arm")
     var move_multiplier = (cam_arm.spring_length - 0.8) * 0.45
     var camera = get_tree().get_first_node_in_group("player").get_node("cam_box/cam_arm/cam_arm_fix/view")
     _animate_camera(camera, move_multiplier)
     
     var light = pause_menu.get_node("menu_box/menu_view/phone_light")
-    await create_tween().tween_property(light, "position", Vector3(-0.102, 2.311, -3.805), 0.3).set_trans(Tween.TRANS_CIRC).finished
+    create_tween().tween_property(light, "position", Vector3(-0.102, 2.311, -3.805), 0.3).set_trans(Tween.TRANS_CIRC)
+
+func _phone_open():
+    var screen = pause_menu.get_node("screen")
+    var phone_anim = pause_menu.get_node("menu_box/menu_view/phone_anim")
+    screen.show()
+    phone_anim.play("clam")
+    var maps_button = pause_menu.find_child("option_user_maps", true, false)
+    maps_button.grab_focus()
+    await phone_anim.animation_finished
+    screen.process_mode = Node.PROCESS_MODE_INHERIT
+
+func back_to_phone():
+    var menu_box: SubViewportContainer = pause_menu.get_node("menu_box")
+    menu_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+    var menu_view: SubViewport = pause_menu.get_node("menu_box/menu_view")
+    menu_view.physics_object_picking = false
+    _phone_open()
+    
+    shown = false
+    mp_animation_player.play("away_zoom_in" if zoomed else "away_zoom_out", 0.2)
+    zoomed = true
+    set_physics_process(false)
+    
+    var camera = get_tree().get_first_node_in_group("player").get_node("cam_box/cam_arm/cam_arm_fix/view")
+    _animate_camera(camera, 0.0)
+    
+    var light = pause_menu.get_node("menu_box/menu_view/phone_light")
+    create_tween().tween_property(light, "position", Vector3(-0.912, 2.311, -0.425), 0.3).set_trans(Tween.TRANS_CIRC)
+
+    pause_menu.set_process_unhandled_input(true)
+    await mp_animation_player.animation_finished
+    if shown == false:
+        self.visible = false
 
 func close():
     var menu_box: SubViewportContainer = pause_menu.get_node("menu_box")
@@ -117,15 +150,23 @@ func close():
     var camera = get_tree().get_first_node_in_group("player").get_node("cam_box/cam_arm/cam_arm_fix/view")
     Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
     _animate_camera(camera, 0.0)
+    
     var light = pause_menu.get_node("menu_box/menu_view/phone_light")
-    await create_tween().tween_property(light, "position", Vector3(-0.912, 2.311, -0.425), 0.3).set_trans(Tween.TRANS_CIRC).finished
+    create_tween().tween_property(light, "position", Vector3(-0.912, 2.311, -0.425), 0.3).set_trans(Tween.TRANS_CIRC)
     _set_player_input_enabled(true)
+    
     if game.nia:
         if !game.nia.is_sitting: game.nia.vignette(false)
         game.nia.stop(false)
     await get_tree().process_frame
     game.nia.is_paused = false
     set_physics_process(false)
+    
+    pause_menu.set_process_unhandled_input(true)
+    pause_menu._is_open = false
+    
+    OS.low_processor_usage_mode = false
+    ui.queue_free_maps()
 
 func zoom_in():
     zoomed = true
@@ -142,8 +183,15 @@ func set_influence(influence: float, weight: float) -> void:
 func _input(event):
     #if shown and event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
     if shown and event is InputEventKey and event.is_action_pressed("menu"):
-        close()
-        get_viewport().set_input_as_handled()
+        if ui.map_info_menu.visible:
+            ui.show_map_list()
+            zoom_in()
+        else:
+            back_to_phone()
+            #close()
+    if shown and event is InputEventKey and ui.map_info_menu.visible and event.is_action_pressed("ui_accept"):
+        var remote_loader = get_tree().get_first_node_in_group("mp").remote_loader
+        remote_loader.change_stage(ui.last_selected.name)
     
     #if event is InputEventKey and event.pressed and event.keycode == KEY_X:
         #if not shown:
@@ -174,6 +222,3 @@ func _physics_process(_delta: float) -> void :
                 0
             ), 0.2)
         %music_player.rotation_degrees.y = clamp( %music_player.rotation_degrees.y, -24.0, 24.0)
-
-func _on_button_pressed() -> void:
-    print("clock")

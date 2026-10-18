@@ -58,6 +58,8 @@ func _ready() -> void:
         item_button.preview = preview_item
         item_button.iname = iname
         item_button.itype = item_types[iname]
+        if item_button.iname == "Seal":
+            item_button.visible = false
         items_container.add_child(item_button)
     load_state()
     _patch_categories()
@@ -86,7 +88,29 @@ func _on_button_focus_entered(button: Button) -> void:
 func _on_button_focus_exited(button: Button) -> void:
     create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC).tween_property(button, "scale", Vector2.ONE, 0.1)
 
+func seal_egg() -> void:
+    var sealed := (randi_range(0, 67) == 0)
+    var seal
+    var hat
+    for item_button in items_container.get_children():
+        var item_name: String = item_button.iname
+        if item_name == "Seal":
+            seal = item_button
+        if item_name == "Hat":
+            hat = item_button
+    
+    if not seal or not hat or \
+      (not seal.visible and not hat.visible):
+        return
+    if seal.visible:
+        seal.visible = false
+        hat.visible = true
+    elif sealed:
+        hat.visible = false
+        seal.visible = true
+
 func save_state() -> void:
+    seal_egg()
     var mp = get_tree().get_first_node_in_group("mp")
     for item_button in items_container.get_children():
         var item_name: String = item_button.iname
@@ -157,7 +181,7 @@ func _set_player_input_enabled(enabled: bool) -> void:
             anim_tree.set("parameters/idle_walk_run/blend_position", Vector2.ZERO)
 
 func auto_disable(disable_type: Type, exclude: String) -> void:
-    if disable_type in [Type.Accessories, Type.Head, Type.Paws]:
+    if disable_type in [Type.Accessories, Type.Paws]:
         return
     
     for item_button in items_container.get_children():
@@ -194,13 +218,14 @@ func _change_items_visiblity() -> void:
     if current_type == Type.All:
         for i in items_container.get_children():
             i.visible = true
-        return
+    else:
+        for i in items_container.get_children():
+            if i.itype == current_type:
+                i.visible = true
+            else:
+                i.visible = false
     
-    for i in items_container.get_children():
-        if i.itype == current_type:
-            i.visible = true
-        else:
-            i.visible = false
+    seal_egg()
 
 func _on_all_button_toggled(toggled_on: bool) -> void:
     if not toggled_on:

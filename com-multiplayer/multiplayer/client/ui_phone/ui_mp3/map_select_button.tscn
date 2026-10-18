@@ -62,6 +62,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_ifeun")
 
 [node name="h_box_container" type="HBoxContainer" parent="." unique_id=1815224491]
@@ -155,6 +156,7 @@ theme_override_constants/separation = -5
 
 [node name="by" type="RichTextLabel" parent="h_box_container/margin_container2/button_info/h_box_container" unique_id=470775648]
 layout_mode = 2
+mouse_filter = 2
 theme_override_colors/default_color = Color(0.35686275, 0.3529412, 0.34117648, 1)
 text = "By: "
 fit_content = true
@@ -173,6 +175,7 @@ fit_content = true
 vertical_alignment = 1
 
 [node name="numbers" type="HBoxContainer" parent="h_box_container/margin_container2/button_info" unique_id=1348474444]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 0
@@ -222,3 +225,7 @@ size_flags_vertical = 1
 theme_override_colors/font_color = Color(0.35686275, 0.3529412, 0.34117648, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
 text = "0"
+
+[connection signal="mouse_entered" from="." to="." method="_grab_focus"]
+[connection signal="mouse_exited" from="." to="." method="_release_focus"]
+[connection signal="pressed" from="." to="." method="_on_pressed"]

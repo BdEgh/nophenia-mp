@@ -194,6 +194,7 @@ offset_bottom = 350.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_w2s06")
 
 [node name="Maps_menu" type="PanelContainer" parent="Screen" unique_id=1300628224]
+unique_name_in_owner = true
 custom_maximum_size = Vector2(270, 350)
 layout_mode = 2
 
@@ -262,6 +263,7 @@ layout_mode = 2
 theme_override_constants/margin_left = 3
 
 [node name="clock" type="RichTextLabel" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/cosmetic_stuff/h_box_container/margin_container" unique_id=1747644380]
+unique_name_in_owner = true
 clip_children = 2
 layout_mode = 2
 theme_override_colors/default_color = Color(0.8217887, 0.82178867, 0.82178867, 1)
@@ -296,16 +298,22 @@ layout_mode = 2
 texture = ExtResource("4_3121i")
 stretch_mode = 5
 
-[node name="h_box_container" type="HBoxContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container" unique_id=1926128232]
+[node name="margin_header" type="MarginContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container" unique_id=634590455]
+layout_mode = 2
+theme_override_constants/margin_right = 5
+
+[node name="h_box_header" type="HBoxContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/margin_header" unique_id=1926128232]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="back_button" type="Button" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/h_box_container" unique_id=1847823011]
-custom_minimum_size = Vector2(28.22, 0)
+[node name="back_button" type="Button" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/margin_header/h_box_header" unique_id=1847823011]
+custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
+focus_neighbor_left = NodePath("../options_button")
+focus_neighbor_right = NodePath("../margin_search/search_panel/grad/margin_container/search")
 theme_override_styles/normal = SubResource("StyleBoxFlat_ifeun")
 
-[node name="margin_container" type="MarginContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/h_box_container/back_button" unique_id=1469776330]
+[node name="margin_container" type="MarginContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/margin_header/h_box_header/back_button" unique_id=1469776330]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -316,13 +324,13 @@ theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 6
 theme_override_constants/margin_bottom = 5
 
-[node name="texture_rect" type="TextureRect" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/h_box_container/back_button/margin_container" unique_id=297372134]
+[node name="texture_rect" type="TextureRect" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/margin_header/h_box_header/back_button/margin_container" unique_id=297372134]
 layout_mode = 2
 texture = ExtResource("5_go7gw")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="margin_container" type="MarginContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/h_box_container" unique_id=1701872934]
+[node name="margin_search" type="MarginContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/margin_header/h_box_header" unique_id=1701872934]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 1
@@ -330,7 +338,7 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="search_panel" type="PanelContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/h_box_container/margin_container" unique_id=674516322]
+[node name="search_panel" type="PanelContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/margin_header/h_box_header/margin_search" unique_id=674516322]
 clip_children = 2
 custom_minimum_size = Vector2(0, 27.79)
 layout_mode = 2
@@ -338,18 +346,18 @@ size_flags_horizontal = 3
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_r3nmj")
 
-[node name="grad" type="PanelContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/h_box_container/margin_container/search_panel" unique_id=960071994]
+[node name="grad" type="PanelContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/margin_header/h_box_header/margin_search/search_panel" unique_id=960071994]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_y5rc2")
 
-[node name="margin_container" type="MarginContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/h_box_container/margin_container/search_panel/grad" unique_id=202343971]
+[node name="margin_container" type="MarginContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/margin_header/h_box_header/margin_search/search_panel/grad" unique_id=202343971]
 layout_mode = 2
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 4
 
-[node name="mag_glass" type="TextureRect" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/h_box_container/margin_container/search_panel/grad/margin_container" unique_id=1093351439]
+[node name="mag_glass" type="TextureRect" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/margin_header/h_box_header/margin_search/search_panel/grad/margin_container" unique_id=1093351439]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 0
@@ -357,8 +365,11 @@ texture = ExtResource("2_up7k3")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="line_edit" type="LineEdit" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/h_box_container/margin_container/search_panel/grad/margin_container" unique_id=1878814023]
+[node name="search" type="LineEdit" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/margin_header/h_box_header/margin_search/search_panel/grad/margin_container" unique_id=1878814023]
+unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath("../../../../../back_button")
+focus_neighbor_right = NodePath("../../../../../options_button")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_uneditable_color = Color(0.875, 0.875, 0.875, 0.5)
 theme_override_colors/font_selected_color = Color(0.052842118, 0.052842125, 0.052842118, 1)
@@ -371,24 +382,23 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_inmn3")
 theme_override_styles/read_only = SubResource("StyleBoxEmpty_rlla5")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_556s4")
 placeholder_text = "Search..."
+select_all_on_focus = true
 
-[node name="margin_container2" type="MarginContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/h_box_container" unique_id=860342459]
-layout_mode = 2
-theme_override_constants/margin_right = 5
-
-[node name="options_button" type="Button" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/h_box_container/margin_container2" unique_id=1288785844]
+[node name="options_button" type="Button" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/margin_header/h_box_header" unique_id=1288785844]
 custom_minimum_size = Vector2(30, 30)
-custom_maximum_size = Vector2(33, 33)
+custom_maximum_size = Vector2(30, 30)
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 4
+focus_neighbor_left = NodePath("../margin_search/search_panel/grad/margin_container/search")
+focus_neighbor_right = NodePath("../back_button")
+focus_previous = NodePath("../margin_search/search_panel/grad/margin_container/search")
 theme_override_styles/normal = SubResource("StyleBoxFlat_08nqp")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_shb6h")
 toggle_mode = true
 icon_alignment = 1
 expand_icon = true
 
-[node name="texture_rect" type="TextureRect" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/h_box_container/margin_container2/options_button" unique_id=1336739006]
+[node name="texture_rect" type="TextureRect" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/margin_header/h_box_header/options_button" unique_id=1336739006]
 clip_children = 2
 layout_mode = 1
 anchors_preset = 15
@@ -402,57 +412,59 @@ texture = ExtResource("3_556s4")
 expand_mode = 5
 stretch_mode = 5
 
-[node name="panel_container" type="PanelContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/h_box_container/margin_container2/options_button/texture_rect" unique_id=1309854215]
+[node name="panel_container" type="PanelContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/margin_header/h_box_header/options_button/texture_rect" unique_id=1309854215]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxTexture_ifeun")
-
-[node name="panel_container2" type="PanelContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/h_box_container/margin_container2/options_button" unique_id=1759654201]
-visible = false
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
 
 [node name="map_listbg" type="PanelContainer" parent="Screen/Maps_menu/v_box_container" unique_id=363571921]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_1x3kl")
 
-[node name="map_list" type="ScrollContainer" parent="Screen/Maps_menu/v_box_container/map_listbg" unique_id=1739489584]
+[node name="map_list_scroll_box" type="ScrollContainer" parent="Screen/Maps_menu/v_box_container/map_listbg" unique_id=1739489584]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("3_x38i2")
 
-[node name="v_box_container" type="VBoxContainer" parent="Screen/Maps_menu/v_box_container/map_listbg/map_list" unique_id=1251468725]
+[node name="v_box_container" type="VBoxContainer" parent="Screen/Maps_menu/v_box_container/map_listbg/map_list_scroll_box" unique_id=1251468725]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 3
 
-[node name="button" parent="Screen/Maps_menu/v_box_container/map_listbg/map_list/v_box_container" unique_id=1724752639 instance=ExtResource("5_bywj4")]
+[node name="button" parent="Screen/Maps_menu/v_box_container/map_listbg/map_list_scroll_box/v_box_container" unique_id=1724752639 instance=ExtResource("5_bywj4")]
+visible = false
 layout_mode = 2
 theme = null
 
-[node name="button2" parent="Screen/Maps_menu/v_box_container/map_listbg/map_list/v_box_container" unique_id=1351182479 instance=ExtResource("5_bywj4")]
+[node name="button2" parent="Screen/Maps_menu/v_box_container/map_listbg/map_list_scroll_box/v_box_container" unique_id=1351182479 instance=ExtResource("5_bywj4")]
+visible = false
 layout_mode = 2
 theme = null
 
-[node name="button3" parent="Screen/Maps_menu/v_box_container/map_listbg/map_list/v_box_container" unique_id=363977039 instance=ExtResource("5_bywj4")]
+[node name="button3" parent="Screen/Maps_menu/v_box_container/map_listbg/map_list_scroll_box/v_box_container" unique_id=363977039 instance=ExtResource("5_bywj4")]
+visible = false
 layout_mode = 2
 theme = null
 
-[node name="button4" parent="Screen/Maps_menu/v_box_container/map_listbg/map_list/v_box_container" unique_id=828147710 instance=ExtResource("5_bywj4")]
+[node name="button4" parent="Screen/Maps_menu/v_box_container/map_listbg/map_list_scroll_box/v_box_container" unique_id=828147710 instance=ExtResource("5_bywj4")]
+visible = false
 layout_mode = 2
 theme = null
 
 [node name="Options" type="MarginContainer" parent="Screen/Maps_menu" unique_id=133004389]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_top = 40
 
 [node name="panel_container" type="PanelContainer" parent="Screen/Maps_menu/Options" unique_id=1247838567]
@@ -544,6 +556,7 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_bmmkb")
 
 [node name="Map_info_menu" type="PanelContainer" parent="Screen" unique_id=1080043043]
+unique_name_in_owner = true
 visible = false
 z_index = 2
 layout_mode = 2
@@ -588,12 +601,14 @@ size_flags_horizontal = 4
 size_flags_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_lvqvi")
 
-[node name="pic" type="TextureRect" parent="Screen/Map_info_menu/bg/scroll_container/v_box_container/pic_marg/pic_panel" unique_id=997540586]
+[node name="info_pic" type="TextureRect" parent="Screen/Map_info_menu/bg/scroll_container/v_box_container/pic_marg/pic_panel" unique_id=997540586]
+unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("5_6xxex")
 stretch_mode = 6
 
-[node name="World_name" type="RichTextLabel" parent="Screen/Map_info_menu/bg/scroll_container/v_box_container" unique_id=1752175214]
+[node name="info_name" type="RichTextLabel" parent="Screen/Map_info_menu/bg/scroll_container/v_box_container" unique_id=1752175214]
+unique_name_in_owner = true
 clip_children = 2
 layout_mode = 2
 theme = ExtResource("3_x38i2")
@@ -603,7 +618,7 @@ fit_content = true
 scroll_active = false
 horizontal_alignment = 1
 
-[node name="text_grad" type="PanelContainer" parent="Screen/Map_info_menu/bg/scroll_container/v_box_container/World_name" unique_id=1932665412]
+[node name="text_grad" type="PanelContainer" parent="Screen/Map_info_menu/bg/scroll_container/v_box_container/info_name" unique_id=1932665412]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -612,7 +627,8 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_w2s06")
 
-[node name="Author_name" type="RichTextLabel" parent="Screen/Map_info_menu/bg/scroll_container/v_box_container" unique_id=2010994985]
+[node name="info_author" type="RichTextLabel" parent="Screen/Map_info_menu/bg/scroll_container/v_box_container" unique_id=2010994985]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/default_color = Color(0.35686275, 0.35686275, 0.35686275, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
@@ -631,7 +647,8 @@ theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 10
 
-[node name="desc" type="RichTextLabel" parent="Screen/Map_info_menu/bg/scroll_container/v_box_container/desc_marg" unique_id=1592429264]
+[node name="info_desc" type="RichTextLabel" parent="Screen/Map_info_menu/bg/scroll_container/v_box_container/desc_marg" unique_id=1592429264]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/default_color = Color(0.3968896, 0.39688912, 0.39688924, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
@@ -642,3 +659,16 @@ theme_override_fonts/normal_font = ExtResource("4_rx0mi")
 theme_override_font_sizes/normal_font_size = 18
 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus tristique dapibus blandit. Aliquam sodales non erat sed facilisis. Sed eu lacus eget augue ultrices aliquet a sit amet sem. Donec sollicitudin convallis eros, in euismod turpis ornare non. Vestibulum vehicula a justo at tempor. Nam ut hendrerit mi. Cras lobortis sollicitudin ante, eget imperdiet odio tincidunt ut. Nam vulputate convallis sem, in tincidunt libero sollicitudin quis. Fusce efficitur, elit sed scelerisque eleifend, neque dolor vehicula nibh, sed volutpat orci mauris sed purus. Maecenas tempus elit id nisi tempor, a tincidunt enim ultrices. Morbi finibus tellus non luctus volutpat. Donec consequat felis sem, a elementum nibh varius id. Nam interdum, ipsum quis tempor blandit, eros urna dignissim nisi, ut efficitur tortor nisl et lacus. Curabitur condimentum venenatis tincidunt. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; "
 fit_content = true
+
+[node name="after_image" type="TextureRect" parent="Screen" unique_id=171210019]
+unique_name_in_owner = true
+modulate = Color(1.04, 1.04, 1.04, 1)
+z_index = 1
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="Screen/Maps_menu/v_box_container/top_bar/v_box_container/margin_header/h_box_header/back_button" to="." method="_on_back_button_pressed"]
+[connection signal="text_changed" from="Screen/Maps_menu/v_box_container/top_bar/v_box_container/margin_header/h_box_header/margin_search/search_panel/grad/margin_container/search" to="." method="_on_search_text_changed"]
+[connection signal="toggled" from="Screen/Maps_menu/v_box_container/top_bar/v_box_container/margin_header/h_box_header/options_button" to="." method="_on_options_button_toggled"]

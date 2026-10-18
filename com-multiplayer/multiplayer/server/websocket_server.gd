@@ -49,7 +49,7 @@ func _reload_banned_list() -> void:
     var banned_list := ConfigFile.new()
     var error := banned_list.load(BANNED_LIST_PATH)
     if error != OK:
-        ModLoaderLog.error("Could not reload banned_list.ini: %d" % error, self.name)
+        #ModLoaderLog.error("Could not reload banned_list.ini: %d" % error, self.name)
         _ban_reload_error = error
         return
     _ban_reload_error = OK
