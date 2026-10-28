@@ -10,6 +10,7 @@ extends Button
 var description: String
 var image: Image
 var author: String
+var data: Dictionary
 
 func fill_data(map: Dictionary):
     name = map.get("name", "unknown")
@@ -17,6 +18,7 @@ func fill_data(map: Dictionary):
     author = map.get("author", "unknown")
     author_name.text = author
     description = map.get("description", "unknown")
+    data.merge(map, true)
     
     if map.has("picture"):
         image = Image.new()
@@ -24,16 +26,16 @@ func fill_data(map: Dictionary):
         pic.texture = ImageTexture.create_from_image(image)
 
 # TODO
-var _display_title_tween: Tween
-func _title_size_check():
-    await RenderingServer.frame_post_draw
-    var _size = %display_title.get_theme_default_font().get_string_size(tr( %display_title.text), 0, -1, 17).x
-    
-    if _size >= 68 and get_viewport().gui_get_focus_owner() == self:
-        %display_title_box.clip_contents = true
-        _display_title_tween = game.tween(_display_title_tween).set_loops()
-        _display_title_tween.tween_property( %display_title, "position:x", - abs(_size - 52), 1.0).set_delay(0.5)
-        _display_title_tween.tween_property( %display_title, "position:x", 0.0, 1.0).set_delay(0.5)
+#var _display_title_tween: Tween
+#func _title_size_check():
+    #await RenderingServer.frame_post_draw
+    #var _size = %display_title.get_theme_default_font().get_string_size(tr( %display_title.text), 0, -1, 17).x
+    #
+    #if _size >= 68 and get_viewport().gui_get_focus_owner() == self:
+        #%display_title_box.clip_contents = true
+        #_display_title_tween = game.tween(_display_title_tween).set_loops()
+        #_display_title_tween.tween_property( %display_title, "position:x", - abs(_size - 52), 1.0).set_delay(0.5)
+        #_display_title_tween.tween_property( %display_title, "position:x", 0.0, 1.0).set_delay(0.5)
 
 func _grab_focus() -> void:
     grab_focus()

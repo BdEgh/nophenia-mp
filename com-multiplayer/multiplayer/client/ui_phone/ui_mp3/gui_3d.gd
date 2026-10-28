@@ -11,7 +11,7 @@ var last_event_pos2D := Vector2()
 var last_event_time := -1.0
 
 @onready var node_viewport: SubViewport = %sub_viewport
-@onready var node_quad: MeshInstance3D = %quad
+@onready var node_quad: MeshInstance3D = %screen
 @onready var node_area: Area3D = %area_3d
 
 

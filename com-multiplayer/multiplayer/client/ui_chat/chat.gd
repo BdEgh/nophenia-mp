@@ -115,7 +115,8 @@ func _input(event):
             toggle_chat()
             get_viewport().set_input_as_handled()
 
-func toggle_chat():
+var toggled_from_ui := false
+func toggle_chat(from_ui: bool = false):
     if toggling:
         return
     
@@ -123,25 +124,31 @@ func toggle_chat():
     var camera = get_tree().get_first_node_in_group("player").get_node("cam_box/cam_arm/cam_arm_fix/view")
     
     if !visible:
-        game.find("pause_menu")._open_cooldown = true
-        Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+        toggled_from_ui = from_ui
+        if not toggled_from_ui:
+            _set_player_input_enabled(false)
+            game.find("pause_menu")._open_cooldown = true
+            Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
         visible = true
-        _set_player_input_enabled(false)
-        var cam_arm = get_tree().get_first_node_in_group("player").get_node("cam_box/cam_arm")
-        var move_multiplier = (cam_arm.spring_length - 1.2) / 2 + 1.0
-        _animate_camera(camera, -0.65 * move_multiplier)
+        if not toggled_from_ui:
+            var cam_arm = get_tree().get_first_node_in_group("player").get_node("cam_box/cam_arm")
+            var move_multiplier = (cam_arm.spring_length - 1.2) / 2 + 1.0
+            _animate_camera(camera, -0.65 * move_multiplier)
         await create_tween().tween_property(self, "modulate:a", 1.0, 0.2).from(0.0).set_trans(Tween.TRANS_CIRC).finished
         message_input.grab_focus()
     else:
-        game.find("pause_menu")._open_cooldown = false
-        Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+        if not toggled_from_ui:
+            game.find("pause_menu")._open_cooldown = false
+            Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
         emoji_prefix = null
         _close_emoji_window()
         message_input.release_focus()
-        _animate_camera(camera, 0.0)
+        if not toggled_from_ui:
+            _animate_camera(camera, 0.0)
         await create_tween().tween_property(self, "modulate:a", 0.0, 0.2).from(1.0).set_trans(Tween.TRANS_CIRC).finished
         visible = false
-        _set_player_input_enabled(true)
+        if not toggled_from_ui:
+            _set_player_input_enabled(true)
     
     toggling = false
     %ClearContainer.visible = false

@@ -5,13 +5,28 @@ extends Node
 @export var remote_stages_physical := "user://remote_stages"
 @export var stages_mounted := "res://stages-unpacked"
 
+signal download_progress(value: float)
+
 var http: HTTPRequest
+var p_timer: Timer
 
 func _ready() -> void:
     http = HTTPRequest.new()
     http.download_chunk_size = 128 * 1024
     http.use_threads = true
     add_child(http)
+    
+    p_timer = Timer.new()
+    p_timer.wait_time = 0.1
+    p_timer.autostart = false
+    p_timer.timeout.connect(
+        func():
+            var body_size = http.get_body_size()
+            var downloaded_bytes = http.get_downloaded_bytes()
+            var value = downloaded_bytes / float(body_size)
+            download_progress.emit(value)
+    )
+    add_child(p_timer)
 
 func load_all_from_disk() -> void:
     for file in DirAccess.get_files_at(remote_stages_physical):
@@ -36,6 +51,8 @@ func download_and_load(_stage: String):
         return
     
     http.cancel_request()
+    
+    p_timer.start()
     http.download_file = remote_stages_physical.path_join("%s.zip" % _stage)
     var url := addr.path_join("/load_stage?stage=%s.zip" % _stage)
     var err := http.request(url)
@@ -43,6 +60,8 @@ func download_and_load(_stage: String):
         ModLoaderLog.error("%s request failed" % [_stage], self.name)
         return
     var response = await http.request_completed
+    p_timer.stop()
+
     var res = response[0]
     var code = response[1]
     if res == HTTPRequest.RESULT_SUCCESS and code == 200:

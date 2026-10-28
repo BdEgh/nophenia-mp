@@ -16,11 +16,70 @@ func _ready() -> void:
     http = HTTPRequest.new()
     http.use_threads = true
     add_child(http)
+    
+    button_mapping = { Buttons.Up: wheel_up, Buttons.Left: wheel_left, Buttons.Right: wheel_right, Buttons.Down: wheel_down, Buttons.Middle: middle }
+    button_tweens = { wheel_up: null, wheel_left: null, wheel_down: null, wheel_right: null, middle: null }
+    button_impact = {
+        Buttons.Up: Vector3(deg_to_rad(3.), 0., 0.),
+        Buttons.Left: Vector3(deg_to_rad(6.), deg_to_rad(-6.), 0.),
+        Buttons.Right: Vector3(deg_to_rad(6.), deg_to_rad(6.), 0.),
+        Buttons.Down: Vector3(deg_to_rad(9.), 0., 0.),
+        Buttons.Middle: Vector3(deg_to_rad(6.), 0., 0.)
+    }
 
-func phone_feedback():
-    #add_ghosting()
+func _input(event):
+    if shown:
+        if ui.map_info_menu.visible:
+            if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+                if event.pressed:
+                    impact(hover_on)
+                else:
+                    press(hover_on)
+            if event is InputEventKey:
+                if event.is_action_pressed("menu"):
+                    ui.show_map_list()
+                    zoom_in()
+                if event.is_action_pressed("ui_accept"):
+                    if hover_on != Buttons.None:
+                        impact(hover_on)
+                        hover_button(hover_on)
+                    else:
+                        impact(Buttons.Middle)
+                        hover_button(Buttons.Middle)
+                elif event.is_action_released("ui_accept"):
+                    if hover_on != Buttons.None:
+                        press(hover_on)
+                    else:
+                        unhover_button(Buttons.Middle)
+                        press(Buttons.Middle)
+                else:
+                    var mapping = {"ui_up": Buttons.Up, "ui_down": Buttons.Down, "ui_left": Buttons.Left, "ui_right": Buttons.Right}
+                    for action in mapping:
+                        if event.is_action_pressed(action):
+                            impact(mapping[action])
+                            hover_button(mapping[action])
+                        if event.is_action_released(action):
+                            unhover_button(mapping[action])
+                            press(mapping[action])
+        else:
+            if event is InputEventKey and event.is_action_pressed("menu"):
+                back_to_phone()
+    
+    #if event is InputEventKey and event.pressed and event.keycode == KEY_X:
+        #if not shown:
+            #popup()
+        #else:
+            #close()
+    #if event is InputEventKey and event.pressed and event.keycode == KEY_C:
+        #if zoomed:
+            #zoom_out()
+        #else:
+            #zoom_in()
+
+func feedback():
+    ui.add_ghosting()
     #_play_keychain_snd(true)
-    await create_tween().tween_property( %phone, "scale", Vector3.ONE, 0.1).from(Vector3(0.96, 1.02, 1.01)).set_trans(Tween.TRANS_SINE).finished
+    await create_tween().tween_property(%music_player, "scale", Vector3.ONE, 0.2).from(Vector3(0.98, 1.02, 1.01)).set_trans(Tween.TRANS_SINE).finished
 
 #func _adjust_brightness():
     #%screen_texture.material_override.emission_energy_multiplier = config.phone_screen_brightness
@@ -68,19 +127,25 @@ func _make_request_and_add_buttons():
         ModLoaderLog.error("request failed", self.name)
         return
     for map in json.data:
+        if typeof(map) != TYPE_DICTIONARY:
+            continue
         ui.add_map(map)
 
 func _add_offline_buttons():
     var remote_loader = get_tree().get_first_node_in_group("mp").remote_loader
     for file in DirAccess.get_files_at(remote_loader.remote_stages_physical):
-        var map := {"name": file.get_basename()}
+        var file_path: String = remote_loader.remote_stages_physical.path_join(file)
+        var map := {"name": file.get_basename(), "local_md5": FileAccess.get_md5(file_path)}
         ui.add_map(map)
+
+func fill_maps():
+    _add_offline_buttons()
+    _make_request_and_add_buttons()
 
 func popup():
     self.visible = true
     pause_menu.set_process_unhandled_input(false)
-    _make_request_and_add_buttons()
-    _add_offline_buttons()
+    fill_maps()
     ui.show_map_list()
     
     var menu_box: SubViewportContainer = pause_menu.get_node("menu_box")
@@ -180,30 +245,6 @@ func set_influence(influence: float, weight: float) -> void:
     for i: SpringBoneSimulator3D in [%sbs_ear1, %sbs_ear2, %sbs_player, %sbs_wires]:
         i.influence = lerp(i.influence, influence, weight)
 
-func _input(event):
-    #if shown and event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
-    if shown and event is InputEventKey and event.is_action_pressed("menu"):
-        if ui.map_info_menu.visible:
-            ui.show_map_list()
-            zoom_in()
-        else:
-            back_to_phone()
-            #close()
-    if shown and event is InputEventKey and ui.map_info_menu.visible and event.is_action_pressed("ui_accept"):
-        var remote_loader = get_tree().get_first_node_in_group("mp").remote_loader
-        remote_loader.change_stage(ui.last_selected.name)
-    
-    #if event is InputEventKey and event.pressed and event.keycode == KEY_X:
-        #if not shown:
-            #popup()
-        #else:
-            #close()
-    #if event is InputEventKey and event.pressed and event.keycode == KEY_C:
-        #if zoomed:
-            #zoom_out()
-        #else:
-            #zoom_in()
-
 func _physics_process(_delta: float) -> void :
     var weight = 1 - exp(-5 * _delta)
     if not mp_animation_player.is_playing():
@@ -222,3 +263,100 @@ func _physics_process(_delta: float) -> void :
                 0
             ), 0.2)
         %music_player.rotation_degrees.y = clamp( %music_player.rotation_degrees.y, -24.0, 24.0)
+
+#region Buttons
+@onready var wheel_up: MeshInstance3D = %wheel_up
+@onready var wheel_left: MeshInstance3D = %wheel_left
+@onready var wheel_down: MeshInstance3D = %wheel_down
+@onready var wheel_right: MeshInstance3D = %wheel_right
+@onready var middle: MeshInstance3D = %middle
+
+enum Buttons { None, Middle, Up, Down, Left, Right }
+var button_mapping: Dictionary
+var button_tweens: Dictionary
+var button_impact: Dictionary
+var hover_on: Buttons
+
+func press(type: Buttons) -> void:
+    if type == Buttons.Up:
+        ui.show_map_list()
+        zoom_in()
+    elif type == Buttons.Left:
+        ui.prev_map_info()
+    elif type == Buttons.Right:
+        ui.next_map_info()
+    elif type == Buttons.Down:
+        ui.chat_share()
+    elif type == Buttons.Middle:
+        ui.select_map()
+
+func impact(type: Buttons) -> void:
+    if not button_impact.has(type):
+        return
+    
+    var rot = button_impact[type]
+    rot *= randf_range(1., 1.5)
+    await create_tween().tween_property(%music_player, "rotation", rot, 0.1).set_trans(Tween.TRANS_CUBIC).finished
+    create_tween().tween_property(%music_player, "rotation", Vector3.ZERO, 0.25).from(rot).set_trans(Tween.TRANS_CUBIC)
+
+func hover_button(button: Buttons):
+    if not button_mapping.has(button):
+        return
+    
+    var mesh = button_mapping[button]
+    if button_tweens[mesh]:
+        button_tweens[mesh].kill()
+    button_tweens[mesh] = create_tween()
+    var t = button_tweens[mesh]
+    var mat: StandardMaterial3D = mesh.get_active_material(0)
+    t.tween_property(mat, "albedo_color:a", 0.4, 0.15)
+    t.set_trans(Tween.TRANS_CIRC)
+
+func unhover_button(button: Buttons):
+    if not button_mapping.has(button):
+        return
+    
+    var mesh = button_mapping[button]
+    if button_tweens[mesh]:
+        button_tweens[mesh].kill()
+    button_tweens[mesh] = create_tween()
+    var t = button_tweens[mesh]
+    var mat: StandardMaterial3D = mesh.get_active_material(0)
+    t.tween_property(mat, "albedo_color:a", 0.0, 0.15)
+    t.set_trans(Tween.TRANS_CIRC)
+
+func show_hover(button: Buttons):
+    hover_button(button)
+    for i in button_mapping.keys():
+        if button != i:
+            unhover_button(i)
+
+# mm spaghet
+func _on_button_middle_mouse_entered() -> void:
+    hover_on = Buttons.Middle
+    show_hover(hover_on)
+
+func _on_button_middle_mouse_exited() -> void:
+    hover_on = Buttons.None
+    show_hover(hover_on)
+
+func _on_button_up_mouse_entered() -> void:
+    hover_on = Buttons.Up
+    show_hover(hover_on)
+
+func _on_button_left_mouse_entered() -> void:
+    hover_on = Buttons.Left
+    show_hover(hover_on)
+
+func _on_button_down_mouse_entered() -> void:
+    hover_on = Buttons.Down
+    show_hover(hover_on)
+
+func _on_button_right_mouse_entered() -> void:
+    hover_on = Buttons.Right
+    show_hover(hover_on)
+
+func wheel_hide() -> void:
+    hover_on = Buttons.None
+    show_hover(hover_on)
+#endregion

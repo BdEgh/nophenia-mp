@@ -1,9 +1,12 @@
 [gd_scene format=3 uid="uid://d05qt2bhcyxgf"]
 
-[ext_resource type="PackedScene" uid="uid://c5c5b6gav0ng2" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/music_player.glb" id="1_bm0kk"]
+[ext_resource type="PackedScene" uid="uid://bk4f6mgeim5vw" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/music_player.glb" id="1_bm0kk"]
 [ext_resource type="Script" uid="uid://djgys5adwup1l" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/music_player.gd" id="1_o8am3"]
 [ext_resource type="Script" uid="uid://bf7n4fokgys8a" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/gui_3d.gd" id="2_o8am3"]
 [ext_resource type="PackedScene" uid="uid://qlokt8pocbow" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/map_select_ui.tscn" id="2_vd3b4"]
+[ext_resource type="PackedScene" uid="uid://6djd41cnftbi" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/wheel_hover.tscn" id="5_mc0v7"]
+[ext_resource type="Texture2D" uid="uid://bompnxq4sj5n0" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/wheel.png" id="5_vd3b4"]
+[ext_resource type="Texture2D" uid="uid://3vd1eq5euf20" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/particle_transparent.png" id="6_mc0v7"]
 
 [sub_resource type="Animation" id="Animation_7ccjc"]
 length = 0.001
@@ -151,6 +154,68 @@ _data = {
 &"zoom_out": SubResource("Animation_itctd")
 }
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1f15l"]
+render_priority = 5
+transparency = 1
+blend_mode = 1
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("5_vd3b4")
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_10vka"]
+material = SubResource("StandardMaterial3D_1f15l")
+size = Vector2(1.5, 1.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hm7m1"]
+render_priority = 5
+transparency = 1
+blend_mode = 1
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("5_vd3b4")
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_cdub0"]
+material = SubResource("StandardMaterial3D_hm7m1")
+size = Vector2(1.5, 1.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g02jr"]
+render_priority = 5
+transparency = 1
+blend_mode = 1
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("5_vd3b4")
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_5xayc"]
+material = SubResource("StandardMaterial3D_g02jr")
+size = Vector2(1.5, 1.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n1ygf"]
+render_priority = 5
+transparency = 1
+blend_mode = 1
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("5_vd3b4")
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_ryyvh"]
+material = SubResource("StandardMaterial3D_n1ygf")
+size = Vector2(1.5, 1.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2eanm"]
+render_priority = 5
+transparency = 1
+albedo_color = Color(1, 1, 1, 0)
+albedo_texture = ExtResource("6_mc0v7")
+emission = Color(1, 1, 1, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_1f15l"]
+material = SubResource("StandardMaterial3D_2eanm")
+
 [sub_resource type="QuadMesh" id="QuadMesh_o8am3"]
 size = Vector2(1.5, 1.95)
 
@@ -206,6 +271,7 @@ script = ExtResource("2_o8am3")
 [node name="menu_camasdf" type="Camera3D" parent="3d_gui" unique_id=1555864820]
 unique_name_in_owner = true
 transform = Transform3D(0.48956168, 0.29036707, -0.8222026, -0.13154483, 0.9567282, 0.25955045, 0.8619899, -0.01890941, 0.5065741, -8.483061, 5.161585, 0.8398695)
+visible = false
 fov = 30.0
 
 [node name="mp_animation_player" type="AnimationPlayer" parent="3d_gui" unique_id=888099976]
@@ -216,16 +282,41 @@ libraries/ = SubResource("AnimationLibrary_nul1p")
 [node name="music_player" parent="3d_gui" unique_id=2028014787 instance=ExtResource("1_bm0kk")]
 unique_name_in_owner = true
 
-[node name="bone_attachment_3d" type="BoneAttachment3D" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 1045477052) index="0" unique_id=636801810]
-transform = Transform3D(0.99999917, 0.001227703, 6.91197e-05, -0.0012278394, 0.99999714, 0.0020106484, -6.665102e-05, -0.0020107315, 0.999998, 2.2464705e-17, 1.9218986, 0.044964492)
+[node name="bone_attachment_3d" type="BoneAttachment3D" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 116963924) index="0" unique_id=636801810]
+transform = Transform3D(0.99999917, 0.0012274832, 6.898516e-05, -0.0012276194, 0.99999714, 0.0020107888, -6.651675e-05, -0.002010872, 0.999998, 2.2464705e-17, 1.9218986, 0.044964492)
 bone_name = "music_player"
 bone_idx = 0
+
+[node name="wheel_up" parent="3d_gui/music_player/Armature/Skeleton3D/bone_attachment_3d" unique_id=2108425281 instance=ExtResource("5_mc0v7")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.864, 0.13)
+mesh = SubResource("QuadMesh_10vka")
+
+[node name="wheel_left" parent="3d_gui/music_player/Armature/Skeleton3D/bone_attachment_3d" unique_id=1708197970 instance=ExtResource("5_mc0v7")]
+unique_name_in_owner = true
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.864, 0.13)
+mesh = SubResource("QuadMesh_cdub0")
+
+[node name="wheel_down" parent="3d_gui/music_player/Armature/Skeleton3D/bone_attachment_3d" unique_id=1445684329 instance=ExtResource("5_mc0v7")]
+unique_name_in_owner = true
+transform = Transform3D(-1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 0, 0, 1, 0, -0.864, 0.13)
+mesh = SubResource("QuadMesh_5xayc")
+
+[node name="wheel_right" parent="3d_gui/music_player/Armature/Skeleton3D/bone_attachment_3d" unique_id=199433659 instance=ExtResource("5_mc0v7")]
+unique_name_in_owner = true
+transform = Transform3D(1.1924881e-08, 1, 0, -1, 1.1924881e-08, 0, 0, 0, 1, 0, -0.864, 0.13)
+mesh = SubResource("QuadMesh_ryyvh")
+
+[node name="middle" type="MeshInstance3D" parent="3d_gui/music_player/Armature/Skeleton3D/bone_attachment_3d" unique_id=975743430]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.864, 0.137)
+mesh = SubResource("QuadMesh_1f15l")
 
 [node name="center" type="Marker3D" parent="3d_gui/music_player/Armature/Skeleton3D/bone_attachment_3d" unique_id=1142013587]
 unique_name_in_owner = true
 transform = Transform3D(0.9999993, -0.0012277663, -6.660819e-05, 0.0012276024, 0.9999974, -0.0020107925, 6.914139e-05, 0.0020107552, 0.9999986, 0.004362898, 1.2669388, 0.021697411)
 
-[node name="quad" type="MeshInstance3D" parent="3d_gui/music_player/Armature/Skeleton3D/bone_attachment_3d" unique_id=1136854805]
+[node name="screen" type="MeshInstance3D" parent="3d_gui/music_player/Armature/Skeleton3D/bone_attachment_3d" unique_id=1136854805]
 unique_name_in_owner = true
 editor_description = "To setup this MeshInstance3D:
 * Set Surface Material Override to a new StandardMaterial3D.
@@ -238,16 +329,16 @@ mesh = SubResource("QuadMesh_o8am3")
 skeleton = NodePath("../../../../../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_vd3b4")
 
-[node name="area_3d" type="Area3D" parent="3d_gui/music_player/Armature/Skeleton3D/bone_attachment_3d/quad" unique_id=486166960]
+[node name="area_3d" type="Area3D" parent="3d_gui/music_player/Armature/Skeleton3D/bone_attachment_3d/screen" unique_id=486166960]
 unique_name_in_owner = true
 collision_layer = 2
 input_capture_on_drag = true
 
-[node name="collision_shape_3d" type="CollisionShape3D" parent="3d_gui/music_player/Armature/Skeleton3D/bone_attachment_3d/quad/area_3d" unique_id=1979599661]
+[node name="collision_shape_3d" type="CollisionShape3D" parent="3d_gui/music_player/Armature/Skeleton3D/bone_attachment_3d/screen/area_3d" unique_id=1979599661]
 transform = Transform3D(1.0000007, 7.4505806e-08, 1.1920929e-07, -1.0430813e-07, 0.9999996, 0, 2.682209e-07, -8.195639e-08, 1.0000005, -8.34465e-07, 2.3841858e-07, -7.1525574e-07)
 shape = SubResource("BoxShape3D_mc0v7")
 
-[node name="sbs_ear1" type="SpringBoneSimulator3D" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 1045477052) index="1" unique_id=679294999]
+[node name="sbs_ear1" type="SpringBoneSimulator3D" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 116963924) index="1" unique_id=679294999]
 unique_name_in_owner = true
 transform = Transform3D(0.4, 0, 0, 0, -1.7484556e-08, -0.4, 0, 0.4, -1.7484556e-08, 0, -2.0657628, -0.05852139)
 influence = 0.205
@@ -280,7 +371,7 @@ settings/0/joints/3/bone = 4
 settings/0/enable_all_child_collisions = true
 settings/0/exclude_collision_count = 0
 
-[node name="sbs_ear2" type="SpringBoneSimulator3D" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 1045477052) index="2" unique_id=2079243090]
+[node name="sbs_ear2" type="SpringBoneSimulator3D" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 116963924) index="2" unique_id=2079243090]
 unique_name_in_owner = true
 transform = Transform3D(0.4, 0, 3.7252903e-09, 3.7252903e-09, -3.7252903e-09, -0.40000004, 0, 0.40000004, -1.4901161e-08, -2.3841858e-07, -2.0657625, -0.05852127)
 influence = 0.205
@@ -313,7 +404,7 @@ settings/0/joints/3/bone = 8
 settings/0/enable_all_child_collisions = true
 settings/0/exclude_collision_count = 0
 
-[node name="sbs_player" type="SpringBoneSimulator3D" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 1045477052) index="3" unique_id=2065034571]
+[node name="sbs_player" type="SpringBoneSimulator3D" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 116963924) index="3" unique_id=2065034571]
 unique_name_in_owner = true
 transform = Transform3D(0.4, 0, 0, 0, -1.7484556e-08, -0.4, 0, 0.4, -1.7484556e-08, 0, -2.0657628, -0.05852139)
 influence = 0.205
@@ -342,7 +433,7 @@ settings/0/joints/1/bone = 1
 settings/0/enable_all_child_collisions = true
 settings/0/exclude_collision_count = 0
 
-[node name="sbs_wires" type="SpringBoneSimulator3D" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 1045477052) index="4" unique_id=862493614]
+[node name="sbs_wires" type="SpringBoneSimulator3D" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 116963924) index="4" unique_id=862493614]
 unique_name_in_owner = true
 transform = Transform3D(0.4, 0, 0, 0, -1.7484556e-08, -0.4, 0, 0.4, -1.7484556e-08, 0, -2.0657628, -0.05852139)
 influence = 0.205
@@ -373,12 +464,23 @@ settings/0/joints/2/bone = 11
 settings/0/enable_all_child_collisions = true
 settings/0/exclude_collision_count = 0
 
-[node name="ear1" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 1045477052) index="5" unique_id=39301939 groups=["stage_lit"]]
+[node name="ear1" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 116963924) index="10" unique_id=1512640923 groups=["stage_lit"]]
 
-[node name="ear2" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 1045477052) index="6" unique_id=1727798126 groups=["stage_lit"]]
+[node name="ear2" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 116963924) index="11" unique_id=55275027 groups=["stage_lit"]]
 
-[node name="Music_player" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 1045477052) index="7" unique_id=497541722 groups=["stage_lit"]]
+[node name="Music_player" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 116963924) index="12" unique_id=1526087973 groups=["stage_lit"]]
 
-[node name="wires" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 1045477052) index="8" unique_id=1739903567 groups=["stage_lit"]]
+[node name="wires" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 116963924) index="13" unique_id=701798559 groups=["stage_lit"]]
+
+[connection signal="mouse_entered" from="3d_gui/music_player/Armature/Skeleton3D/button_down" to="." method="_on_button_down_mouse_entered"]
+[connection signal="mouse_exited" from="3d_gui/music_player/Armature/Skeleton3D/button_down" to="." method="wheel_hide"]
+[connection signal="mouse_entered" from="3d_gui/music_player/Armature/Skeleton3D/button_left" to="." method="_on_button_left_mouse_entered"]
+[connection signal="mouse_exited" from="3d_gui/music_player/Armature/Skeleton3D/button_left" to="." method="wheel_hide"]
+[connection signal="mouse_entered" from="3d_gui/music_player/Armature/Skeleton3D/button_middle" to="." method="_on_button_middle_mouse_entered"]
+[connection signal="mouse_exited" from="3d_gui/music_player/Armature/Skeleton3D/button_middle" to="." method="_on_button_middle_mouse_exited"]
+[connection signal="mouse_entered" from="3d_gui/music_player/Armature/Skeleton3D/button_right" to="." method="_on_button_right_mouse_entered"]
+[connection signal="mouse_exited" from="3d_gui/music_player/Armature/Skeleton3D/button_right" to="." method="wheel_hide"]
+[connection signal="mouse_entered" from="3d_gui/music_player/Armature/Skeleton3D/button_up" to="." method="_on_button_up_mouse_entered"]
+[connection signal="mouse_exited" from="3d_gui/music_player/Armature/Skeleton3D/button_up" to="." method="wheel_hide"]
 
 [editable path="3d_gui/music_player"]

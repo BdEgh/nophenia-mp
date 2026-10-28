@@ -4,6 +4,7 @@ extends Control
 
 @onready var options: MarginContainer = %Options
 @onready var clock: RichTextLabel = %clock
+@onready var clock2: RichTextLabel = %clock2
 @onready var button_list: VBoxContainer = %v_box_container
 @onready var map_list_scroll_box: ScrollContainer = %map_list_scroll_box
 @onready var maps_menu: PanelContainer = %Maps_menu
@@ -13,13 +14,28 @@ extends Control
 @onready var info_author: RichTextLabel = %info_author
 @onready var info_desc: RichTextLabel = %info_desc
 @onready var search: LineEdit = %search
+@onready var load_bar: ProgressBar = %load_bar
+@onready var map_index: RichTextLabel = %map_index
 
 var maps := {}
+var default_picture: Texture2D
+
+func _ready() -> void:
+    map_list_scroll_box.get_v_scroll_bar().value_changed.connect(_upd_cat_scroll_status)
+    map_list_scroll_box.get_h_scroll_bar().value_changed.connect(_upd_cat_scroll_status)
+    default_picture = info_pic.texture
+    var remote_loader = get_tree().get_first_node_in_group("mp").remote_loader
+    remote_loader.download_progress.connect(_update_load_progress)
+
+func _update_load_progress(value: float):
+    load_bar.visible = true
+    load_bar.value = value
 
 var map_button_res := load(get_script().resource_path.get_base_dir() + "/map_select_button.tscn")
 func add_map(map: Dictionary):
     var map_key = map.get("name", str(randi()))
     if maps.has(map_key):
+        maps[map_key].fill_data(map)
         return
     var button = map_button_res.instantiate()
     button.ui = self
@@ -32,6 +48,8 @@ func show_map_list():
     add_ghosting()
     maps_menu.visible = true
     map_info_menu.visible = false
+    
+    await get_tree().process_frame
     if last_selected:
         last_selected.grab_focus()
     else:
@@ -41,18 +59,29 @@ func show_map_list():
                 break
 
 func show_map_info():
-    add_ghosting()
+    mp3.feedback()
     maps_menu.visible = false
     map_info_menu.visible = true
+    load_bar.visible = false
 
 var last_selected: Button
-func show_map(map: Button):
-    last_selected = map
-    if map.image:
-        info_pic.texture = ImageTexture.create_from_image(map.image)
-    info_name.text = map.name
-    info_author.text = map.author
-    info_desc.text = map.description
+func show_map(map_button: Button):
+    last_selected = map_button
+    if map_button.image:
+        info_pic.texture = ImageTexture.create_from_image(map_button.image)
+    else:
+        info_pic.texture = default_picture
+    info_name.text = map_button.name
+    if map_button.data.has("md5") and map_button.data.has("local_md5") and map_button.data["md5"] != map_button.data["local_md5"]:
+        info_name.text += " 🗘"
+    elif map_button.data.has("local_md5"):
+        info_name.text += " 💾"
+    info_author.text = map_button.author
+    info_desc.text = map_button.description
+    
+    var buttons: Array = maps.values()
+    var index = buttons.find(last_selected)
+    map_index.text = "%d/%d" % [index + 1, maps.size()]
     show_map_info()
 
 func queue_free_maps():
@@ -62,15 +91,12 @@ func queue_free_maps():
     search.clear()
     last_selected = null
 
-func _ready() -> void:
-    map_list_scroll_box.get_v_scroll_bar().value_changed.connect(_upd_cat_scroll_status)
-    map_list_scroll_box.get_h_scroll_bar().value_changed.connect(_upd_cat_scroll_status)
-
 func _physics_process(_delta: float) -> void:
     var pause_menu = game.find("pause_menu")
     if pause_menu:
         var time = pause_menu.get_node("screen/screen_view/menu/home/info/margin_container/h_box_container/time_date_box/time_box/time")
         clock.text = time.text
+        clock2.text = time.text
 
 var _afterimage_tween: Tween
 var _cd_ghosting: bool = false
@@ -101,6 +127,33 @@ func _on_search_text_changed(new_text: String) -> void:
         else:
             m.visible = false
     add_ghosting()
+    audio.play_snd(game.loadres("menu_slider"), -1, 0.6, "snd")
+    audio.play_snd(game.loadres("phone_keypad_short"), -1, 0.6, "snd")
 
 func _on_back_button_pressed() -> void:
     mp3.back_to_phone()
+
+func select_map() -> void:
+    var remote_loader = get_tree().get_first_node_in_group("mp").remote_loader
+    remote_loader.change_stage(last_selected.name)
+
+func prev_map_info() -> void:
+    var buttons: Array = maps.values()
+    var index = buttons.find(last_selected)
+    index -= 1
+    if index < 0: index = buttons.size() - 1
+    show_map(buttons[index])
+
+func next_map_info() -> void:
+    var buttons: Array = maps.values()
+    var index = buttons.find(last_selected)
+    index += 1
+    index %= buttons.size()
+    show_map(buttons[index])
+
+func chat_share() -> void:
+    var chat = get_tree().get_first_node_in_group("mp").chat.get_node("ChatUI")
+    chat.toggle_chat(true)
+    var mi: LineEdit = chat.message_input
+    mi.text = "[url=s=%s]%s[/url]" % [last_selected.name, last_selected.name]
+    mi.caret_column = mi.text.length()
