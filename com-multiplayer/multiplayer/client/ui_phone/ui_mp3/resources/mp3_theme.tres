@@ -1,13 +1,18 @@
 [gd_resource type="Theme" format=3 uid="uid://bvgch2a5gbyiw"]
 
-[ext_resource type="Texture2D" uid="uid://b1gh8duuc3n1" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/button2/button_normal2.png" id="2_nk5yf"]
+[ext_resource type="Texture2D" uid="uid://bvd1ytaggtn6g" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/button2/button_hover.png" id="1_yxmib"]
+[ext_resource type="Texture2D" uid="uid://csdo8qi82evvc" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/button2/button_normal.png" id="2_myi6u"]
+[ext_resource type="Texture2D" uid="uid://d2rky42i17xig" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/button2/button_pressed.png" id="3_bfagg"]
 [ext_resource type="FontFile" uid="uid://dho0yytyts0c3" path="res://resource/font/menu_large.ttf" id="3_dbs1a"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_w2s06"]
-texture = ExtResource("2_nk5yf")
+texture = ExtResource("1_yxmib")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kv6ax"]
-texture = ExtResource("2_nk5yf")
+texture = ExtResource("2_myi6u")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_j1pc4"]
+texture = ExtResource("3_bfagg")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0gv6a"]
 bg_color = Color(0.8175212, 0.81752133, 0.8175211, 1)
@@ -31,8 +36,10 @@ border_color = Color(0.26293245, 0.26293245, 0.26293245, 1)
 border_blend = true
 
 [resource]
+Button/styles/focus = SubResource("StyleBoxTexture_w2s06")
 Button/styles/hover = SubResource("StyleBoxTexture_w2s06")
 Button/styles/normal = SubResource("StyleBoxTexture_kv6ax")
+Button/styles/pressed = SubResource("StyleBoxTexture_j1pc4")
 RichTextLabel/colors/default_color = Color(0.2195687, 0.21624896, 0.2029728, 1)
 RichTextLabel/colors/font_outline_color = Color(1, 1, 1, 0)
 RichTextLabel/colors/font_shadow_color = Color(1, 1, 1, 0)

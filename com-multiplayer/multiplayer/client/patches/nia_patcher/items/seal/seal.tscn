@@ -1,6 +1,7 @@
 [gd_scene format=4 uid="uid://dm5l2n8rvfqgu"]
 
-[ext_resource type="Texture2D" uid="uid://bjgvf83egvwvi" path="res://texture/epilogue/egg_seal.png" id="1_r16xg"]
+[ext_resource type="Texture2D" uid="uid://bohyhro1fja45" path="res://mods-unpacked/com-multiplayer/multiplayer/client/patches/nia_patcher/items/seal/egg_seal.png" id="1_r16xg"]
+
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0k54s"]
 resource_name = "seal"

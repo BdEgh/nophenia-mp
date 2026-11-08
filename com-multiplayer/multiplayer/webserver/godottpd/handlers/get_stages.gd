@@ -1,4 +1,3 @@
-
 #class_name GetStagesRouter extends HttpRouter
 extends 'http_router.gd'
 

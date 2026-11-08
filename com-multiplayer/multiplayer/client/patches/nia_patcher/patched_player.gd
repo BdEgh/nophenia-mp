@@ -31,8 +31,9 @@ func _ready() -> void:
         default_saturation = game.active_stage._world_env.environment.adjustment_saturation
     
     if game.active_stage.weather != 1: # rain
-        %umbrella_rain_feedback.emitting = false
-        %rain_umbrella.playing = false
+        if %umbrella_rain_feedback and %rain_umbrella:
+            %umbrella_rain_feedback.emitting = false
+            %rain_umbrella.playing = false
     
     var cus = cus_ui_layer_res.instantiate()
     add_child(cus)
@@ -151,7 +152,7 @@ func _ceiling_check():
         _ceiling_tween = game.tween(_ceiling_tween)
         await _ceiling_tween.tween_method(_tween_audio_filter, 5000, 20000, 0.3).set_trans(Tween.TRANS_CIRC).finished
         AudioServer.set_bus_effect_enabled(5, 0, false)
-    if %umbrella.visible:
+    if %umbrella and %umbrella.visible:
         if game.active_stage.weather != 1: # rain
             %umbrella_rain_feedback.emitting = false
             %rain_umbrella.playing = false
