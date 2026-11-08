@@ -20,6 +20,10 @@ fill_from = Vector2(1, 1)
 texture = SubResource("GradientTexture2D_1x3kl")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1x3kl"]
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_ifeun"]
 color = Color(1, 1, 1, 1)
