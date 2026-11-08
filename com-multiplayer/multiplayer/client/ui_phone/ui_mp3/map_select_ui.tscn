@@ -111,6 +111,10 @@ bg_color = Color(0.4817894, 0.48178953, 0.4817894, 0.6509804)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_scmmq"]
 border_color = Color(0.3403393, 0.34033933, 0.3403393, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tl8i1"]
 bg_color = Color(0.24840015, 0.24840021, 0.24840006, 1)
@@ -120,7 +124,27 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_556s4"]
+content_margin_left = 5.0
+content_margin_right = 5.0
 bg_color = Color(0.9340804, 0.9340805, 0.93408036, 1)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_alp0l"]
+content_margin_left = 5.0
+content_margin_right = 5.0
+bg_color = Color(0.44600356, 0.4460035, 0.4460035, 1)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q3gvn"]
+content_margin_left = 5.0
+content_margin_right = 5.0
+bg_color = Color(0.65341264, 0.6534102, 0.6534108, 1)
 corner_radius_top_left = 100
 corner_radius_top_right = 100
 corner_radius_bottom_right = 100
@@ -390,6 +414,7 @@ placeholder_text = "Search..."
 select_all_on_focus = true
 
 [node name="options_button" type="Button" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/margin_header/h_box_header" unique_id=1288785844]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(30, 30)
 custom_maximum_size = Vector2(30, 30)
 layout_mode = 2
@@ -470,82 +495,64 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 mouse_filter = 2
-theme_override_constants/margin_top = 40
+theme_override_constants/margin_top = 51
 
-[node name="panel_container" type="PanelContainer" parent="Screen/Maps_menu/Options" unique_id=1247838567]
-custom_minimum_size = Vector2(192.435, 217.845)
+[node name="fade" type="PanelContainer" parent="Screen/Maps_menu/Options" unique_id=832684403]
+layout_mode = 2
+
+[node name="margin_container" type="MarginContainer" parent="Screen/Maps_menu/Options/fade" unique_id=860187668]
+layout_mode = 2
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+
+[node name="panel_container" type="PanelContainer" parent="Screen/Maps_menu/Options/fade/margin_container" unique_id=1247838567]
+custom_minimum_size = Vector2(192.435, 166.44)
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_scmmq")
 
-[node name="margin_container" type="MarginContainer" parent="Screen/Maps_menu/Options/panel_container" unique_id=385462334]
+[node name="margin_container" type="MarginContainer" parent="Screen/Maps_menu/Options/fade/margin_container/panel_container" unique_id=385462334]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="v_box_container" type="VBoxContainer" parent="Screen/Maps_menu/Options/panel_container/margin_container" unique_id=1320577595]
+[node name="v_box_container" type="VBoxContainer" parent="Screen/Maps_menu/Options/fade/margin_container/panel_container/margin_container" unique_id=1320577595]
 layout_mode = 2
 
-[node name="panel_container" type="PanelContainer" parent="Screen/Maps_menu/Options/panel_container/margin_container/v_box_container" unique_id=1731084175]
+[node name="reload" type="PanelContainer" parent="Screen/Maps_menu/Options/fade/margin_container/panel_container/margin_container/v_box_container" unique_id=1313109369]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_tl8i1")
 
-[node name="h_box_container" type="HBoxContainer" parent="Screen/Maps_menu/Options/panel_container/margin_container/v_box_container/panel_container" unique_id=568844806]
-custom_minimum_size = Vector2(0, 30)
+[node name="margin_container2" type="MarginContainer" parent="Screen/Maps_menu/Options/fade/margin_container/panel_container/margin_container/v_box_container/reload" unique_id=1127433907]
 layout_mode = 2
-size_flags_vertical = 3
-
-[node name="margin_container" type="MarginContainer" parent="Screen/Maps_menu/Options/panel_container/margin_container/v_box_container/panel_container/h_box_container" unique_id=461906659]
-layout_mode = 2
-theme_override_constants/margin_left = 6
-theme_override_constants/margin_right = 6
-
-[node name="rich_text_label" type="RichTextLabel" parent="Screen/Maps_menu/Options/panel_container/margin_container/v_box_container/panel_container/h_box_container/margin_container" unique_id=1935048140]
-layout_mode = 2
-theme_override_colors/default_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
-theme_override_fonts/normal_font = ExtResource("4_rx0mi")
-theme_override_font_sizes/normal_font_size = 17
-text = "Sort:"
-fit_content = true
-scroll_active = false
-autowrap_mode = 0
-vertical_alignment = 1
-
-[node name="margin_container2" type="MarginContainer" parent="Screen/Maps_menu/Options/panel_container/margin_container/v_box_container/panel_container/h_box_container" unique_id=1651756936]
-layout_mode = 2
-size_flags_horizontal = 3
+theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="option_button" type="OptionButton" parent="Screen/Maps_menu/Options/panel_container/margin_container/v_box_container/panel_container/h_box_container/margin_container2" unique_id=210679998]
+[node name="reload_button" type="Button" parent="Screen/Maps_menu/Options/fade/margin_container/panel_container/margin_container/v_box_container/reload/margin_container2" unique_id=724286301]
+unique_name_in_owner = true
 clip_children = 2
+custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
-theme = ExtResource("3_x38i2")
 theme_override_colors/font_color = Color(0.008201996, 0.008202039, 0.008202008, 1)
+theme_override_colors/font_focus_color = Color(0.008201996, 0.008202039, 0.008202008, 1)
+theme_override_colors/font_pressed_color = Color(0.008201996, 0.008202039, 0.008202008, 1)
+theme_override_colors/font_hover_color = Color(0.008201996, 0.008202039, 0.008202008, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.008201996, 0.008202039, 0.008202008, 1)
 theme_override_fonts/font = ExtResource("4_rx0mi")
 theme_override_font_sizes/font_size = 17
 theme_override_styles/normal = SubResource("StyleBoxFlat_556s4")
-theme_override_constants/modulate_arrow = 4
-alignment = 1
-text_overrun_behavior = 1
-selected = 0
-item_count = 4
-popup/item_0/text = "Newest"
-popup/item_0/id = 1
-popup/item_1/text = "Oldest"
-popup/item_1/id = 2
-popup/item_2/text = "Most favorites"
-popup/item_2/id = 3
-popup/item_3/text = "Least favorites"
-popup/item_3/id = 4
+theme_override_styles/pressed = SubResource("StyleBoxFlat_alp0l")
+theme_override_styles/hover = SubResource("StyleBoxFlat_q3gvn")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_alp0l")
+theme_override_styles/focus = SubResource("StyleBoxFlat_q3gvn")
+text = "Reload"
 
-[node name="panel_container" type="PanelContainer" parent="Screen/Maps_menu/Options/panel_container/margin_container/v_box_container/panel_container/h_box_container/margin_container2/option_button" unique_id=707336433]
+[node name="panel_container" type="PanelContainer" parent="Screen/Maps_menu/Options/fade/margin_container/panel_container/margin_container/v_box_container/reload/margin_container2/reload_button" unique_id=131416668]
 modulate = Color(1, 1, 1, 0.54509807)
 layout_mode = 1
 anchors_preset = 15
@@ -553,6 +560,183 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_08nqp")
+
+[node name="return_home" type="PanelContainer" parent="Screen/Maps_menu/Options/fade/margin_container/panel_container/margin_container/v_box_container" unique_id=579288582]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tl8i1")
+
+[node name="margin_container2" type="MarginContainer" parent="Screen/Maps_menu/Options/fade/margin_container/panel_container/margin_container/v_box_container/return_home" unique_id=2118170691]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="home_button" type="Button" parent="Screen/Maps_menu/Options/fade/margin_container/panel_container/margin_container/v_box_container/return_home/margin_container2" unique_id=1487254337]
+unique_name_in_owner = true
+clip_children = 2
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.008201996, 0.008202039, 0.008202008, 1)
+theme_override_colors/font_focus_color = Color(0.008201996, 0.008202039, 0.008202008, 1)
+theme_override_colors/font_pressed_color = Color(0.008201996, 0.008202039, 0.008202008, 1)
+theme_override_colors/font_hover_color = Color(0.008201996, 0.008202039, 0.008202008, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.008201996, 0.008202039, 0.008202008, 1)
+theme_override_fonts/font = ExtResource("4_rx0mi")
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("StyleBoxFlat_556s4")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_alp0l")
+theme_override_styles/hover = SubResource("StyleBoxFlat_q3gvn")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_alp0l")
+theme_override_styles/focus = SubResource("StyleBoxFlat_q3gvn")
+text = "Return Home"
+
+[node name="panel_container" type="PanelContainer" parent="Screen/Maps_menu/Options/fade/margin_container/panel_container/margin_container/v_box_container/return_home/margin_container2/home_button" unique_id=2040835106]
+modulate = Color(1, 1, 1, 0.54509807)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_08nqp")
+
+[node name="sort_by" type="PanelContainer" parent="Screen/Maps_menu/Options/fade/margin_container/panel_container/margin_container/v_box_container" unique_id=1731084175]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tl8i1")
+
+[node name="h_box_container" type="HBoxContainer" parent="Screen/Maps_menu/Options/fade/margin_container/panel_container/margin_container/v_box_container/sort_by" unique_id=568844806]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="margin_container" type="MarginContainer" parent="Screen/Maps_menu/Options/fade/margin_container/panel_container/margin_container/v_box_container/sort_by/h_box_container" unique_id=461906659]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_right = 6
+
+[node name="rich_text_label" type="RichTextLabel" parent="Screen/Maps_menu/Options/fade/margin_container/panel_container/margin_container/v_box_container/sort_by/h_box_container/margin_container" unique_id=1935048140]
+layout_mode = 2
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
+theme_override_fonts/normal_font = ExtResource("4_rx0mi")
+theme_override_font_sizes/normal_font_size = 17
+text = "Sort by:"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+vertical_alignment = 1
+
+[node name="margin_container2" type="MarginContainer" parent="Screen/Maps_menu/Options/fade/margin_container/panel_container/margin_container/v_box_container/sort_by/h_box_container" unique_id=600128055]
+layout_mode = 2
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="v_box_container" type="VBoxContainer" parent="Screen/Maps_menu/Options/fade/margin_container/panel_container/margin_container/v_box_container/sort_by/h_box_container/margin_container2" unique_id=1210944460]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="name_button" type="CheckBox" parent="Screen/Maps_menu/Options/fade/margin_container/panel_container/margin_container/v_box_container/sort_by/h_box_container/margin_container2/v_box_container" unique_id=2090157297]
+unique_name_in_owner = true
+clip_children = 2
+custom_minimum_size = Vector2(110, 24)
+layout_mode = 2
+theme = ExtResource("3_x38i2")
+theme_override_colors/font_color = Color(0.008201996, 0.008202039, 0.008202008, 1)
+theme_override_colors/font_focus_color = Color(0.008201996, 0.008202039, 0.008202008, 1)
+theme_override_colors/font_pressed_color = Color(0.008201996, 0.008202039, 0.008202008, 1)
+theme_override_colors/font_hover_color = Color(0.008201996, 0.008202039, 0.008202008, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.008201996, 0.008202039, 0.008202008, 1)
+theme_override_fonts/font = ExtResource("4_rx0mi")
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("StyleBoxFlat_556s4")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_556s4")
+theme_override_styles/hover = SubResource("StyleBoxFlat_q3gvn")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_alp0l")
+theme_override_styles/focus = SubResource("StyleBoxFlat_q3gvn")
+text = "Name"
+alignment = 1
+text_overrun_behavior = 1
+
+[node name="panel_container" type="PanelContainer" parent="Screen/Maps_menu/Options/fade/margin_container/panel_container/margin_container/v_box_container/sort_by/h_box_container/margin_container2/v_box_container/name_button" unique_id=607200262]
+modulate = Color(1, 1, 1, 0.54509807)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_08nqp")
+
+[node name="author_button" type="CheckBox" parent="Screen/Maps_menu/Options/fade/margin_container/panel_container/margin_container/v_box_container/sort_by/h_box_container/margin_container2/v_box_container" unique_id=541252383]
+unique_name_in_owner = true
+clip_children = 2
+custom_minimum_size = Vector2(110, 24)
+layout_mode = 2
+theme = ExtResource("3_x38i2")
+theme_override_colors/font_color = Color(0.008201996, 0.008202039, 0.008202008, 1)
+theme_override_colors/font_focus_color = Color(0.008201996, 0.008202039, 0.008202008, 1)
+theme_override_colors/font_pressed_color = Color(0.008201996, 0.008202039, 0.008202008, 1)
+theme_override_colors/font_hover_color = Color(0.008201996, 0.008202039, 0.008202008, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.008201996, 0.008202039, 0.008202008, 1)
+theme_override_fonts/font = ExtResource("4_rx0mi")
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("StyleBoxFlat_556s4")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_556s4")
+theme_override_styles/hover = SubResource("StyleBoxFlat_q3gvn")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_alp0l")
+theme_override_styles/focus = SubResource("StyleBoxFlat_q3gvn")
+text = "Author"
+alignment = 1
+text_overrun_behavior = 1
+
+[node name="panel_container" type="PanelContainer" parent="Screen/Maps_menu/Options/fade/margin_container/panel_container/margin_container/v_box_container/sort_by/h_box_container/margin_container2/v_box_container/author_button" unique_id=1093978525]
+modulate = Color(1, 1, 1, 0.54509807)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_08nqp")
+
+[node name="saved_button" type="CheckBox" parent="Screen/Maps_menu/Options/fade/margin_container/panel_container/margin_container/v_box_container/sort_by/h_box_container/margin_container2/v_box_container" unique_id=752608177]
+unique_name_in_owner = true
+clip_children = 2
+custom_minimum_size = Vector2(110, 24)
+layout_mode = 2
+theme = ExtResource("3_x38i2")
+theme_override_colors/font_color = Color(0.008201996, 0.008202039, 0.008202008, 1)
+theme_override_colors/font_focus_color = Color(0.008201996, 0.008202039, 0.008202008, 1)
+theme_override_colors/font_pressed_color = Color(0.008201996, 0.008202039, 0.008202008, 1)
+theme_override_colors/font_hover_color = Color(0.008201996, 0.008202039, 0.008202008, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.008201996, 0.008202039, 0.008202008, 1)
+theme_override_fonts/font = ExtResource("4_rx0mi")
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("StyleBoxFlat_556s4")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_556s4")
+theme_override_styles/hover = SubResource("StyleBoxFlat_q3gvn")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_alp0l")
+theme_override_styles/focus = SubResource("StyleBoxFlat_q3gvn")
+text = "Saved"
+alignment = 1
+text_overrun_behavior = 1
+
+[node name="panel_container" type="PanelContainer" parent="Screen/Maps_menu/Options/fade/margin_container/panel_container/margin_container/v_box_container/sort_by/h_box_container/margin_container2/v_box_container/saved_button" unique_id=1690905529]
+modulate = Color(1, 1, 1, 0.54509807)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_08nqp")
 
 [node name="bottom_shadow" type="PanelContainer" parent="Screen/Maps_menu" unique_id=1619545423]
@@ -562,6 +746,7 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_bmmkb")
 
 [node name="Map_info_menu" type="PanelContainer" parent="Screen" unique_id=1080043043]
 unique_name_in_owner = true
+visible = false
 z_index = 2
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_bmmkb")
@@ -802,3 +987,8 @@ metadata/_edit_use_anchors_ = true
 [connection signal="pressed" from="Screen/Maps_menu/v_box_container/top_bar/v_box_container/margin_header/h_box_header/back_button" to="." method="_on_back_button_pressed"]
 [connection signal="text_changed" from="Screen/Maps_menu/v_box_container/top_bar/v_box_container/margin_header/h_box_header/margin_search/search_panel/grad/margin_container/search" to="." method="_on_search_text_changed"]
 [connection signal="toggled" from="Screen/Maps_menu/v_box_container/top_bar/v_box_container/margin_header/h_box_header/options_button" to="." method="_on_options_button_toggled"]
+[connection signal="pressed" from="Screen/Maps_menu/Options/fade/margin_container/panel_container/margin_container/v_box_container/reload/margin_container2/reload_button" to="." method="_on_reload_button_pressed"]
+[connection signal="pressed" from="Screen/Maps_menu/Options/fade/margin_container/panel_container/margin_container/v_box_container/return_home/margin_container2/home_button" to="." method="_on_home_button_pressed"]
+[connection signal="toggled" from="Screen/Maps_menu/Options/fade/margin_container/panel_container/margin_container/v_box_container/sort_by/h_box_container/margin_container2/v_box_container/name_button" to="." method="_on_name_button_toggled"]
+[connection signal="toggled" from="Screen/Maps_menu/Options/fade/margin_container/panel_container/margin_container/v_box_container/sort_by/h_box_container/margin_container2/v_box_container/author_button" to="." method="_on_author_button_toggled"]
+[connection signal="toggled" from="Screen/Maps_menu/Options/fade/margin_container/panel_container/margin_container/v_box_container/sort_by/h_box_container/margin_container2/v_box_container/saved_button" to="." method="_on_saved_button_toggled"]

@@ -16,9 +16,42 @@ extends Control
 @onready var search: LineEdit = %search
 @onready var load_bar: ProgressBar = %load_bar
 @onready var map_index: RichTextLabel = %map_index
+@onready var options_button: Button = %options_button
+
+@onready var name_button: CheckBox = %name_button
+@onready var author_button: CheckBox = %author_button
+@onready var saved_button: CheckBox = %saved_button
 
 var maps := {}
 var default_picture: Texture2D
+
+enum Sorts { Name, Author, Saved }
+var sort_by := Sorts.Name
+var sort_buttons: Dictionary
+
+func get_sorted_maps() -> Array:
+    var map_arr: Array = maps.values()
+    match sort_by:
+        Sorts.Name:
+            map_arr.sort_custom(func(a, b): return a.name.to_lower() < b.name.to_lower())
+        Sorts.Author:
+            map_arr.sort_custom(func(a, b): return a.author.to_lower() < b.author.to_lower())
+        Sorts.Saved:
+            map_arr.sort_custom(func(a, b): return a.data.has("local_md5") > b.data.has("local_md5"))
+    return map_arr
+
+func reorder_maps() -> void:
+    var map_arr = get_sorted_maps()
+    for i in range(map_arr.size()):
+        var map = map_arr[i]
+        button_list.move_child(map, i)
+
+func update_sort_pressed() -> void:
+    reorder_maps()
+    for type in sort_buttons.keys():
+        var button: CheckBox = sort_buttons[type]
+        if sort_by == type: button.set_pressed_no_signal(true)
+        else: button.set_pressed_no_signal(false)
 
 func _ready() -> void:
     map_list_scroll_box.get_v_scroll_bar().value_changed.connect(_upd_cat_scroll_status)
@@ -26,6 +59,7 @@ func _ready() -> void:
     default_picture = info_pic.texture
     var remote_loader = get_tree().get_first_node_in_group("mp").remote_loader
     remote_loader.download_progress.connect(_update_load_progress)
+    sort_buttons = { Sorts.Name: name_button, Sorts.Author: author_button, Sorts.Saved: saved_button }
 
 func _update_load_progress(value: float):
     load_bar.visible = true
@@ -91,6 +125,7 @@ func queue_free_maps():
     search.clear()
     last_selected = null
 
+# todo: put inside timer
 func _physics_process(_delta: float) -> void:
     var pause_menu = game.find("pause_menu")
     if pause_menu:
@@ -157,3 +192,27 @@ func chat_share() -> void:
     var mi: LineEdit = chat.message_input
     mi.text = "[url=s=%s]%s[/url]" % [last_selected.name, last_selected.name]
     mi.caret_column = mi.text.length()
+
+func _on_reload_button_pressed() -> void:
+    queue_free_maps()
+    mp3.fill_maps()
+    update_sort_pressed()
+
+func _on_home_button_pressed() -> void:
+    var rl = get_tree().get_first_node_in_group("mp").remote_loader
+    rl.change_stage("stage_bedroom")
+
+func _on_name_button_toggled(toggled_on: bool) -> void:
+    if toggled_on:
+        sort_by = Sorts.Name
+    update_sort_pressed()
+
+func _on_author_button_toggled(toggled_on: bool) -> void:
+    if toggled_on:
+        sort_by = Sorts.Author
+    update_sort_pressed()
+
+func _on_saved_button_toggled(toggled_on: bool) -> void:
+    if toggled_on:
+        sort_by = Sorts.Saved
+    update_sort_pressed()

@@ -63,7 +63,10 @@ func _input(event):
                             press(mapping[action])
         else:
             if event is InputEventKey and event.is_action_pressed("menu"):
-                back_to_phone()
+                if ui.options.visible:
+                    ui.options_button.button_pressed = false
+                else:
+                    back_to_phone()
     
     #if event is InputEventKey and event.pressed and event.keycode == KEY_X:
         #if not shown:
@@ -140,7 +143,8 @@ func _add_offline_buttons():
 
 func fill_maps():
     _add_offline_buttons()
-    _make_request_and_add_buttons()
+    await _make_request_and_add_buttons()
+    ui.update_sort_pressed()
 
 func popup():
     self.visible = true
@@ -303,26 +307,32 @@ func hover_button(button: Buttons):
     if not button_mapping.has(button):
         return
     
-    var mesh = button_mapping[button]
+    var mesh: MeshInstance3D = button_mapping[button]
     if button_tweens[mesh]:
         button_tweens[mesh].kill()
     button_tweens[mesh] = create_tween()
-    var t = button_tweens[mesh]
-    var mat: StandardMaterial3D = mesh.get_active_material(0)
+    var t: Tween = button_tweens[mesh]
+    var mat: StandardMaterial3D = mesh.get_active_material(0)    
+    t.set_parallel(true)
     t.tween_property(mat, "albedo_color:a", 0.4, 0.15)
+    var icon: Node3D = mesh.get_child(0)
+    t.tween_property(icon, "scale", Vector3(1.20, 1.20, 1.20), 0.15)
     t.set_trans(Tween.TRANS_CIRC)
 
 func unhover_button(button: Buttons):
     if not button_mapping.has(button):
         return
     
-    var mesh = button_mapping[button]
+    var mesh: MeshInstance3D = button_mapping[button]
     if button_tweens[mesh]:
         button_tweens[mesh].kill()
     button_tweens[mesh] = create_tween()
-    var t = button_tweens[mesh]
+    var t: Tween = button_tweens[mesh]
     var mat: StandardMaterial3D = mesh.get_active_material(0)
+    t.set_parallel(true)
     t.tween_property(mat, "albedo_color:a", 0.0, 0.15)
+    var icon: Node3D = mesh.get_child(0)
+    t.tween_property(icon, "scale", Vector3.ONE, 0.15)
     t.set_trans(Tween.TRANS_CIRC)
 
 func show_hover(button: Buttons):
