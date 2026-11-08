@@ -6,6 +6,8 @@ extends Node3D
 
 @onready var mp_animation_player: AnimationPlayer = %mp_animation_player
 
+var mp_popup_sound = load(get_script().resource_path.get_base_dir() + "/resources/audio/mp_popup.ogg")
+
 var menu_cam: Camera3D
 var shown := false
 var zoomed := true
@@ -160,6 +162,7 @@ func popup():
     set_physics_process(true)
     
     shown = true
+    audio.play_snd(mp_popup_sound, -1.0, 0.2)
     mp_animation_player.play("popup", 0.2)
     
     #Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -191,6 +194,7 @@ func back_to_phone():
     _phone_open()
     
     shown = false
+    audio.play_snd(mp_popup_sound, -1.0, 0.2)
     mp_animation_player.play("away_zoom_in" if zoomed else "away_zoom_out", 0.2)
     zoomed = true
     set_physics_process(false)
@@ -206,43 +210,45 @@ func back_to_phone():
     if shown == false:
         self.visible = false
 
-func close():
-    var menu_box: SubViewportContainer = pause_menu.get_node("menu_box")
-    menu_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
-    var menu_view: SubViewport = pause_menu.get_node("menu_box/menu_view")
-    menu_view.physics_object_picking = false
-    
-    shown = false
-    mp_animation_player.play("away_zoom_in" if zoomed else "away_zoom_out", 0.2)
-    zoomed = true
-    
-    var camera = get_tree().get_first_node_in_group("player").get_node("cam_box/cam_arm/cam_arm_fix/view")
-    Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-    _animate_camera(camera, 0.0)
-    
-    var light = pause_menu.get_node("menu_box/menu_view/phone_light")
-    create_tween().tween_property(light, "position", Vector3(-0.912, 2.311, -0.425), 0.3).set_trans(Tween.TRANS_CIRC)
-    _set_player_input_enabled(true)
-    
-    if game.nia:
-        if !game.nia.is_sitting: game.nia.vignette(false)
-        game.nia.stop(false)
-    await get_tree().process_frame
-    game.nia.is_paused = false
-    set_physics_process(false)
-    
-    pause_menu.set_process_unhandled_input(true)
-    pause_menu._is_open = false
-    
-    OS.low_processor_usage_mode = false
-    ui.queue_free_maps()
+#func close():
+    #var menu_box: SubViewportContainer = pause_menu.get_node("menu_box")
+    #menu_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+    #var menu_view: SubViewport = pause_menu.get_node("menu_box/menu_view")
+    #menu_view.physics_object_picking = false
+    #
+    #shown = false
+    #mp_animation_player.play("away_zoom_in" if zoomed else "away_zoom_out", 0.2)
+    #zoomed = true
+    #
+    #var camera = get_tree().get_first_node_in_group("player").get_node("cam_box/cam_arm/cam_arm_fix/view")
+    #Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+    #_animate_camera(camera, 0.0)
+    #
+    #var light = pause_menu.get_node("menu_box/menu_view/phone_light")
+    #create_tween().tween_property(light, "position", Vector3(-0.912, 2.311, -0.425), 0.3).set_trans(Tween.TRANS_CIRC)
+    #_set_player_input_enabled(true)
+    #
+    #if game.nia:
+        #if !game.nia.is_sitting: game.nia.vignette(false)
+        #game.nia.stop(false)
+    #await get_tree().process_frame
+    #game.nia.is_paused = false
+    #set_physics_process(false)
+    #
+    #pause_menu.set_process_unhandled_input(true)
+    #pause_menu._is_open = false
+    #
+    #OS.low_processor_usage_mode = false
+    #ui.queue_free_maps()
 
 func zoom_in():
     zoomed = true
+    audio.play_snd(mp_popup_sound, -1.0, 0.2)
     mp_animation_player.play_backwards("zoom_out", 0.2)
 
 func zoom_out():
     zoomed = false
+    audio.play_snd(mp_popup_sound, -1.0, 0.2)
     mp_animation_player.play("zoom_out", 0.2)
 
 func set_influence(influence: float, weight: float) -> void:
@@ -282,6 +288,7 @@ var button_impact: Dictionary
 var hover_on: Buttons
 
 func press(type: Buttons) -> void:
+    ui.on_button_pressed()
     if type == Buttons.Up:
         ui.show_map_list()
         zoom_in()
@@ -303,7 +310,7 @@ func impact(type: Buttons) -> void:
     await create_tween().tween_property(%music_player, "rotation", rot, 0.1).set_trans(Tween.TRANS_CUBIC).finished
     create_tween().tween_property(%music_player, "rotation", Vector3.ZERO, 0.25).from(rot).set_trans(Tween.TRANS_CUBIC)
 
-func hover_button(button: Buttons):
+func hover_button(button: Buttons, alpha: float = 0.4):
     if not button_mapping.has(button):
         return
     
@@ -314,7 +321,7 @@ func hover_button(button: Buttons):
     var t: Tween = button_tweens[mesh]
     var mat: StandardMaterial3D = mesh.get_active_material(0)    
     t.set_parallel(true)
-    t.tween_property(mat, "albedo_color:a", 0.4, 0.15)
+    t.tween_property(mat, "albedo_color:a", alpha, 0.15)
     var icon: Node3D = mesh.get_child(0)
     t.tween_property(icon, "scale", Vector3(1.20, 1.20, 1.20), 0.15)
     t.set_trans(Tween.TRANS_CIRC)
@@ -336,7 +343,8 @@ func unhover_button(button: Buttons):
     t.set_trans(Tween.TRANS_CIRC)
 
 func show_hover(button: Buttons):
-    hover_button(button)
+    ui.on_button_focus_entered()
+    hover_button(button, 0.4 if button != Buttons.Middle else 1.)
     for i in button_mapping.keys():
         if button != i:
             unhover_button(i)

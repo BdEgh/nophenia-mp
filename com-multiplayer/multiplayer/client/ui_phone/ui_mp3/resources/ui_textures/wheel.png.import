@@ -3,8 +3,8 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bompnxq4sj5n0"
-path.s3tc="res://.godot/imported/wheel.png-7f450d4cb572b3d8cca30a00f13a8206.s3tc.ctex"
-path.etc2="res://.godot/imported/wheel.png-7f450d4cb572b3d8cca30a00f13a8206.etc2.ctex"
+path.s3tc="res://.godot/imported/wheel.png-6d0ceb7faf0850dab762d24b7e4f4b07.s3tc.ctex"
+path.etc2="res://.godot/imported/wheel.png-6d0ceb7faf0850dab762d24b7e4f4b07.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/wheel.png"
-dest_files=["res://.godot/imported/wheel.png-7f450d4cb572b3d8cca30a00f13a8206.s3tc.ctex", "res://.godot/imported/wheel.png-7f450d4cb572b3d8cca30a00f13a8206.etc2.ctex"]
+source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/wheel.png"
+dest_files=["res://.godot/imported/wheel.png-6d0ceb7faf0850dab762d24b7e4f4b07.s3tc.ctex", "res://.godot/imported/wheel.png-6d0ceb7faf0850dab762d24b7e4f4b07.etc2.ctex"]
 
 [params]
 

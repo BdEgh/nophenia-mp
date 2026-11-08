@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://6djd41cnftbi"]
 
-[ext_resource type="Texture2D" uid="uid://bompnxq4sj5n0" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/wheel.png" id="1_8bhxt"]
+[ext_resource type="Texture2D" uid="uid://bompnxq4sj5n0" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/wheel.png" id="1_8bhxt"]
+
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mc0v7"]
 render_priority = 5

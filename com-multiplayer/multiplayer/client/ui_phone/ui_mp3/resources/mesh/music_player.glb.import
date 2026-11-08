@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://bk4f6mgeim5vw"
-path="res://.godot/imported/music_player.glb-3fed27cdb0c1bae0afd60c814070481c.scn"
+path="res://.godot/imported/music_player.glb-bb8b99027285b9c66bcddb52ca5163c6.scn"
 
 [deps]
 
-source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/music_player.glb"
-dest_files=["res://.godot/imported/music_player.glb-3fed27cdb0c1bae0afd60c814070481c.scn"]
+source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/mesh/music_player.glb"
+dest_files=["res://.godot/imported/music_player.glb-bb8b99027285b9c66bcddb52ca5163c6.scn"]
 
 [params]
 

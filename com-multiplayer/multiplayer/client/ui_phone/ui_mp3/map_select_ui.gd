@@ -71,9 +71,11 @@ func add_map(map: Dictionary):
     if maps.has(map_key):
         maps[map_key].fill_data(map)
         return
-    var button = map_button_res.instantiate()
+    var button: Button = map_button_res.instantiate()
     button.ui = self
     button.mp3 = mp3
+    button.pressed.connect(on_button_pressed)
+    button.focus_entered.connect(on_menu_focus_entered)
     button_list.add_child(button)
     button.fill_data(map)
     maps[map_key] = button
@@ -194,11 +196,13 @@ func chat_share() -> void:
     mi.caret_column = mi.text.length()
 
 func _on_reload_button_pressed() -> void:
+    on_button_pressed()
     queue_free_maps()
     mp3.fill_maps()
     update_sort_pressed()
 
 func _on_home_button_pressed() -> void:
+    on_button_pressed()
     var rl = get_tree().get_first_node_in_group("mp").remote_loader
     rl.change_stage("stage_bedroom")
 
@@ -216,3 +220,24 @@ func _on_saved_button_toggled(toggled_on: bool) -> void:
     if toggled_on:
         sort_by = Sorts.Saved
     update_sort_pressed()
+
+var mp_menu_hover_sound = load(get_script().resource_path.get_base_dir() + "/resources/audio/mp_menu_hover.ogg")
+var mp_buttons_press_sound = load(get_script().resource_path.get_base_dir() + "/resources/audio/mp_buttons_press.ogg")
+var mp_buttons_hover_sound = load(get_script().resource_path.get_base_dir() + "/resources/audio/mp_buttons_hover.ogg")
+
+func on_menu_focus_entered() -> void:
+    add_ghosting()
+    audio.play_snd(mp_buttons_hover_sound, -1., 0.3)
+
+func on_button_focus_entered() -> void:
+    audio.play_snd(mp_menu_hover_sound, -1., 0.09)
+
+func on_button_pressed() -> void:
+    audio.play_snd(mp_buttons_press_sound, -1., 0.67)
+
+func _grab_focus() -> void:
+    grab_focus()
+
+func _release_focus() -> void:
+    release_focus()
+    add_ghosting()

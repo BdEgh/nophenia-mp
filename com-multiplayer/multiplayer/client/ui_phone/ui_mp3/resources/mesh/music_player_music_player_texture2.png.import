@@ -3,8 +3,8 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ckty8lln57ym4"
-path.s3tc="res://.godot/imported/music_player_music_player_texture2.png-81b06ac7903e8b08e3efde4bf6df492d.s3tc.ctex"
-path.etc2="res://.godot/imported/music_player_music_player_texture2.png-81b06ac7903e8b08e3efde4bf6df492d.etc2.ctex"
+path.s3tc="res://.godot/imported/music_player_music_player_texture2.png-e2a3898030704138e69afe56654029cb.s3tc.ctex"
+path.etc2="res://.godot/imported/music_player_music_player_texture2.png-e2a3898030704138e69afe56654029cb.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -15,8 +15,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/music_player_music_player_texture2.png"
-dest_files=["res://.godot/imported/music_player_music_player_texture2.png-81b06ac7903e8b08e3efde4bf6df492d.s3tc.ctex", "res://.godot/imported/music_player_music_player_texture2.png-81b06ac7903e8b08e3efde4bf6df492d.etc2.ctex"]
+source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/mesh/music_player_music_player_texture2.png"
+dest_files=["res://.godot/imported/music_player_music_player_texture2.png-e2a3898030704138e69afe56654029cb.s3tc.ctex", "res://.godot/imported/music_player_music_player_texture2.png-e2a3898030704138e69afe56654029cb.etc2.ctex"]
 
 [params]
 
