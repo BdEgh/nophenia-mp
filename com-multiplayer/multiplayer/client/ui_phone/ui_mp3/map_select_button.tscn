@@ -53,7 +53,7 @@ colors = PackedColorArray(1, 1, 1, 0.68235296, 1, 1, 1, 0)
 gradient = SubResource("Gradient_tn3h4")
 fill_from = Vector2(1, 1)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_w2s06"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_v7xvp"]
 texture = SubResource("GradientTexture2D_qsxtc")
 
 [node name="button" type="Button" unique_id=1724752639]
@@ -155,7 +155,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_w2s06")
+theme_override_styles/panel = SubResource("StyleBoxTexture_v7xvp")
 
 [node name="h_box_container" type="HBoxContainer" parent="h_box_container/margin_container2/button_info" unique_id=2024902207]
 layout_mode = 2

@@ -5,6 +5,8 @@ extends Node3D
 @export var pause_menu: CanvasLayer
 
 @onready var mp_animation_player: AnimationPlayer = %mp_animation_player
+@onready var light: OmniLight3D = %light
+@onready var const_light: OmniLight3D = %const_light
 
 var mp_popup_sound = load(get_script().resource_path.get_base_dir() + "/resources/audio/mp_popup.ogg")
 
@@ -150,6 +152,7 @@ func fill_maps():
 
 func popup():
     self.visible = true
+    ui.visible = true
     pause_menu.set_process_unhandled_input(false)
     fill_maps()
     ui.show_map_list()
@@ -173,8 +176,10 @@ func popup():
     var camera = get_tree().get_first_node_in_group("player").get_node("cam_box/cam_arm/cam_arm_fix/view")
     _animate_camera(camera, move_multiplier)
     
-    var light = pause_menu.get_node("menu_box/menu_view/phone_light")
-    create_tween().tween_property(light, "position", Vector3(-0.102, 2.311, -3.805), 0.3).set_trans(Tween.TRANS_CIRC)
+    create_tween().tween_property(light, "light_energy", 1., 0.3).set_trans(Tween.TRANS_CIRC)
+    create_tween().tween_property(const_light, "light_energy", 1., 0.3).set_trans(Tween.TRANS_CIRC)
+    #var light = pause_menu.get_node("menu_box/menu_view/phone_light")
+    #create_tween().tween_property(light, "position", Vector3(-0.102, 2.311, -3.805), 0.3).set_trans(Tween.TRANS_CIRC)
 
 func _phone_open():
     var screen = pause_menu.get_node("screen")
@@ -202,13 +207,16 @@ func back_to_phone():
     var camera = get_tree().get_first_node_in_group("player").get_node("cam_box/cam_arm/cam_arm_fix/view")
     _animate_camera(camera, 0.0)
     
-    var light = pause_menu.get_node("menu_box/menu_view/phone_light")
-    create_tween().tween_property(light, "position", Vector3(-0.912, 2.311, -0.425), 0.3).set_trans(Tween.TRANS_CIRC)
+    create_tween().tween_property(light, "light_energy", 0., 0.3).set_trans(Tween.TRANS_CIRC)
+    create_tween().tween_property(const_light, "light_energy", 0., 0.3).set_trans(Tween.TRANS_CIRC)
+    #var light = pause_menu.get_node("menu_box/menu_view/phone_light")
+    #create_tween().tween_property(light, "position", Vector3(-0.912, 2.311, -0.425), 0.3).set_trans(Tween.TRANS_CIRC)
 
     pause_menu.set_process_unhandled_input(true)
     await mp_animation_player.animation_finished
     if shown == false:
         self.visible = false
+        ui.visible = true
 
 #func close():
     #var menu_box: SubViewportContainer = pause_menu.get_node("menu_box")
@@ -263,6 +271,10 @@ func _physics_process(_delta: float) -> void :
         set_influence(0.2, 1.)
     
     if shown:
+        var proj = menu_cam.project_position(game.mouse_position(), 10)
+        light.position.x = -proj.x - 1.5
+        light.position.y = proj.y
+        
         var _sens: Vector2 = Vector2(0.01, 0.005) if zoomed else Vector2(0.02, 0.02)
         var _mouse: Vector2 = game.mouse_position()
         var _cam_project: Vector2 = menu_cam.unproject_position(%center.global_position)
@@ -288,18 +300,21 @@ var button_impact: Dictionary
 var hover_on: Buttons
 
 func press(type: Buttons) -> void:
+    if type == Buttons.None:
+        return
     ui.on_button_pressed()
-    if type == Buttons.Up:
-        ui.show_map_list()
-        zoom_in()
-    elif type == Buttons.Left:
-        ui.prev_map_info()
-    elif type == Buttons.Right:
-        ui.next_map_info()
-    elif type == Buttons.Down:
-        ui.chat_share()
-    elif type == Buttons.Middle:
-        ui.select_map()
+    match type:
+        Buttons.Up:
+            ui.show_map_list()
+            zoom_in()
+        Buttons.Left:
+            ui.prev_map_info()
+        Buttons.Right:
+            ui.next_map_info()
+        Buttons.Down:
+            ui.chat_share()
+        Buttons.Middle:
+            ui.select_map()
 
 func impact(type: Buttons) -> void:
     if not button_impact.has(type):
@@ -310,7 +325,7 @@ func impact(type: Buttons) -> void:
     await create_tween().tween_property(%music_player, "rotation", rot, 0.1).set_trans(Tween.TRANS_CUBIC).finished
     create_tween().tween_property(%music_player, "rotation", Vector3.ZERO, 0.25).from(rot).set_trans(Tween.TRANS_CUBIC)
 
-func hover_button(button: Buttons, alpha: float = 0.4):
+func hover_button(button: Buttons, alpha: float = 0.2):
     if not button_mapping.has(button):
         return
     
@@ -343,8 +358,11 @@ func unhover_button(button: Buttons):
     t.set_trans(Tween.TRANS_CIRC)
 
 func show_hover(button: Buttons):
+    if zoomed:
+        for i in button_mapping.keys(): unhover_button(i)
+        return
     ui.on_button_focus_entered()
-    hover_button(button, 0.4 if button != Buttons.Middle else 1.)
+    hover_button(button)
     for i in button_mapping.keys():
         if button != i:
             unhover_button(i)

@@ -36,6 +36,7 @@ border_color = Color(0.26293245, 0.26293245, 0.26293245, 1)
 border_blend = true
 
 [resource]
+Button/styles/focus = SubResource("StyleBoxTexture_w2s06")
 Button/styles/hover = SubResource("StyleBoxTexture_w2s06")
 Button/styles/normal = SubResource("StyleBoxTexture_kv6ax")
 Button/styles/pressed = SubResource("StyleBoxTexture_j1pc4")

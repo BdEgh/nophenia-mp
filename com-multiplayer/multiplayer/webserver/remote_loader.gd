@@ -42,11 +42,11 @@ func load_from_disk(path: String):
     if is_loaded:
         ModLoaderLog.info("loaded level: " + path, self.name)
 
-func download_and_load(_stage: String):
+func download_and_load(_stage: String, force: bool = false):
     if not DirAccess.dir_exists_absolute(remote_stages_physical):
         DirAccess.make_dir_absolute(remote_stages_physical)
     var physical_path = remote_stages_physical.path_join("%s.zip" % _stage)
-    if FileAccess.file_exists(physical_path):
+    if not force and FileAccess.file_exists(physical_path):
         load_from_disk(physical_path)
         return
     
@@ -76,6 +76,10 @@ func fetch_mounted_stage(_stage: String):
         return mounted_stage
     return null
 
+func download_update(_stage: String):
+    await download_and_load(_stage, true)
+    return fetch_mounted_stage(_stage)
+
 func fetch_stage(_stage: String):
     if FileAccess.file_exists(_stage):
         return _stage
@@ -88,10 +92,11 @@ func fetch_stage(_stage: String):
         mounted_stage = fetch_mounted_stage(_stage)
     return mounted_stage
 
-func change_stage(_stage, instant = false):
+func change_stage(_stage, instant = false, update = false):
     if game.transing:
         return
-    _stage = await fetch_stage(_stage)
+    if update: _stage = await download_update(_stage)
+    else: _stage = await fetch_stage(_stage)
     if not _stage:
         return
     

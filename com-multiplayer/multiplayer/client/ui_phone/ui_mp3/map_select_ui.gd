@@ -149,7 +149,7 @@ func add_ghosting():
     await _afterimage_tween.tween_property( %after_image, "modulate:a", 0.25, 0.3).from(1.0).set_trans(Tween.TRANS_CUBIC).finished
     _cd_ghosting = false
     _afterimage_tween = game.tween(_afterimage_tween)
-    _afterimage_tween.tween_property( %after_image, "modulate:a", 0.0, randf_range(0.3, 1.0)).set_trans(Tween.TRANS_SINE)
+    _afterimage_tween.tween_property( %after_image, "modulate:a", 0.0, randf_range(0.3, 0.4)).set_trans(Tween.TRANS_SINE)
 
 func _upd_cat_scroll_status(_value: int = 0):
     add_ghosting()
@@ -172,7 +172,11 @@ func _on_back_button_pressed() -> void:
 
 func select_map() -> void:
     var remote_loader = get_tree().get_first_node_in_group("mp").remote_loader
-    remote_loader.change_stage(last_selected.name)
+    var has_update: bool = last_selected.data.has("md5") and last_selected.data.has("local_md5") and last_selected.data["md5"] != last_selected.data["local_md5"]
+    if has_update:
+        remote_loader.change_stage(last_selected.name, false, true)
+    else:
+        remote_loader.change_stage(last_selected.name)
 
 func prev_map_info() -> void:
     var buttons: Array = maps.values()
@@ -237,6 +241,7 @@ func on_button_pressed() -> void:
 
 func _grab_focus() -> void:
     grab_focus()
+    on_menu_focus_entered()
 
 func _release_focus() -> void:
     release_focus()

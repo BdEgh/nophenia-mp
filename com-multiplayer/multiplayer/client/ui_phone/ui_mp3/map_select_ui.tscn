@@ -462,6 +462,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("3_x38i2")
+follow_focus = true
 
 [node name="v_box_container" type="VBoxContainer" parent="Screen/Maps_menu/v_box_container/map_listbg/map_list_scroll_box" unique_id=1251468725]
 unique_name_in_owner = true
