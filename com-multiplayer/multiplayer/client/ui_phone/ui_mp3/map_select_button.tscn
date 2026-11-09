@@ -8,9 +8,6 @@
 [ext_resource type="FontFile" uid="uid://dho0yytyts0c3" path="res://resource/font/menu_large.ttf" id="4_padl8"]
 [ext_resource type="Texture2D" uid="uid://dyfeqb2idlcvo" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/star.png" id="5_v7xvp"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yxmib"]
-bg_color = Color(0.9098039, 0.9098039, 0.9098039, 0.42745098)
-
 [sub_resource type="Gradient" id="Gradient_qjhq8"]
 offsets = PackedFloat32Array(0, 0.76862746)
 colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 0.38039216)
@@ -60,7 +57,6 @@ texture = SubResource("GradientTexture2D_qsxtc")
 [node name="button" type="Button" unique_id=1724752639]
 custom_minimum_size = Vector2(0, 100)
 theme = ExtResource("1_oinl1")
-theme_override_styles/focus = SubResource("StyleBoxFlat_yxmib")
 script = ExtResource("2_qjhq8")
 
 [node name="panel_container" type="PanelContainer" parent="." unique_id=1564310312]

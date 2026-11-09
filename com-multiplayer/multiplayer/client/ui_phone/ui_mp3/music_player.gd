@@ -14,6 +14,7 @@ var menu_cam: Camera3D
 var shown := false
 var zoomed := true
 var http: HTTPRequest
+var info_mode: bool = false
 
 func _ready() -> void:
     menu_cam = pause_menu.get_node("menu_box/menu_view/menu_cam")
@@ -40,6 +41,9 @@ func _input(event):
                 else:
                     press(hover_on)
             if event is InputEventKey:
+                var chat = get_tree().get_first_node_in_group("mp").chat.get_node("ChatUI")
+                if chat.visible:
+                    return
                 if event.is_action_pressed("menu"):
                     ui.show_map_list()
                     zoom_in()
@@ -122,16 +126,15 @@ func _make_request_and_add_buttons():
     var url = remote_loader.addr.path_join("/get_stages")
     var err := http.request(url)
     if err != OK:
-        ModLoaderLog.error("request failed", self.name)
+        printerr("request failed")
         return
     var response = await http.request_completed
     var body : PackedByteArray = response[3]
     var huy = body.get_string_from_ascii()
-    var json = JSON.new()
-    var error = json.parse(huy)
+    var json = JSON.parse_string(huy)
     
     if typeof(json.data) != TYPE_ARRAY:
-        ModLoaderLog.error("request failed", self.name)
+        printerr("response content is weird")
         return
     for map in json.data:
         if typeof(map) != TYPE_DICTIONARY:
@@ -151,6 +154,7 @@ func fill_maps():
     ui.update_sort_pressed()
 
 func popup():
+    info_mode = false
     self.visible = true
     ui.visible = true
     pause_menu.set_process_unhandled_input(false)
@@ -178,8 +182,6 @@ func popup():
     
     create_tween().tween_property(light, "light_energy", 1., 0.3).set_trans(Tween.TRANS_CIRC)
     create_tween().tween_property(const_light, "light_energy", 1., 0.3).set_trans(Tween.TRANS_CIRC)
-    #var light = pause_menu.get_node("menu_box/menu_view/phone_light")
-    #create_tween().tween_property(light, "position", Vector3(-0.102, 2.311, -3.805), 0.3).set_trans(Tween.TRANS_CIRC)
 
 func _phone_open():
     var screen = pause_menu.get_node("screen")
@@ -209,9 +211,7 @@ func back_to_phone():
     
     create_tween().tween_property(light, "light_energy", 0., 0.3).set_trans(Tween.TRANS_CIRC)
     create_tween().tween_property(const_light, "light_energy", 0., 0.3).set_trans(Tween.TRANS_CIRC)
-    #var light = pause_menu.get_node("menu_box/menu_view/phone_light")
-    #create_tween().tween_property(light, "position", Vector3(-0.912, 2.311, -0.425), 0.3).set_trans(Tween.TRANS_CIRC)
-
+    
     pause_menu.set_process_unhandled_input(true)
     await mp_animation_player.animation_finished
     if shown == false:
@@ -286,6 +286,10 @@ func _physics_process(_delta: float) -> void :
             ), 0.2)
         %music_player.rotation_degrees.y = clamp( %music_player.rotation_degrees.y, -24.0, 24.0)
 
+func popup_stage_info(_stage: String):
+    info_mode = true
+    
+
 #region Buttons
 @onready var wheel_up: MeshInstance3D = %wheel_up
 @onready var wheel_left: MeshInstance3D = %wheel_left
@@ -325,7 +329,7 @@ func impact(type: Buttons) -> void:
     await create_tween().tween_property(%music_player, "rotation", rot, 0.1).set_trans(Tween.TRANS_CUBIC).finished
     create_tween().tween_property(%music_player, "rotation", Vector3.ZERO, 0.25).from(rot).set_trans(Tween.TRANS_CUBIC)
 
-func hover_button(button: Buttons, alpha: float = 0.2):
+func hover_button(button: Buttons, alpha: float = 0.3):
     if not button_mapping.has(button):
         return
     

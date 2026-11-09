@@ -60,7 +60,7 @@ func _add_icons():
     _hosting.tooltip_text = "server is working on port %d" % get_tree().get_first_node_in_group("mp").mp_cfg.server_port
     _no_calls.add_sibling(_hosting)
     header.move_child(_hosting, _no_calls.get_index())
-    var pause_menu = get_tree().get_first_node_in_group("player").get_node("pause_menu")
+    var pause_menu = game.find("pause_menu")
     pause_menu.visibility_changed.connect(_on_pause_menu_visibility_changed.bind(pause_menu))
 
 func _on_pause_menu_visibility_changed(pause_menu):
@@ -139,7 +139,7 @@ func _show_connected_status():
     _signal_status_tween.tween_method(_revert, 0.0, 0.0, 0).set_delay(randf_range(3.5, 10.0))
 
 func _add_option(option, screen = null, position: int = -1):
-    var pause_menu = get_tree().get_first_node_in_group("player").get_node("pause_menu")
+    var pause_menu = game.find("pause_menu")
     var screen_view = pause_menu.get_node("screen/screen_view")
     var options_vbox = screen_view.get_node("menu/options/margin_container/scroll_container/v_box_container")
     var menu_control = screen_view.get_node("menu")
@@ -182,14 +182,14 @@ func _add_mp_settings_button():
 
     _add_option(option_mp_settings, mp_settings)
 
-var mp3
 func _add_user_maps_button():
     var option_user_maps: Button = option_user_maps_scene.instantiate()
     option_user_maps.name = "option_user_maps"
-    var pause_menu = get_tree().get_first_node_in_group("player").get_node("pause_menu")
+    var pause_menu = game.find("pause_menu")
     _add_option(option_user_maps, null, 1)
     
-    mp3 = music_player_scene.instantiate()
+    var mp3 = music_player_scene.instantiate()
+    mp3.name = "mp3"
     mp3.pause_menu = pause_menu
     var menu_view = pause_menu.get_node("menu_box/menu_view")
     menu_view.add_child(mp3)
@@ -220,6 +220,6 @@ func _add_self_visible_button() -> void:
         else:
             a.visible = false
     )
-    var pause_menu = get_tree().get_first_node_in_group("player").get_node("pause_menu")
+    var pause_menu = game.find("pause_menu")
     var general_container = pause_menu.get_node("screen/screen_view/menu/general/margin_container/scroll_container/v_box_container")
     general_container.add_child(self_button)

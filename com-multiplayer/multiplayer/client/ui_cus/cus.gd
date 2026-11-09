@@ -50,7 +50,7 @@ func _ready() -> void:
         var item = item_dict[iname]
         var preview_item = item_dict.get(iname + " preview", null)
         if not iname in item_types:
-            ModLoaderLog.error("item type is undefined for item: %s" % iname, self.name)
+            printerr("item type is undefined for item: %s" % iname)
             continue
         var item_button = item_scene.instantiate()
         item_button.cus = self

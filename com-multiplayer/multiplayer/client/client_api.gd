@@ -53,20 +53,20 @@ func disconnect_from_server():
 ## Websocket Signals
 
 func _on_connection_established():
-    ModLoaderLog.info("Connected to server", self.name)
+    print("Connected to server")
     connected_to_server.emit()
     _send_sync_request()
     _send_ping()
     _ping_timer.start()
 
 func _on_connection_failed():
-    ModLoaderLog.error("Failed to connect to server", self.name)
+    printerr("Failed to connect to server")
     _ping_timer.stop()
     last_ping = -1
     connection_failed.emit()
 
 func _on_connection_closed():
-    ModLoaderLog.warning("Disconnected from server", self.name)
+    print("Disconnected from server")
     _ping_timer.stop()
     last_ping = -1
     disconnected_from_server.emit()
@@ -117,7 +117,7 @@ func _on_data_received(_stub: int, data: PackedByteArray):
         var delta = Time.get_ticks_msec() - ping.get_timestamp()
         last_ping = delta
         total_online = ping.get_total_online()
-        ModLoaderLog.info("Ping response in %d ms" % delta, self.name)
+        print("Ping response in %d ms" % delta)
         ping_received.emit()
     else:
         pass

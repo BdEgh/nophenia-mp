@@ -27,11 +27,11 @@ func start_server(port: int, multiplayer_server, key: String) -> void:
     add_child(server)
     server.enable_cors(["http://localhost:%d" % port])
     server.start()
-    ModLoaderLog.info("http server started on port %s" % port, self.name)
+    print("http server started on port %s" % port)
 
 func stop_server() -> void:
     if server == null:
         return
     server.stop()
     server.queue_free()
-    ModLoaderLog.info("http server stopped", self.name)
+    print("http server stopped")

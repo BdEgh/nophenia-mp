@@ -35,12 +35,12 @@ func load_all_from_disk() -> void:
 
 func load_from_disk(path: String):
     if path.get_extension() != "zip" or not FileAccess.file_exists(path):
-        ModLoaderLog.info("unable to load: " + path, self.name)
+        print("unable to load: " + path)
         return
     
     var is_loaded := ProjectSettings.load_resource_pack(path, false)
     if is_loaded:
-        ModLoaderLog.info("loaded level: " + path, self.name)
+        print("loaded level: " + path)
 
 func download_and_load(_stage: String, force: bool = false):
     if not DirAccess.dir_exists_absolute(remote_stages_physical):
@@ -57,7 +57,7 @@ func download_and_load(_stage: String, force: bool = false):
     var url := addr.path_join("/load_stage?stage=%s.zip" % _stage)
     var err := http.request(url)
     if err != OK:
-        ModLoaderLog.error("%s request failed" % [_stage], self.name)
+        printerr("%s request failed" % [_stage])
         return
     var response = await http.request_completed
     p_timer.stop()
@@ -65,10 +65,10 @@ func download_and_load(_stage: String, force: bool = false):
     var res = response[0]
     var code = response[1]
     if res == HTTPRequest.RESULT_SUCCESS and code == 200:
-        ModLoaderLog.info("%s downloaded" % _stage, self.name)
+        print("%s downloaded" % _stage)
         load_from_disk(physical_path)
     else:
-        ModLoaderLog.error("%s download failed. Code %d" % [_stage, code], self.name)
+        printerr("%s download failed. Code %d" % [_stage, code])
 
 func fetch_mounted_stage(_stage: String):
     var mounted_stage = stages_mounted.path_join("%s/%s.tscn" % [_stage, _stage])

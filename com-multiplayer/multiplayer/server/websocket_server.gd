@@ -27,16 +27,16 @@ func start_server():
     _banned_list = ConfigFile.new()
     var load_error := _banned_list.load(BANNED_LIST_PATH)
     if load_error != OK and load_error != ERR_FILE_NOT_FOUND:
-        ModLoaderLog.error("Could not load banned_list.ini: %d" % load_error, self.name)
+        printerr("Could not load banned_list.ini: %d" % load_error)
         return
     _server = TCPServer.new()
     var error = _server.listen(port)
     if error != OK:
-        ModLoaderLog.error("Failed to start server on port %d - Error: %d" % [port, error], self.name)
+        printerr("Failed to start server on port %d - Error: %d" % [port, error])
         return
     
     _ban_reload_timer.start(1.0)
-    ModLoaderLog.info("WebSocket server started on %d" % [port], self.name)
+    print("WebSocket server started on %d" % [port])
 
 func _process(_delta):
     if not _server:
@@ -49,7 +49,7 @@ func _reload_banned_list() -> void:
     var banned_list := ConfigFile.new()
     var error := banned_list.load(BANNED_LIST_PATH)
     if error != OK:
-        #ModLoaderLog.error("Could not reload banned_list.ini: %d" % error, self.name)
+        #printerr("Could not reload banned_list.ini: %d" % error)
         _ban_reload_error = error
         return
     _ban_reload_error = OK
@@ -72,8 +72,8 @@ func _handle_new_connections():
         
         var peer_id = _generate_peer_id()
         _clients[peer_id] = ws_peer
-        ModLoaderLog.info("Client connected ; peer_id: %d ; host: %s" % \
-            [peer_id, ws_peer.get_connected_host()], self.name)
+        print("Client connected ; peer_id: %d ; host: %s" % \
+            [peer_id, ws_peer.get_connected_host()])
         peer_connected.emit(peer_id)
 
 func _process_existing_clients():
@@ -98,7 +98,7 @@ func _process_client_data(peer_id: int, client: WebSocketPeer):
 func _cleanup_disconnected_peers(disconnected_peers: Array):
     for peer_id in disconnected_peers:
         _clients.erase(peer_id)
-        ModLoaderLog.info("Client disconnected: %d" % peer_id, self.name)
+        print("Client disconnected: %d" % peer_id)
         peer_disconnected.emit(peer_id)
 
 func _generate_peer_id() -> int:
@@ -131,15 +131,15 @@ func broadcast_to_all(data: PackedByteArray, exclude_peer: int = -1):
         if exclude_peer != client_id and _send_to_client(client_id, data):
             sent_count += 1
     
-    #ModLoaderLog.debug("Broadcasted data to %d clients" % sent_count, self.name)
+    #print("Broadcasted data to %d clients" % sent_count)
 
 func send_to_peer(data: PackedByteArray, peer_id: int):
     if not _clients.has(peer_id):
-        ModLoaderLog.warning("Client %d not found" % peer_id, self.name)
+        print("Client %d not found" % peer_id)
         return
     
     if _send_to_client(peer_id, data):
-        #ModLoaderLog.debug("Sent data to client %d" % peer_id, self.name)
+        #print("Sent data to client %d" % peer_id)
         pass
 
 func send_to_peers(data: PackedByteArray, peer_ids: Array[int]):
@@ -149,7 +149,7 @@ func send_to_peers(data: PackedByteArray, peer_ids: Array[int]):
         if _send_to_client(peer_id, data):
             sent_count += 1
     
-    #ModLoaderLog.debug("Sent data to %d/%d specified clients" % [sent_count, peer_ids.size()], self.name)
+    #print("Sent data to %d/%d specified clients" % [sent_count, peer_ids.size()])
 
 func _send_to_client(peer_id: int, data: PackedByteArray) -> bool:
     if not _clients.has(peer_id):
@@ -160,7 +160,7 @@ func _send_to_client(peer_id: int, data: PackedByteArray) -> bool:
         client.send(data)
         return true
     else:
-        ModLoaderLog.warning("Client %d is not connected" % peer_id, self.name)
+        print("Client %d is not connected" % peer_id)
         return false
 
 func disconnect_peer(peer_id: int):
@@ -168,7 +168,7 @@ func disconnect_peer(peer_id: int):
         var client = _clients[peer_id] as WebSocketPeer
         client.close()
         _clients.erase(peer_id)
-        ModLoaderLog.info("Disconnected client: %d" % peer_id, self.name)
+        print("Disconnected client: %d" % peer_id)
         peer_disconnected.emit(peer_id)
 
 func get_connected_peers() -> Array[int]:
@@ -230,7 +230,7 @@ func close_connection():
         _server.stop()
         _server = null
     
-    ModLoaderLog.info("WebSocket server closed", self.name)
+    print("WebSocket server closed")
     connection_closed.emit()
 
 func _exit_tree():

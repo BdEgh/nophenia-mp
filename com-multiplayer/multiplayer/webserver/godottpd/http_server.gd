@@ -67,10 +67,11 @@ func _ready() -> void:
 #
 # #### Parameters
 # - message: The message to be printed (only in debug mode)
+var verbose := false
 func _print_debug(message: String) -> void:
     var time = Time.get_datetime_dict_from_system()
     var time_return = "%02d-%02d-%02d %02d:%02d:%02d" % [time.year, time.month, time.day, time.hour, time.minute, time.second]
-    ModLoaderLog.debug("[SERVER] %s >> %s" % [time_return, message], self.name)
+    if verbose: print("[SERVER] %s >> %s" % [time_return, message])
 
 ## Register a new router to handle a specific path
 ## [br]

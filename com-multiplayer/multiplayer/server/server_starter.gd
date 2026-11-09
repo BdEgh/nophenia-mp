@@ -9,8 +9,6 @@ extends Control
 
 func _ready():
     status_label.text = "Running on %s:%d" % ["*", port]
-    if ModLoader:
-        ModLoader.logged.connect(_on_mod_loader_logged)
     server.start_server(port)
     web_server.start_server(port + 1, server, get_parent().mp_cfg.key)
 

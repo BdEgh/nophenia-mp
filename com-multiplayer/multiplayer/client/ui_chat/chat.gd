@@ -209,7 +209,7 @@ func _send_message():
         client.send_chat_message(text)
         add_message(text, "You")
     else:
-        ModLoaderLog.warning("cannot send message - client not found", self.name)
+        print("cannot send message - client not found")
     
     _scroll_to_bottom()
     _close_emoji_window()

@@ -30,14 +30,14 @@ func connect_to_server():
     var error = _websocket.connect_to_url(url)
     
     if error != OK:
-        ModLoaderLog.error("Failed to connect to %s - Error: %d" % [url, error], self.name)
+        printerr("Failed to connect to %s - Error: %d" % [url, error])
         connection_failed.emit()
         return
     
     if auto_reconnect:
         _reconnect_timer.start()
     
-    ModLoaderLog.info("Connecting to %s..." % url, self.name)
+    print("Connecting to %s..." % url)
 
 func _process(_delta):
     if not _websocket:
@@ -55,7 +55,7 @@ func _process(_delta):
 func _handle_open_state():
     if not _is_connected:
         _is_connected = true
-        ModLoaderLog.info("Connected to server", self.name)
+        print("Connected to server")
         connection_established.emit()
         _reconnect_timer.stop()
     
@@ -64,7 +64,7 @@ func _handle_open_state():
 func _handle_closed_state():
     if _is_connected:
         _is_connected = false
-        ModLoaderLog.warning("Connection closed", self.name)
+        print("Connection closed")
         connection_closed.emit()
         if auto_reconnect:
             _reconnect_timer.start()
@@ -76,11 +76,11 @@ func _process_incoming_data():
 
 func send_data(data: PackedByteArray, peer_id: int = -1):
     if not _websocket or _websocket.get_ready_state() != WebSocketPeer.STATE_OPEN:
-        #ModLoaderLog.debug("Not connected to server", self.name)
+        #print("Not connected to server")
         return
     
     _websocket.send(data)
-    #ModLoaderLog.debug("Raw data sent to server", self.name)
+    #print("Raw data sent to server")
 
 func send_to_server(data: Variant):
     send_data(data)
@@ -113,12 +113,12 @@ func close_connection():
     
     _is_connected = false
     _reconnect_timer.stop()
-    ModLoaderLog.info("WebSocket client connection closed", self.name)
+    print("WebSocket client connection closed")
     connection_closed.emit()
 
 func _attempt_reconnect():
     if not _is_connected:
-        ModLoaderLog.info("Attempting to reconnect...", self.name)
+        print("Attempting to reconnect...")
         connect_to_server()
 
 func _exit_tree():

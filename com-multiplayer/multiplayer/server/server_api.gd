@@ -38,7 +38,7 @@ func _check_ping_timeouts():
             timeout_players.append(peer_id)
     
     for peer_id in timeout_players:
-        ModLoaderLog.warning("Player %d timed out (no requests for %.0f ms)" % [peer_id, ping_timeout], self.name)
+        print("Player %d timed out (no requests for %.0f ms)" % [peer_id, ping_timeout])
         _disconnect_player(peer_id)
 
 func start_server(port: int = 42424):
@@ -55,7 +55,7 @@ func _setup_websocket_server():
 
 func _on_peer_connected(peer_id: int):
     _last_ping_times[peer_id] = Time.get_ticks_msec()
-    ModLoaderLog.warning("Peer connected: %d" % peer_id, self.name)
+    print("Peer connected: %d" % peer_id)
 
 func _send_other_players_data(peer_id: int):
     var data = Api.TServerData.new()
@@ -138,7 +138,7 @@ func _merge_state(source, target):
 
 func _on_peer_disconnected(peer_id: int):
     _disconnect_player(peer_id)
-    ModLoaderLog.warning("Peer disconnected: %d" % peer_id, self.name)
+    print("Peer disconnected: %d" % peer_id)
 
 func _sync_state(peer_id: int, signed_state):
     var action = signed_state.get_action()
@@ -172,7 +172,7 @@ func _on_data_received(peer_id: int, data: PackedByteArray):
         msg.set_msg(message.get_chat_message().get_msg())
         msg.set_name(_names.get(peer_id, message.get_chat_message().get_name()))
         socket.send_data(response.to_bytes(), -peer_id)
-        ModLoaderLog.info("%d: %s" % [peer_id, message.get_chat_message().get_msg()], self.name)
+        print("%d: %s" % [peer_id, message.get_chat_message().get_msg()])
     elif message.has_sync_request() and message.get_sync_request() == true:
         _send_other_players_data(peer_id)
     elif message.has_ping():
@@ -181,4 +181,4 @@ func _on_data_received(peer_id: int, data: PackedByteArray):
         response.get_ping().set_total_online(players.size())
         socket.send_data(response.to_bytes(), peer_id)
     else:
-        ModLoaderLog.warning("Peer %d is mumbling" % peer_id, self.name)
+        print("Peer %d is mumbling" % peer_id)

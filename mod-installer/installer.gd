@@ -30,8 +30,11 @@ var valid_patched := false:
 			install_button.disabled = true
 
 func _ready() -> void:
-	orig_game_line.text = find_steam_game_path()
-	_on_orig_game_line_text_changed(orig_game_line.text)
+	var game_path := find_steam_game_path()
+	orig_game_line.text = game_path
+	patched_game_line.text = game_path
+	_on_orig_game_line_text_changed(game_path)
+	_on_patched_game_line_text_changed(game_path)
 
 func find_steam_game_path() -> String:
 	var steam_path := ""
@@ -121,53 +124,6 @@ func _copy_recursive(from: String, to: String) -> void:
 	for folder in DirAccess.get_directories_at(from):
 		_copy_recursive(from.path_join(folder), to.path_join(folder))
 
-func _merge_cfg_lists(orig_path: String, mod_path: String) -> void:
-	var original_config = ConfigFile.new()
-	var mod_config = ConfigFile.new()
-	original_config.load(orig_path)
-	mod_config.load(mod_path)
-	
-	var merged_dict: Dictionary = {}
-	var original_list: Array = original_config.get_value("", "list", [])
-	for entry in original_list:
-		var class_name_key = entry.get("class", "")
-		merged_dict[class_name_key] = entry
-	var mod_list: Array = mod_config.get_value("", "list", [])
-	for entry in mod_list:
-		var class_name_key = entry.get("class", "")
-		merged_dict[class_name_key] = entry
-	var result: Array = merged_dict.values()
-	
-	original_config.set_value("", "list", result)
-	original_config.save(orig_path)
-
-func _extract() -> bool:
-	var status: int
-	if OS.get_name() == "Windows":
-		var exec_path := ProjectSettings.globalize_path("res://gdre/win/gdre_tools.exe")
-		var arguments := PackedStringArray([
-			"--headless",
-			"--include=res://.godot/**",
-			"--extract=%s" % orig_game_line.text.path_join("nophenia.exe"),
-			"--output=%s" % patched_game_line.text
-		])
-		status = OS.execute(exec_path, arguments)
-	elif OS.get_name() == "Linux":
-		var exec_path := ProjectSettings.globalize_path("res://gdre/linux/gdre_tools.x86_64")
-		var arguments := PackedStringArray([
-			"--headless",
-			"--include=res://.godot/**",
-			"--extract=%s" % _fetch_exec(orig_game_line.text),
-			"--output=%s" % patched_game_line.text
-		])
-		status = OS.execute(exec_path, arguments)
-	if status != 0:
-		OS.alert("Failed to extract", "Patch status")
-		for star in [star_0, star_1, star_2]: star.text = _replace_color(star.text, "#FFB19E")
-		return false
-	DirAccess.rename_absolute(patched_game_line.text.path_join(".godot"), patched_game_line.text.path_join("godot"))
-	return true
-
 func _change_icon() -> void:
 	if OS.get_name() == "Windows":
 		var args = [patched_game_line.text.path_join("nophenia.exe"), "--set-icon", ProjectSettings.globalize_path("res://assets/game-icon.ico")]
@@ -199,21 +155,15 @@ func _add_experimental_stuff() -> void:
 func _on_install_button_pressed() -> void:
 	install_button.disabled = true
 	
-	var extracted:= _extract()
-	if not extracted:
-		return
 	_copy_files(orig_game_line.text, patched_game_line.text)
 	_copy_recursive(ProjectSettings.globalize_path("res://mod_loader_artifacts"), patched_game_line.text)
-	_merge_cfg_lists(
-		patched_game_line.text.path_join("godot").path_join("global_script_class_cache.cfg"),
-		ProjectSettings.globalize_path("res://mod_loader_globals.cfg")
-	)
 	_change_icon()
 	if desktop_shortcut_button.button_pressed:
 		_create_desktop_shortcut()
 	if experimental_button.button_pressed:
 		_add_experimental_stuff()
 	OS.alert("Success!", "Patch status")
+	OS.shell_open(patched_game_line.text)
 	
 	install_button.disabled = false
 	star_2.text = "[wave amp=60.0 freq=1 connected=1]✦"

@@ -59,13 +59,22 @@ func _ready() -> void:
     chat = chat_ui_layer_res.instantiate()
     add_child(chat)
     
-    mod_version = ModLoaderMod.get_mod_data("com-multiplayer").manifest.version_number
+    mod_version = _get_mod_version()
     if mod_version.ends_with(".0"):
         mod_version = mod_version.left(-2)
-    ModLoaderLog.info("Multiplayer v%s is ready" % mod_version, self.name)
+    print("Multiplayer v%s is ready" % mod_version)
     var existing_stage_title := get_tree().get_root().find_child("stage_title", true, false)
     if existing_stage_title:
         call_deferred("_on_stage_title", existing_stage_title)
+
+func _get_mod_version() -> String:
+    var manifest_path: String = get_script().resource_path.get_base_dir().path_join("../manifest.json").simplify_path()
+    var version := "0.0.0"
+    if FileAccess.file_exists(manifest_path):
+        var data = FileAccess.get_file_as_string(manifest_path)
+        var json = JSON.parse_string(data)
+        return json["version_number"]
+    return version
 
 func _notification(event: int) -> void:
     if event == NOTIFICATION_WM_CLOSE_REQUEST:
@@ -80,7 +89,7 @@ func _load_config() -> void:
     for _prop in mp_cfg.get_script().get_script_property_list():
         if cfg.has_section_key("setting", _prop.name):
             mp_cfg.set(_prop.name, cfg.get_value("setting", _prop.name))
-    ModLoaderLog.info("Loaded server URL from config: %s" % [mp_cfg.address], self.name)
+    print("Loaded server URL from config: %s" % [mp_cfg.address])
 
 func save_config() -> void:
     var cfg := ConfigFile.new()
@@ -251,9 +260,9 @@ func _fetch_latest_version() -> String:
             latest_version = json.data[0].name
             return latest_version
         else:
-            ModLoaderLog.info("Not a valid json", self.name)
+            print("Version fetch: not a valid json")
     else:
-        ModLoaderLog.error("Fail", self.name)
+        printerr("Version fetch: request failed")
     return ""
 
 func _on_update_pressed(label: RichTextLabel) -> void:
@@ -341,7 +350,7 @@ func save_all_properties(cfg: ConfigFile) -> void:
 func patch_properties(new_props: Array) -> void:
     var cfg := fetch_all_properties()
     if not cfg:
-        ModLoaderLog.error("Failed to load project properties", self.name)
+        printerr("Failed to load project properties", self.name)
         return
     var need_restart := false
     for p in new_props:

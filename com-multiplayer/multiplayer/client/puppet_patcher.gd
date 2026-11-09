@@ -16,10 +16,6 @@ func apply_state(state):
 
 func _init() -> void:
     var nia_scene = load("res://resource/nia.tscn")
-    if not nia_scene:
-        ModLoaderLog.error("Failed to load nia.tscn", self.name)
-        return
-    
     nia_instance = nia_scene.instantiate()
     nia_instance.set_script(
         load(get_script().resource_path.get_base_dir() + "/puppet.gd")

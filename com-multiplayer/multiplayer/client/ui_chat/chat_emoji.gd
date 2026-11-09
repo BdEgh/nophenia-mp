@@ -28,8 +28,10 @@ func unwrap(text: String) -> String:
     var pos := 0
     for m in regex.search_all(text):
         result += text.substr(pos, m.get_start() - pos)
-        var path = paths.get(m.get_string(1))
-        if path:
+        var path: String = paths.get(m.get_string(1))
+        if path.contains("absolutemeow"):
+            result += "[img height=128]%s[/img]" % path
+        elif path:
             result += "[img height=32]%s[/img]" % path
         else:
             result += m.get_string(0)

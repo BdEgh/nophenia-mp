@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bpqakde5ibi0" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/button_link.png" id="6_10vka"]
 [ext_resource type="Texture2D" uid="uid://cfvll6p8mie74" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/button_play.png" id="6_cdub0"]
 [ext_resource type="Texture2D" uid="uid://ie83a6a5cfwm" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/button_menu.png" id="6_hm7m1"]
-[ext_resource type="Texture2D" uid="uid://3vd1eq5euf20" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/particle_transparent.png" id="6_mc0v7"]
+[ext_resource type="Texture2D" uid="uid://sttt5tvyhvpy" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/point.png" id="6_mc0v7"]
 [ext_resource type="Texture2D" uid="uid://bggik15tlvjpf" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/button_skip.png" id="7_hm7m1"]
 
 [sub_resource type="Animation" id="Animation_7ccjc"]
@@ -324,7 +324,7 @@ mp3 = NodePath("../..")
 
 [node name="3d_gui" type="Node3D" parent="." unique_id=1358651604]
 unique_name_in_owner = true
-transform = Transform3D(-0.48956132, 0.13154493, -0.86198854, -0.08881309, 0.9758922, 0.19936776, 0.8674339, 0.17415887, -0.46607563, -4.108, -1.311, -1.183)
+transform = Transform3D(-0.48956132, 0.13154493, -0.8619884, -0.08881309, 0.9758922, 0.19936773, 0.8674339, 0.17415887, -0.46607557, -4.108, -1.311, -1.183)
 script = ExtResource("2_o8am3")
 
 [node name="menu_camasdf" type="Camera3D" parent="3d_gui" unique_id=1555864820]
@@ -342,7 +342,7 @@ libraries/ = SubResource("AnimationLibrary_nul1p")
 unique_name_in_owner = true
 
 [node name="bone_attachment_3d" type="BoneAttachment3D" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 641792288) index="0" unique_id=636801810]
-transform = Transform3D(0.99999917, 0.0012275443, 6.8933485e-05, -0.0012276805, 0.99999714, 0.0020111187, -6.6464556e-05, -0.0020112013, 0.999998, 2.2464705e-17, 1.9218986, 0.044964492)
+transform = Transform3D(0.99999917, 0.0012277759, 6.915489e-05, -0.0012279126, 0.99999714, 0.0020106356, -6.668608e-05, -0.0020107187, 0.999998, 2.2464705e-17, 1.9218986, 0.044964492)
 bone_name = "music_player"
 bone_idx = 0
 
@@ -487,7 +487,7 @@ settings/0/joints/3/bone = 4
 settings/0/enable_all_child_collisions = true
 settings/0/exclude_collision_count = 0
 
-[node name="sbs_ear2" type="SpringBoneSimulator3D" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 2064830033) index="2" unique_id=2079243090]
+[node name="sbs_ear2" type="SpringBoneSimulator3D" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 641792288) index="2" unique_id=2079243090]
 unique_name_in_owner = true
 transform = Transform3D(0.4, 0, 3.7252903e-09, 3.7252903e-09, -3.7252903e-09, -0.40000004, 0, 0.40000004, -1.4901161e-08, -2.3841858e-07, -2.0657625, -0.05852127)
 influence = 0.205
@@ -520,7 +520,7 @@ settings/0/joints/3/bone = 8
 settings/0/enable_all_child_collisions = true
 settings/0/exclude_collision_count = 0
 
-[node name="sbs_player" type="SpringBoneSimulator3D" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 2064830033) index="3" unique_id=2065034571]
+[node name="sbs_player" type="SpringBoneSimulator3D" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 641792288) index="3" unique_id=2065034571]
 unique_name_in_owner = true
 transform = Transform3D(0.4, 0, 0, 0, -1.7484556e-08, -0.4, 0, 0.4, -1.7484556e-08, 0, -2.0657628, -0.05852139)
 influence = 0.205
@@ -549,7 +549,7 @@ settings/0/joints/1/bone = 1
 settings/0/enable_all_child_collisions = true
 settings/0/exclude_collision_count = 0
 
-[node name="sbs_wires" type="SpringBoneSimulator3D" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 2064830033) index="4" unique_id=862493614]
+[node name="sbs_wires" type="SpringBoneSimulator3D" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 641792288) index="4" unique_id=862493614]
 unique_name_in_owner = true
 transform = Transform3D(0.4, 0, 0, 0, -1.7484556e-08, -0.4, 0, 0.4, -1.7484556e-08, 0, -2.0657628, -0.05852139)
 influence = 0.205
@@ -580,11 +580,11 @@ settings/0/joints/2/bone = 11
 settings/0/enable_all_child_collisions = true
 settings/0/exclude_collision_count = 0
 
-[node name="ear1" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 2064830033) index="10" unique_id=1239067286 groups=["stage_lit"]]
+[node name="ear1" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 641792288) index="10" unique_id=1302458080 groups=["stage_lit"]]
 
-[node name="ear2" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 2064830033) index="11" unique_id=2120043695 groups=["stage_lit"]]
+[node name="ear2" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 641792288) index="11" unique_id=230839438 groups=["stage_lit"]]
 
-[node name="wires" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 2064830033) index="13" unique_id=158267803 groups=["stage_lit"]]
+[node name="wires" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 641792288) index="13" unique_id=1649670272 groups=["stage_lit"]]
 
 [connection signal="mouse_entered" from="3d_gui/music_player/Armature/Skeleton3D/button_down" to="." method="_on_button_down_mouse_entered"]
 [connection signal="mouse_exited" from="3d_gui/music_player/Armature/Skeleton3D/button_down" to="." method="wheel_hide"]

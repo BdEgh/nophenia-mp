@@ -42,4 +42,10 @@ func _on_message_label_meta_clicked(meta: Variant) -> void:
         chat.toggle_chat()
         rl.change_stage(_stage)
         return
-    OS.shell_open(str(meta))
+    # todo
+    #if meta is String and meta.begins_with("s="):
+        #var mp = get_tree().get_first_node_in_group("mp")
+        #var _stage = meta.substr(2)
+        #var pause_menu = game.find("pause_menu")
+        #var mp3 = pause_menu.get_node("menu_box/menu_view/mp3")
+        #mp3.popup_stage_info(_stage)

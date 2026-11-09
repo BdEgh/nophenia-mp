@@ -59,7 +59,7 @@ func _on_player_delete(player_id: int):
         puppet.queue_free()
         puppets.erase(player_id)
         all_players.erase(player_id)
-        ModLoaderLog.info("MultiplayerPuppetManager: Removed puppet for player %d" % player_id, self.name)
+        print("MultiplayerPuppetManager: Removed puppet for player %d" % player_id)
         puppet_removed.emit(player_id)
 
 func _on_player_message(player_id: int, message: String, player_name: String):
@@ -132,7 +132,7 @@ func _spawn_puppet(player_id: int, state, player_name: String):
 
     puppets[player_id] = puppet
     puppet_spawned.emit(player_id)
-    ModLoaderLog.info("Spawned puppet for player %d" % player_id, self.name)
+    print("Spawned puppet for player %d" % player_id)
 
 func clear_all_puppets():
     for player_id in puppets.keys():
@@ -140,7 +140,7 @@ func clear_all_puppets():
         if puppet:
             puppet.queue_free()
     puppets.clear()
-    ModLoaderLog.info("Cleared all puppets", self.name)
+    print("Cleared all puppets")
     puppets_cleared.emit()
 
 func get_puppet(player_id: int) -> Node:

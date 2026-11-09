@@ -255,7 +255,6 @@ layout_mode = 2
 
 [node name="Label2" type="Label" parent="MarginContainer/VBoxContainer" unique_id=228195930]
 layout_mode = 2
-tooltip_text = "Overriding original game location is not recommended"
 mouse_filter = 0
 text = "Patched Game Location:"
 
