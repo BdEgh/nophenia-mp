@@ -29,11 +29,35 @@ corner_radius_bottom_left = 100
 shadow_color = Color(0, 0, 0, 0.18431373)
 shadow_size = 3
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qjhq8"]
-bg_color = Color(0.6789399, 0.67894554, 0.6789427, 1)
-border_width_right = 10
-border_color = Color(0.26293245, 0.26293245, 0.26293245, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yxmib"]
+bg_color = Color(0.9122889, 0.9122889, 0.9122887, 1)
+border_width_left = 7
+border_width_top = 4
+border_width_right = 7
+border_width_bottom = 4
+border_color = Color(0.5132325, 0.513233, 0.51323277, 1)
 border_blend = true
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+shadow_color = Color(0, 0, 0, 0.18431373)
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_myi6u"]
+bg_color = Color(0.67894346, 0.6789438, 0.67894346, 1)
+border_width_left = 7
+border_width_top = 4
+border_width_right = 7
+border_width_bottom = 4
+border_color = Color(0.37036446, 0.3703645, 0.37036443, 1)
+border_blend = true
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+shadow_color = Color(0, 0, 0, 0.18431373)
+shadow_size = 3
 
 [resource]
 Button/styles/focus = SubResource("StyleBoxTexture_w2s06")
@@ -49,4 +73,7 @@ RichTextLabel/constants/shadow_outline_size = 1
 RichTextLabel/font_sizes/normal_font_size = 20
 RichTextLabel/fonts/normal_font = ExtResource("3_dbs1a")
 VScrollBar/styles/grabber = SubResource("StyleBoxFlat_0gv6a")
-VScrollBar/styles/scroll = SubResource("StyleBoxFlat_qjhq8")
+VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_yxmib")
+VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_myi6u")
+VScrollBar/styles/scroll = SubResource("StyleBoxFlat_0gv6a")
+VScrollBar/styles/scroll_focus = SubResource("StyleBoxFlat_0gv6a")

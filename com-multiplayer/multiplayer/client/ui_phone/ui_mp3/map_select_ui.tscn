@@ -56,6 +56,9 @@ texture = SubResource("GradientTexture2D_08nqp")
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ifeun"]
 bg_color = Color(0.01, 0.01, 0.01, 0)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tpcgt"]
+bg_color = Color(0.78352344, 0.78352344, 0.78352326, 0.53333336)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r3nmj"]
 corner_radius_top_left = 100
 corner_radius_top_right = 100
@@ -79,7 +82,7 @@ texture = SubResource("GradientTexture2D_scmmq")
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_556s4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_08nqp"]
-bg_color = Color(0.25929368, 0.25929374, 0.2592936, 1)
+bg_color = Color(0, 0, 0, 0.09019608)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
@@ -95,6 +98,20 @@ corner_radius_top_left = 100
 corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_18kgm"]
+bg_color = Color(0.67894405, 0.6789436, 0.6789437, 0.28235295)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n1bq1"]
+bg_color = Color(16.990576, 16.990576, 16.990576, 0.15686275)
 
 [sub_resource type="Gradient" id="Gradient_d5j2m"]
 colors = PackedColorArray(0.8089983, 0.8089983, 0.8089982, 1, 1, 1, 1, 1)
@@ -341,6 +358,7 @@ layout_mode = 2
 focus_neighbor_left = NodePath("../options_button")
 focus_neighbor_right = NodePath("../margin_search/search_panel/grad/margin_container/search")
 theme_override_styles/normal = SubResource("StyleBoxFlat_ifeun")
+theme_override_styles/focus = SubResource("StyleBoxFlat_tpcgt")
 
 [node name="margin_container" type="MarginContainer" parent="Screen/Maps_menu/v_box_container/top_bar/v_box_container/margin_header/h_box_header/back_button" unique_id=1469776330]
 layout_mode = 1
@@ -424,6 +442,8 @@ focus_neighbor_right = NodePath("../back_button")
 focus_previous = NodePath("../margin_search/search_panel/grad/margin_container/search")
 theme_override_styles/normal = SubResource("StyleBoxFlat_08nqp")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_shb6h")
+theme_override_styles/hover = SubResource("StyleBoxFlat_18kgm")
+theme_override_styles/focus = SubResource("StyleBoxFlat_n1bq1")
 toggle_mode = true
 icon_alignment = 1
 expand_icon = true
@@ -744,6 +764,7 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_08nqp")
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_bmmkb")
+metadata/_edit_lock_ = true
 
 [node name="Map_info_menu" type="PanelContainer" parent="Screen" unique_id=1080043043]
 unique_name_in_owner = true
@@ -984,6 +1005,7 @@ layout_mode = 2
 mouse_filter = 2
 expand_mode = 1
 metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
 
 [connection signal="focus_entered" from="Screen/Maps_menu/v_box_container/top_bar/v_box_container/margin_header/h_box_header/back_button" to="." method="on_menu_focus_entered"]
 [connection signal="mouse_entered" from="Screen/Maps_menu/v_box_container/top_bar/v_box_container/margin_header/h_box_header/back_button" to="." method="_grab_focus"]
