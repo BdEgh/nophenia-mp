@@ -80,6 +80,10 @@ func download_update(_stage: String):
     await download_and_load(_stage, true)
     return fetch_mounted_stage(_stage)
 
+func is_orig_stage(_stage: String) -> bool:
+    var original_stage = "res://stage/%s.tscn" % _stage
+    return FileAccess.file_exists(original_stage)
+
 func fetch_stage(_stage: String):
     if FileAccess.file_exists(_stage):
         return _stage

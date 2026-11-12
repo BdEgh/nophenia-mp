@@ -2,23 +2,25 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b2745upb52bmy"
-path="res://.godot/imported/items_model_items texture.png-0701b1adde8aad19926d35bfd7ea549e.ctex"
+uid="uid://ct5ieaqh0dhi2"
+path.s3tc="res://.godot/imported/items_model_items texture.png-0701b1adde8aad19926d35bfd7ea549e.s3tc.ctex"
+path.etc2="res://.godot/imported/items_model_items texture.png-0701b1adde8aad19926d35bfd7ea549e.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
-"md5": "d16b4709bdd105af5bb76c2372e85290"
+"md5": "05354451265f476d5f2e63f8f7854908"
 }
 
 [deps]
 
 source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/patches/nia_patcher/items/1420-MHz/items/items_model_items texture.png"
-dest_files=["res://.godot/imported/items_model_items texture.png-0701b1adde8aad19926d35bfd7ea549e.ctex"]
+dest_files=["res://.godot/imported/items_model_items texture.png-0701b1adde8aad19926d35bfd7ea549e.s3tc.ctex", "res://.godot/imported/items_model_items texture.png-0701b1adde8aad19926d35bfd7ea549e.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=1.0
 compress/uastc_level=0

@@ -25,34 +25,6 @@ extends Control
 var maps := {}
 var default_picture: Texture2D
 
-enum Sorts { Name, Author, Saved }
-var sort_by := Sorts.Name
-var sort_buttons: Dictionary
-
-func get_sorted_maps() -> Array:
-    var map_arr: Array = maps.values()
-    match sort_by:
-        Sorts.Name:
-            map_arr.sort_custom(func(a, b): return a.name.to_lower() < b.name.to_lower())
-        Sorts.Author:
-            map_arr.sort_custom(func(a, b): return a.author.to_lower() < b.author.to_lower())
-        Sorts.Saved:
-            map_arr.sort_custom(func(a, b): return a.data.has("local_md5") > b.data.has("local_md5"))
-    return map_arr
-
-func reorder_maps() -> void:
-    var map_arr = get_sorted_maps()
-    for i in range(map_arr.size()):
-        var map = map_arr[i]
-        button_list.move_child(map, i)
-
-func update_sort_pressed() -> void:
-    reorder_maps()
-    for type in sort_buttons.keys():
-        var button: CheckBox = sort_buttons[type]
-        if sort_by == type: button.set_pressed_no_signal(true)
-        else: button.set_pressed_no_signal(false)
-
 func _ready() -> void:
     map_list_scroll_box.get_v_scroll_bar().value_changed.connect(_upd_cat_scroll_status)
     map_list_scroll_box.get_h_scroll_bar().value_changed.connect(_upd_cat_scroll_status)
@@ -80,6 +52,39 @@ func add_map(map: Dictionary):
     button.fill_data(map)
     maps[map_key] = button
 
+func add_map_raw(_stage: String):
+    var map_key = _stage
+    if not maps.has(map_key):
+        var button: Button = map_button_res.instantiate()
+        button.ui = self
+        button.mp3 = mp3
+        button.pressed.connect(on_button_pressed)
+        button.focus_entered.connect(on_menu_focus_entered)
+        button_list.add_child(button)
+        
+        var map = {
+            "name": map_key,
+            "author": "???",
+            "description": "something unknown. be careful."
+        }
+        var rl = get_tree().get_first_node_in_group("mp").remote_loader
+        if rl.is_orig_stage(_stage):
+            map["author"] = game.author if randi_range(0, 9) > 0 else Marshalls.base64_to_utf8(["bWVs", "bWVsb2R5"].pick_random())
+            map["description"] = "stage from the original game."
+            var picture = get_script().resource_path.get_base_dir().path_join("resources/stage_icons").path_join("%s.png" % _stage)
+            if FileAccess.file_exists(picture):
+                var file = FileAccess.open(picture, FileAccess.READ)
+                var buffer: PackedByteArray = file.get_buffer(file.get_length())
+                var b64: String = Marshalls.raw_to_base64(buffer)
+                map["picture"] = b64
+                file.close()
+        
+        button.fill_data(map)
+        maps[map_key] = button
+    
+    last_selected = maps[map_key]
+    show_map(last_selected)
+
 func show_map_list():
     add_ghosting()
     maps_menu.visible = true
@@ -99,6 +104,9 @@ func show_map_info():
     maps_menu.visible = false
     map_info_menu.visible = true
     load_bar.visible = false
+
+func show_map_raw(_stage: String):
+    pass
 
 var last_selected: Button
 func show_map(map_button: Button):
@@ -126,6 +134,34 @@ func queue_free_maps():
     maps.clear()
     search.clear()
     last_selected = null
+
+enum Sorts { Name, Author, Saved }
+var sort_by := Sorts.Name
+var sort_buttons: Dictionary
+
+func get_sorted_maps() -> Array:
+    var map_arr: Array = maps.values()
+    match sort_by:
+        Sorts.Name:
+            map_arr.sort_custom(func(a, b): return a.name.to_lower() < b.name.to_lower())
+        Sorts.Author:
+            map_arr.sort_custom(func(a, b): return a.author.to_lower() < b.author.to_lower())
+        Sorts.Saved:
+            map_arr.sort_custom(func(a, b): return a.data.has("local_md5") > b.data.has("local_md5"))
+    return map_arr
+
+func reorder_maps() -> void:
+    var map_arr = get_sorted_maps()
+    for i in range(map_arr.size()):
+        var map = map_arr[i]
+        button_list.move_child(map, i)
+
+func update_sort_pressed() -> void:
+    reorder_maps()
+    for type in sort_buttons.keys():
+        var button: CheckBox = sort_buttons[type]
+        if sort_by == type: button.set_pressed_no_signal(true)
+        else: button.set_pressed_no_signal(false)
 
 # todo: put inside timer
 func _physics_process(_delta: float) -> void:

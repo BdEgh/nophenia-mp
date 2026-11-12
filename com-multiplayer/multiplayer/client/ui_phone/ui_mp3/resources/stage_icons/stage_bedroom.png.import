@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dqruhnj0lt22m"
-path="res://.godot/imported/stage_bedroom.webp-69608630cd2988461ce3dba3c6902e46.ctex"
+uid="uid://bvwj8hvb3i6yj"
+path="res://.godot/imported/stage_bedroom.png-dc8c2d49591fa4421a6ec259dd39028d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/stage_icons/stage_bedroom.webp"
-dest_files=["res://.godot/imported/stage_bedroom.webp-69608630cd2988461ce3dba3c6902e46.ctex"]
+source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/stage_icons/stage_bedroom.png"
+dest_files=["res://.godot/imported/stage_bedroom.png-dc8c2d49591fa4421a6ec259dd39028d.ctex"]
 
 [params]
 

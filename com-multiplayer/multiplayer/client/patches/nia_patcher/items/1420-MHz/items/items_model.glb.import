@@ -3,7 +3,7 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bj0v5rnqek8tm"
+uid="uid://dhs1ch1kwm3py"
 path="res://.godot/imported/items_model.glb-c478a4eb223a738e3379575bb5e7452b.scn"
 
 [deps]
@@ -35,24 +35,11 @@ animation/fps=30
 animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
-import_script/path="uid://cyparpsgnepcc"
+import_script/path="uid://d71jrj8sdvhb"
 materials/extract=0
 materials/extract_format=0
 materials/extract_path=""
-_subresources={
-"materials": {
-"stuff": {
-"use_external/enabled": true,
-"use_external/fallback_path": "res://mods-unpacked/com-multiplayer/multiplayer/client/patches/nia_patcher/items/1420-MHz/mat.tres",
-"use_external/path": "uid://xdti4owgt8wh"
-},
-"stuff.012": {
-"use_external/enabled": true,
-"use_external/fallback_path": "",
-"use_external/path": "res://mods-unpacked/com-multiplayer/multiplayer/client/patches/nia_patcher/items/1420-MHz"
-}
-}
-}
+_subresources={}
 gltf/naming_version=2
 gltf/embedded_image_handling=1
 gltf/texture_map_mode=1

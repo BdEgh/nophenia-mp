@@ -41,6 +41,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_n3x3t"]
 resource_name = "away_zoom_in"
+length = 0.25
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -51,7 +52,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.16666667),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(-0.75, -0.373, -4.622), Vector3(-4.108, -1.311, -1.183)]
+"values": [Vector3(-0.75, -0.373, -4.622), Vector3(-5.453, -1.311, -1.183)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -68,6 +69,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_7h37t"]
 resource_name = "away_zoom_out"
+length = 0.25
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -78,7 +80,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.13333334),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(-1.791, -1.161, -1.062), Vector3(-4.108, -1.311, -1.183)]
+"values": [Vector3(-1.791, -1.161, -1.062), Vector3(-5.453, -1.311, -1.183)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -121,6 +123,34 @@ tracks/1/keys = {
 "values": [Vector3(-0.20071286, 4.818854, -0.090757124), Vector3(-0.42586035, 2.994985, -0.057595864), Vector3(-0.5851136, 2.9106693, 0.072268546)]
 }
 
+[sub_resource type="Animation" id="Animation_cdub0"]
+resource_name = "popup_zoom_out"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("3d_gui:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.13333334, 0.23333335, 0.4),
+"transitions": PackedFloat32Array(1, -0.93303245, -2, 1),
+"update": 0,
+"values": [Vector3(-4.108, -1.311, -1.183), Vector3(-1.334, -1.331, -0.561), Vector3(-1.091, -1.016, -1.252), Vector3(-1.791, -1.161, -1.062)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("3d_gui:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, -2, 1),
+"update": 0,
+"values": [Vector3(-0.20071286, 4.2167153, -0.090757124), Vector3(-0.42586035, 2.994985, -0.057595864), Vector3(-0.45553094, 2.9862583, 0.022689281)]
+}
+
 [sub_resource type="Animation" id="Animation_itctd"]
 resource_name = "zoom_out"
 length = 0.25
@@ -155,6 +185,7 @@ _data = {
 &"away_zoom_in": SubResource("Animation_n3x3t"),
 &"away_zoom_out": SubResource("Animation_7h37t"),
 &"popup": SubResource("Animation_bm0kk"),
+&"popup_zoom_out": SubResource("Animation_cdub0"),
 &"zoom_out": SubResource("Animation_itctd")
 }
 
@@ -306,9 +337,13 @@ rim_enabled = true
 size = Vector3(1.5, 1.95, 0.1)
 
 [node name="music_player" type="Node3D" unique_id=1406719581 node_paths=PackedStringArray("ui")]
-visible = false
 script = ExtResource("1_o8am3")
 ui = NodePath("sub_viewport/map_select_ui")
+
+[node name="menu_camasdf" type="Camera3D" parent="." unique_id=1555864820]
+unique_name_in_owner = true
+transform = Transform3D(-1, 4.651504e-08, -3.0764892e-07, -8.940698e-08, 0.9041051, 0.42731014, 2.9802328e-07, 0.4273101, -0.9041052, 1.4305115e-06, 4.6470003, -8.034001)
+fov = 30.0
 
 [node name="sub_viewport" type="SubViewport" parent="." unique_id=598768140]
 unique_name_in_owner = true
@@ -324,14 +359,8 @@ mp3 = NodePath("../..")
 
 [node name="3d_gui" type="Node3D" parent="." unique_id=1358651604]
 unique_name_in_owner = true
-transform = Transform3D(-0.48956132, 0.13154493, -0.8619884, -0.08881309, 0.9758922, 0.19936773, 0.8674339, 0.17415887, -0.46607557, -4.108, -1.311, -1.183)
+transform = Transform3D(-0.48956132, 0.13154493, -0.8619883, -0.08881309, 0.9758922, 0.19936772, 0.8674339, 0.17415887, -0.4660755, -4.108, -1.311, -1.183)
 script = ExtResource("2_o8am3")
-
-[node name="menu_camasdf" type="Camera3D" parent="3d_gui" unique_id=1555864820]
-unique_name_in_owner = true
-transform = Transform3D(0.48956168, 0.29036707, -0.8222026, -0.13154483, 0.9567282, 0.25955045, 0.8619899, -0.01890941, 0.5065741, -8.483061, 5.161585, 0.8398695)
-visible = false
-fov = 30.0
 
 [node name="mp_animation_player" type="AnimationPlayer" parent="3d_gui" unique_id=888099976]
 unique_name_in_owner = true
@@ -342,7 +371,7 @@ libraries/ = SubResource("AnimationLibrary_nul1p")
 unique_name_in_owner = true
 
 [node name="bone_attachment_3d" type="BoneAttachment3D" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 641792288) index="0" unique_id=636801810]
-transform = Transform3D(0.99999917, 0.0012277759, 6.915489e-05, -0.0012279126, 0.99999714, 0.0020106356, -6.668608e-05, -0.0020107187, 0.999998, 2.2464705e-17, 1.9218986, 0.044964492)
+transform = Transform3D(0.99999666, 0.0021732594, 0.0013361755, -0.0021713136, 0.9999966, -0.0014557393, -0.0013393344, 0.0014528333, 0.99999803, 2.2464705e-17, 1.9218986, 0.044964492)
 bone_name = "music_player"
 bone_idx = 0
 

@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3bp1nf5rxta"
-valid=false
+uid="uid://dsild5rhl75d"
+path="res://.godot/imported/stage_overlook.png-9f73ebe9f411a440da0183a6a01246d6.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/stage_icons/stage_overlook.png"
+dest_files=["res://.godot/imported/stage_overlook.png-9f73ebe9f411a440da0183a6a01246d6.ctex"]
 
 [params]
 

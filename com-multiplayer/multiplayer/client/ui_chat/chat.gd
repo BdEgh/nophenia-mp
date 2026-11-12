@@ -140,18 +140,21 @@ func toggle_chat(from_ui: bool = false):
         if not toggled_from_ui:
             game.find("pause_menu")._open_cooldown = false
             Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-        emoji_prefix = null
-        _close_emoji_window()
-        message_input.release_focus()
         if not toggled_from_ui:
             _animate_camera(camera, 0.0)
-        await create_tween().tween_property(self, "modulate:a", 0.0, 0.2).from(1.0).set_trans(Tween.TRANS_CIRC).finished
-        visible = false
+        await close_chat()
         if not toggled_from_ui:
             _set_player_input_enabled(true)
     
     toggling = false
     %ClearContainer.visible = false
+
+func close_chat():
+    emoji_prefix = null
+    _close_emoji_window()
+    message_input.release_focus()
+    await create_tween().tween_property(self, "modulate:a", 0.0, 0.2).from(1.0).set_trans(Tween.TRANS_CIRC).finished
+    visible = false
 
 func _set_player_input_enabled(enabled: bool) -> void:
     get_tree().get_first_node_in_group("player").set_process_unhandled_input(enabled)

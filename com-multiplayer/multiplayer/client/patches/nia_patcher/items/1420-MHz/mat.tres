@@ -1,6 +1,6 @@
 [gd_resource type="StandardMaterial3D" format=3 uid="uid://xdti4owgt8wh"]
 
-[ext_resource type="Texture2D" uid="uid://b2745upb52bmy" path="res://mods-unpacked/com-multiplayer/multiplayer/client/patches/nia_patcher/items/1420-MHz/items/items_model_items texture.png" id="1_kaes5"]
+[ext_resource type="Texture2D" uid="uid://ct5ieaqh0dhi2" path="res://mods-unpacked/com-multiplayer/multiplayer/client/patches/nia_patcher/items/1420-MHz/items/items_model_items texture.png" id="1_kaes5"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_w38v7"]
 

@@ -17,6 +17,7 @@ const item_types: Dictionary = {
     "Skirt": Type.Accessories,
     "Arm sleeves": Type.Accessories,
     "Blue Bell": Type.Accessories,
+    "Skirt beige": Type.Accessories,
     #"umbrella": Type.Accessories,
     
     "Thigh highs": Type.Paws,
@@ -28,8 +29,10 @@ const item_types: Dictionary = {
     "Dress black": Type.Body,
     "Dress red": Type.Body,
     "Sweater beige": Type.Body,
+    "Sweater green": Type.Body,
     
     "Hat": Type.Head,
+    "Hat red": Type.Head,
     "Seal": Type.Head,
     #"Short hair head": Type.Head,
     #"head for hats": Type.Head

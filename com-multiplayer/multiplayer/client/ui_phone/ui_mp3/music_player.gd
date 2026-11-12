@@ -12,9 +12,9 @@ var mp_popup_sound = load(get_script().resource_path.get_base_dir() + "/resource
 
 var menu_cam: Camera3D
 var shown := false
-var zoomed := true
 var http: HTTPRequest
 var info_mode: bool = false
+var force_close: bool = false
 
 func _ready() -> void:
     menu_cam = pause_menu.get_node("menu_box/menu_view/menu_cam")
@@ -44,9 +44,6 @@ func _input(event):
                 var chat = get_tree().get_first_node_in_group("mp").chat.get_node("ChatUI")
                 if chat.visible:
                     return
-                if event.is_action_pressed("menu"):
-                    ui.show_map_list()
-                    zoom_in()
                 if event.is_action_pressed("ui_accept"):
                     if hover_on != Buttons.None:
                         impact(hover_on)
@@ -69,23 +66,22 @@ func _input(event):
                         if event.is_action_released(action):
                             unhover_button(mapping[action])
                             press(mapping[action])
-        else:
-            if event is InputEventKey and event.is_action_pressed("menu"):
+
+        if event is InputEventKey and event.is_action_pressed("menu"):
+            if ui.map_info_menu.visible and force_close == false:
+                ui.show_map_list()
+                zoom_in()
+            
+            if info_mode == false: # opened from the phone
                 if ui.options.visible:
                     ui.options_button.button_pressed = false
-                else:
+                else:                  
                     back_to_phone()
-    
-    #if event is InputEventKey and event.pressed and event.keycode == KEY_X:
-        #if not shown:
-            #popup()
-        #else:
-            #close()
-    #if event is InputEventKey and event.pressed and event.keycode == KEY_C:
-        #if zoomed:
-            #zoom_out()
-        #else:
-            #zoom_in()
+            else: # opened from the chat
+                if force_close == true or not ui.options.visible:
+                    close()
+                else:
+                    ui.options_button.button_pressed = false
 
 func feedback():
     ui.add_ghosting()
@@ -127,39 +123,58 @@ func _make_request_and_add_buttons():
     var err := http.request(url)
     if err != OK:
         printerr("request failed")
-        return
+        return []
     var response = await http.request_completed
     var body : PackedByteArray = response[3]
     var huy = body.get_string_from_ascii()
-    var json = JSON.parse_string(huy)
+    var data = JSON.parse_string(huy)
     
-    if typeof(json.data) != TYPE_ARRAY:
+    if typeof(data) != TYPE_ARRAY:
         printerr("response content is weird")
-        return
-    for map in json.data:
+        return []
+    for map in data:
         if typeof(map) != TYPE_DICTIONARY:
             continue
         ui.add_map(map)
 
-func _add_offline_buttons():
+var thread: Thread
+func add_offline_maps():
+    var maps: Array
     var remote_loader = get_tree().get_first_node_in_group("mp").remote_loader
     for file in DirAccess.get_files_at(remote_loader.remote_stages_physical):
         var file_path: String = remote_loader.remote_stages_physical.path_join(file)
         var map := {"name": file.get_basename(), "local_md5": FileAccess.get_md5(file_path)}
-        ui.add_map(map)
+        maps.append(map)
+    call_deferred("_on_maps_loaded", maps)
 
-func fill_maps():
-    _add_offline_buttons()
-    await _make_request_and_add_buttons()
+func _on_maps_loaded(maps: Array) -> void:
+    for map in maps:
+        ui.add_map(map)
     ui.update_sort_pressed()
 
+func _exit_tree() -> void:
+    if thread and thread.is_started():
+        thread.wait_to_finish()
+
+func add_maps(_stage = null):
+    thread = Thread.new()
+    thread.start(add_offline_maps)
+    await _make_request_and_add_buttons()
+    thread.wait_to_finish()
+    if _stage:
+        ui.add_map_raw(_stage)
+
 func popup():
+    set_process_input(true)
     info_mode = false
+    force_close = false
+    
     self.visible = true
     ui.visible = true
     pause_menu.set_process_unhandled_input(false)
-    fill_maps()
+    
     ui.show_map_list()
+    add_maps()
     
     var menu_box: SubViewportContainer = pause_menu.get_node("menu_box")
     menu_box.mouse_filter = Control.MOUSE_FILTER_PASS
@@ -194,6 +209,7 @@ func _phone_open():
     screen.process_mode = Node.PROCESS_MODE_INHERIT
 
 func back_to_phone():
+    set_process_input(false)
     var menu_box: SubViewportContainer = pause_menu.get_node("menu_box")
     menu_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
     var menu_view: SubViewport = pause_menu.get_node("menu_box/menu_view")
@@ -202,8 +218,7 @@ func back_to_phone():
     
     shown = false
     audio.play_snd(mp_popup_sound, -1.0, 0.2)
-    mp_animation_player.play("away_zoom_in" if zoomed else "away_zoom_out", 0.2)
-    zoomed = true
+    mp_animation_player.play("away_zoom_in" if ui.map_info_menu.visible else "away_zoom_out", 0.2)
     set_physics_process(false)
     
     var camera = get_tree().get_first_node_in_group("player").get_node("cam_box/cam_arm/cam_arm_fix/view")
@@ -218,44 +233,83 @@ func back_to_phone():
         self.visible = false
         ui.visible = true
 
-#func close():
-    #var menu_box: SubViewportContainer = pause_menu.get_node("menu_box")
-    #menu_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
-    #var menu_view: SubViewport = pause_menu.get_node("menu_box/menu_view")
-    #menu_view.physics_object_picking = false
-    #
-    #shown = false
-    #mp_animation_player.play("away_zoom_in" if zoomed else "away_zoom_out", 0.2)
-    #zoomed = true
-    #
-    #var camera = get_tree().get_first_node_in_group("player").get_node("cam_box/cam_arm/cam_arm_fix/view")
-    #Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-    #_animate_camera(camera, 0.0)
-    #
-    #var light = pause_menu.get_node("menu_box/menu_view/phone_light")
-    #create_tween().tween_property(light, "position", Vector3(-0.912, 2.311, -0.425), 0.3).set_trans(Tween.TRANS_CIRC)
-    #_set_player_input_enabled(true)
-    #
-    #if game.nia:
-        #if !game.nia.is_sitting: game.nia.vignette(false)
-        #game.nia.stop(false)
-    #await get_tree().process_frame
-    #game.nia.is_paused = false
-    #set_physics_process(false)
-    #
-    #pause_menu.set_process_unhandled_input(true)
-    #pause_menu._is_open = false
-    #
-    #OS.low_processor_usage_mode = false
-    #ui.queue_free_maps()
+func popup_stage_info(_stage: String):
+    set_process_input(true)
+    info_mode = true
+    force_close = true
+    if self.visible: return
+    print("INFO")
+    
+    pause_menu.visible = true
+    pause_menu.get_node("menu_box/menu_view/phone_pos").visible = false
+    pause_menu.set_process_unhandled_input(false)
+    self.visible = true
+    ui.visible = true
+    add_maps(_stage)
+    ui.show_map_info()
+    
+    var menu_box: SubViewportContainer = pause_menu.get_node("menu_box")
+    menu_box.mouse_filter = Control.MOUSE_FILTER_PASS
+    var menu_view: SubViewport = pause_menu.get_node("menu_box/menu_view")
+    menu_view.physics_object_picking = true
+    set_physics_process(true)
+    
+    var cam_arm = get_tree().get_first_node_in_group("player").get_node("cam_box/cam_arm")
+    var move_multiplier = (cam_arm.spring_length - 0.8) * 0.45
+    var camera = get_tree().get_first_node_in_group("player").get_node("cam_box/cam_arm/cam_arm_fix/view")
+    _animate_camera(camera, move_multiplier)
+    
+    var nia = game.find("player")
+    nia.vignette(true)
+    nia.stop()
+    nia.is_paused = true
+    
+    shown = true
+    audio.play_snd(mp_popup_sound, -1.0, 0.2)
+    mp_animation_player.play("popup_zoom_out", 0.2)
+    
+    create_tween().tween_property(light, "light_energy", 1., 0.3).set_trans(Tween.TRANS_CIRC)
+    create_tween().tween_property(const_light, "light_energy", 1., 0.3).set_trans(Tween.TRANS_CIRC)
+
+func close():
+    set_process_input(false)
+    var menu_box: SubViewportContainer = pause_menu.get_node("menu_box")
+    menu_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+    var menu_view: SubViewport = pause_menu.get_node("menu_box/menu_view")
+    menu_view.physics_object_picking = false
+    shown = false
+    
+    var camera = get_tree().get_first_node_in_group("player").get_node("cam_box/cam_arm/cam_arm_fix/view")
+    Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+    _animate_camera(camera, 0.0)
+    
+    create_tween().tween_property(light, "light_energy", 0., 0.3).set_trans(Tween.TRANS_CIRC)
+    create_tween().tween_property(const_light, "light_energy", 0., 0.3).set_trans(Tween.TRANS_CIRC)
+    _set_player_input_enabled(true)
+    
+    var nia = game.find("player")
+    if nia:
+        if !nia.is_sitting: nia.vignette(false)
+        nia.stop(false)
+        nia.is_paused = false
+    mp_animation_player.play("away_zoom_in" if ui.map_info_menu.visible else "away_zoom_out", 0.2)
+    await mp_animation_player.animation_finished
+    await get_tree().process_frame
+    set_physics_process(false)
+    
+    ui.queue_free_maps()
+    pause_menu.get_node("menu_box/menu_view/phone_pos").visible = true
+    pause_menu.visible = false
+    pause_menu.set_process_unhandled_input(true)
+    self.visible = false
+    ui.visible = false
 
 func zoom_in():
-    zoomed = true
     audio.play_snd(mp_popup_sound, -1.0, 0.2)
     mp_animation_player.play_backwards("zoom_out", 0.2)
+    force_close = false
 
 func zoom_out():
-    zoomed = false
     audio.play_snd(mp_popup_sound, -1.0, 0.2)
     mp_animation_player.play("zoom_out", 0.2)
 
@@ -275,7 +329,7 @@ func _physics_process(_delta: float) -> void :
         light.position.x = -proj.x - 1.5
         light.position.y = proj.y
         
-        var _sens: Vector2 = Vector2(0.01, 0.005) if zoomed else Vector2(0.02, 0.02)
+        var _sens: Vector2 = Vector2(0.01, 0.005) if ui.map_info_menu.visible else Vector2(0.02, 0.02)
         var _mouse: Vector2 = game.mouse_position()
         var _cam_project: Vector2 = menu_cam.unproject_position(%center.global_position)
         %music_player.rotation_degrees = lerp( %music_player.rotation_degrees,
@@ -285,10 +339,6 @@ func _physics_process(_delta: float) -> void :
                 0
             ), 0.2)
         %music_player.rotation_degrees.y = clamp( %music_player.rotation_degrees.y, -24.0, 24.0)
-
-func popup_stage_info(_stage: String):
-    info_mode = true
-    
 
 #region Buttons
 @onready var wheel_up: MeshInstance3D = %wheel_up
@@ -362,7 +412,7 @@ func unhover_button(button: Buttons):
     t.set_trans(Tween.TRANS_CIRC)
 
 func show_hover(button: Buttons):
-    if zoomed:
+    if not ui.map_info_menu.visible:
         for i in button_mapping.keys(): unhover_button(i)
         return
     ui.on_button_focus_entered()

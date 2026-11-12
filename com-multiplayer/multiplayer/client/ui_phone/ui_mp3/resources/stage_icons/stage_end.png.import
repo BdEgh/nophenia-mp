@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://iiq2jkqnswkp"
-valid=false
+uid="uid://b6s0w3ib5j7ha"
+path="res://.godot/imported/stage_end.png-f90ce8ff2456b67e74eb4197be48c19e.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/stage_icons/stage_end.png"
+dest_files=["res://.godot/imported/stage_end.png-f90ce8ff2456b67e74eb4197be48c19e.ctex"]
 
 [params]
 

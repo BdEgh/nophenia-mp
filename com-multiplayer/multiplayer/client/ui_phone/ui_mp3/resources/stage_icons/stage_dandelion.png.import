@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://gbkyu6pc653m"
-valid=false
+uid="uid://d0srqu1qpqtmd"
+path="res://.godot/imported/stage_dandelion.png-1b672a5414afad61a8b9f2eb9ccd0854.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/stage_icons/stage_dandelion.png"
+dest_files=["res://.godot/imported/stage_dandelion.png-1b672a5414afad61a8b9f2eb9ccd0854.ctex"]
 
 [params]
 

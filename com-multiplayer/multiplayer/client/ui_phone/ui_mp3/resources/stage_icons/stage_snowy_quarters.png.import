@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://u1igejtbmpc8"
-valid=false
+uid="uid://bd75evpqycla3"
+path="res://.godot/imported/stage_snowy_quarters.png-d63b9a21be5572f32b47bb57fbb7a769.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/stage_icons/stage_snowy_quarters.png"
+dest_files=["res://.godot/imported/stage_snowy_quarters.png-d63b9a21be5572f32b47bb57fbb7a769.ctex"]
 
 [params]
 

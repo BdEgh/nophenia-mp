@@ -34,18 +34,21 @@ func _on_message_label_meta_hover_ended(meta: Variant) -> void:
     self.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 
 func _on_message_label_meta_clicked(meta: Variant) -> void:
-    if meta is String and meta.begins_with("s="):
-        var mp = get_tree().get_first_node_in_group("mp")
-        var _stage = meta.substr(2)
-        var chat = mp.chat.get_node("ChatUI")
-        var rl = mp.remote_loader
-        chat.toggle_chat()
-        rl.change_stage(_stage)
-        return
-    # todo
     #if meta is String and meta.begins_with("s="):
         #var mp = get_tree().get_first_node_in_group("mp")
         #var _stage = meta.substr(2)
-        #var pause_menu = game.find("pause_menu")
-        #var mp3 = pause_menu.get_node("menu_box/menu_view/mp3")
-        #mp3.popup_stage_info(_stage)
+        #var chat = mp.chat.get_node("ChatUI")
+        #var rl = mp.remote_loader
+        #chat.toggle_chat()
+        #rl.change_stage(_stage)
+        #return
+    if meta is String and meta.begins_with("s="):
+        var mp = get_tree().get_first_node_in_group("mp")
+        var _stage = meta.substr(2)
+        game.find("pause_menu")._open_cooldown = false
+        var chat = mp.chat.get_node("ChatUI")
+        chat.close_chat()
+        var pause_menu = game.find("pause_menu")
+        var mp3 = pause_menu.get_node("menu_box/menu_view/mp3")
+        mp3.popup_stage_info(_stage)
+        

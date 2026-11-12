@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://disjdpf7ovu6f"
-valid=false
+uid="uid://toymir1g70xq"
+path="res://.godot/imported/stage_canyon.png-f1ce95d6f208ecbc028d736d4e13afcf.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/stage_icons/stage_canyon.png"
+dest_files=["res://.godot/imported/stage_canyon.png-f1ce95d6f208ecbc028d736d4e13afcf.ctex"]
 
 [params]
 

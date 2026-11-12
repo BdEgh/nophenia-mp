@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://y7n3r3lyi8er"
-valid=false
+uid="uid://c44t3ymrn7fat"
+path="res://.godot/imported/stage_maze.png-956e2f97e24c5e381e729b1c2e4b3915.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/stage_icons/stage_maze.png"
+dest_files=["res://.godot/imported/stage_maze.png-956e2f97e24c5e381e729b1c2e4b3915.ctex"]
 
 [params]
 

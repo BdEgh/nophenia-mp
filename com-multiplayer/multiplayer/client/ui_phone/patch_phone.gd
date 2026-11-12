@@ -110,6 +110,7 @@ func _update_signal_tower():
     _online_band_tower.visible = true
     _no_calls.visible = false
 
+# todo: buggy
 func _show_connected_status():
     _signal_status.visible = false
     _online_signal_status.visible = true
@@ -191,6 +192,7 @@ func _add_user_maps_button():
     var mp3 = music_player_scene.instantiate()
     mp3.name = "mp3"
     mp3.pause_menu = pause_menu
+    mp3.visible = false
     var menu_view = pause_menu.get_node("menu_box/menu_view")
     menu_view.add_child(mp3)
     option_user_maps.pressed.connect(mp3.popup)
