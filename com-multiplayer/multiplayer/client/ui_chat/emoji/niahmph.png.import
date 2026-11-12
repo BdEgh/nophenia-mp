@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/niahmph.png-b2d22d550a7105b4fbbd9131012b508b.
 
 [params]
 
-compress/mode=1
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=1.0
 compress/uastc_level=0

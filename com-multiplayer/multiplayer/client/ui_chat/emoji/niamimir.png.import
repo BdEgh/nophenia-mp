@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/niamimir.png-4e4658f773fc2b256e66d2cd97a2c49a
 
 [params]
 
-compress/mode=1
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=1.0
 compress/uastc_level=0

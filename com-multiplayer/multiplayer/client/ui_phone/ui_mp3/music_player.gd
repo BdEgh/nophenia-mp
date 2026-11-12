@@ -68,20 +68,22 @@ func _input(event):
                             press(mapping[action])
 
         if event is InputEventKey and event.is_action_pressed("menu"):
-            if ui.map_info_menu.visible and force_close == false:
-                ui.show_map_list()
-                zoom_in()
-            
             if info_mode == false: # opened from the phone
                 if ui.options.visible:
                     ui.options_button.button_pressed = false
-                else:                  
+                elif not ui.map_info_menu.visible:                  
                     back_to_phone()
+                elif ui.map_info_menu.visible:
+                    ui.show_map_list()
+                    zoom_in()
             else: # opened from the chat
-                if force_close == true or not ui.options.visible:
-                    close()
-                else:
+                if ui.options.visible:
                     ui.options_button.button_pressed = false
+                elif not ui.map_info_menu.visible or force_close:
+                    close()
+                elif ui.map_info_menu.visible:
+                    ui.show_map_list()
+                    zoom_in()
 
 func feedback():
     ui.add_ghosting()
@@ -195,6 +197,8 @@ func popup():
     var camera = get_tree().get_first_node_in_group("player").get_node("cam_box/cam_arm/cam_arm_fix/view")
     _animate_camera(camera, move_multiplier)
     
+    var phone_light = pause_menu.get_node("menu_box/menu_view/phone_light")
+    create_tween().tween_property(phone_light, "light_energy", 0., 0.3).set_trans(Tween.TRANS_CIRC)
     create_tween().tween_property(light, "light_energy", 1., 0.3).set_trans(Tween.TRANS_CIRC)
     create_tween().tween_property(const_light, "light_energy", 1., 0.3).set_trans(Tween.TRANS_CIRC)
 
@@ -224,6 +228,8 @@ func back_to_phone():
     var camera = get_tree().get_first_node_in_group("player").get_node("cam_box/cam_arm/cam_arm_fix/view")
     _animate_camera(camera, 0.0)
     
+    var phone_light = pause_menu.get_node("menu_box/menu_view/phone_light")
+    create_tween().tween_property(phone_light, "light_energy", .1, 0.3).set_trans(Tween.TRANS_CIRC)
     create_tween().tween_property(light, "light_energy", 0., 0.3).set_trans(Tween.TRANS_CIRC)
     create_tween().tween_property(const_light, "light_energy", 0., 0.3).set_trans(Tween.TRANS_CIRC)
     
@@ -268,6 +274,8 @@ func popup_stage_info(_stage: String):
     audio.play_snd(mp_popup_sound, -1.0, 0.2)
     mp_animation_player.play("popup_zoom_out", 0.2)
     
+    var phone_light = pause_menu.get_node("menu_box/menu_view/phone_light")
+    create_tween().tween_property(phone_light, "light_energy", 0., 0.3).set_trans(Tween.TRANS_CIRC)
     create_tween().tween_property(light, "light_energy", 1., 0.3).set_trans(Tween.TRANS_CIRC)
     create_tween().tween_property(const_light, "light_energy", 1., 0.3).set_trans(Tween.TRANS_CIRC)
 
@@ -283,6 +291,8 @@ func close():
     Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
     _animate_camera(camera, 0.0)
     
+    var phone_light = pause_menu.get_node("menu_box/menu_view/phone_light")
+    create_tween().tween_property(phone_light, "light_energy", .1, 0.3).set_trans(Tween.TRANS_CIRC)
     create_tween().tween_property(light, "light_energy", 0., 0.3).set_trans(Tween.TRANS_CIRC)
     create_tween().tween_property(const_light, "light_energy", 0., 0.3).set_trans(Tween.TRANS_CIRC)
     _set_player_input_enabled(true)

@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/niatrue.png-d6b7d594097b0eb4fa16bbcfd8ce38a6.
 
 [params]
 
-compress/mode=1
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=1.0
 compress/uastc_level=0

@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/emiwa_leek.png-fc8acd48d0246e5347b0eaa8e67bfe
 
 [params]
 
-compress/mode=1
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=1.0
 compress/uastc_level=0

@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/niaabsolutemeow.png-1d6d114aa428e16155c47961f
 
 [params]
 
-compress/mode=1
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=1.0
 compress/uastc_level=0

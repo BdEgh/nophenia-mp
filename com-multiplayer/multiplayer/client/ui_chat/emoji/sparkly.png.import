@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/sparkly.png-24fbac1ba53e19cd1bda96360494a754.
 
 [params]
 
-compress/mode=1
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=1.0
 compress/uastc_level=0

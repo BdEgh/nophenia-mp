@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://drtdpc4nyv3w3" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_chat/chat.tscn" id="1_sisf7"]
 
+
 [node name="ChatUILayer" type="CanvasLayer" unique_id=1773115693]
 layer = 3
 

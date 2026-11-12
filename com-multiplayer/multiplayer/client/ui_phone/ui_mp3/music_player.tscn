@@ -359,7 +359,7 @@ mp3 = NodePath("../..")
 
 [node name="3d_gui" type="Node3D" parent="." unique_id=1358651604]
 unique_name_in_owner = true
-transform = Transform3D(-0.48956132, 0.13154493, -0.8619883, -0.08881309, 0.9758922, 0.19936772, 0.8674339, 0.17415887, -0.4660755, -4.108, -1.311, -1.183)
+transform = Transform3D(-0.48956132, 0.13154493, -0.86198825, -0.08881309, 0.9758922, 0.19936769, 0.8674339, 0.17415887, -0.46607545, -4.108, -1.311, -1.183)
 script = ExtResource("2_o8am3")
 
 [node name="mp_animation_player" type="AnimationPlayer" parent="3d_gui" unique_id=888099976]
@@ -371,7 +371,7 @@ libraries/ = SubResource("AnimationLibrary_nul1p")
 unique_name_in_owner = true
 
 [node name="bone_attachment_3d" type="BoneAttachment3D" parent="3d_gui/music_player/Armature/Skeleton3D" parent_id_path=PackedInt32Array(2028014787, 641792288) index="0" unique_id=636801810]
-transform = Transform3D(0.99999666, 0.0021732594, 0.0013361755, -0.0021713136, 0.9999966, -0.0014557393, -0.0013393344, 0.0014528333, 0.99999803, 2.2464705e-17, 1.9218986, 0.044964492)
+transform = Transform3D(0.99999666, 0.0021736354, 0.0013363329, -0.0021716896, 0.9999966, -0.0014556848, -0.0013394923, 0.0014527779, 0.99999803, 2.2464705e-17, 1.9218986, 0.044964492)
 bone_name = "music_player"
 bone_idx = 0
 

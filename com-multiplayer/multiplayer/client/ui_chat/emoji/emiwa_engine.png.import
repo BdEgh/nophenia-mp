@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/emiwa_engine.png-a64a9adc3d8b4c30f8091525fdbb
 
 [params]
 
-compress/mode=1
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=1.0
 compress/uastc_level=0

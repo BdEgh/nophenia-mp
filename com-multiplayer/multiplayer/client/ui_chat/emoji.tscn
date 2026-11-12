@@ -2,6 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://bfv6vl85m3t5q" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_cus/ui_theme.tres" id="1_jostm"]
 
+
 [node name="Emoji" type="Control" unique_id=560384219]
 layout_mode = 3
 anchors_preset = 0

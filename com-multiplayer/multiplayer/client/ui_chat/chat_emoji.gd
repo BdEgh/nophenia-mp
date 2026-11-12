@@ -31,6 +31,8 @@ func unwrap(text: String) -> String:
         var path: String = paths.get(m.get_string(1))
         if path.contains("absolutemeow"):
             result += "[img height=128]%s[/img]" % path
+        elif path.contains("nia"):
+            result += "[img height=48]%s[/img]" % path
         elif path:
             result += "[img height=32]%s[/img]" % path
         else:

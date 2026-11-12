@@ -9,9 +9,12 @@
 [ext_resource type="Texture2D" uid="uid://bn41f14lei34t" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/battery.png" id="4_3121i"]
 [ext_resource type="Texture2D" uid="uid://bejaojg1u4qek" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/pic_shadow.png" id="4_ho31i"]
 [ext_resource type="FontFile" uid="uid://dho0yytyts0c3" path="res://resource/font/menu_large.ttf" id="4_rx0mi"]
-[ext_resource type="Texture2D" uid="uid://dnjfoppx16g2f" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/test_pic.png" id="5_6xxex"]
+[ext_resource type="Texture2D" uid="uid://dnjfoppx16g2f" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/no_pic.png" id="5_6xxex"]
 [ext_resource type="PackedScene" uid="uid://c4fh1v27fouu5" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/map_select_button.tscn" id="5_bywj4"]
 [ext_resource type="Texture2D" uid="uid://c5aey5ak2ybnh" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/arrow_back_2.png" id="5_go7gw"]
+[ext_resource type="Texture2D" uid="uid://bl57f8figytrq" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/save_icon.png" id="13_3121i"]
+[ext_resource type="Texture2D" uid="uid://des3ogm7ehfrn" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/sync_icon.png" id="14_18kgm"]
+[ext_resource type="Texture2D" uid="uid://dquy628vkln3n" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/scroll_hint.png" id="15_8l21y"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w2s06"]
 
@@ -201,6 +204,8 @@ fill_from = Vector2(1, 1)
 texture = SubResource("GradientTexture2D_tl8i1")
 
 [sub_resource type="Theme" id="Theme_1x3kl"]
+
+[sub_resource type="DPITexture" id="DPITexture_8l21y"]
 
 [sub_resource type="Gradient" id="Gradient_tn3h4"]
 offsets = PackedFloat32Array(0, 0.50617284)
@@ -768,7 +773,6 @@ metadata/_edit_lock_ = true
 
 [node name="Map_info_menu" type="PanelContainer" parent="Screen" unique_id=1080043043]
 unique_name_in_owner = true
-visible = false
 z_index = 2
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_bmmkb")
@@ -871,19 +875,21 @@ layout_mode = 2
 texture = ExtResource("4_3121i")
 stretch_mode = 5
 
-[node name="scroll_container" type="ScrollContainer" parent="Screen/Map_info_menu/bg/v_box_container" unique_id=890950150]
+[node name="info_scroll" type="ScrollContainer" parent="Screen/Map_info_menu/bg/v_box_container" unique_id=890950150]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 337)
 layout_mode = 2
 theme = SubResource("Theme_1x3kl")
+theme_override_icons/scroll_hint_vertical = SubResource("DPITexture_8l21y")
 vertical_scroll_mode = 3
 scroll_hint_mode = 3
 
-[node name="v_box_container" type="VBoxContainer" parent="Screen/Map_info_menu/bg/v_box_container/scroll_container" unique_id=1811773753]
+[node name="v_box_container" type="VBoxContainer" parent="Screen/Map_info_menu/bg/v_box_container/info_scroll" unique_id=1811773753]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="map_index" type="RichTextLabel" parent="Screen/Map_info_menu/bg/v_box_container/scroll_container/v_box_container" unique_id=1366613539]
+[node name="map_index" type="RichTextLabel" parent="Screen/Map_info_menu/bg/v_box_container/info_scroll/v_box_container" unique_id=1366613539]
 unique_name_in_owner = true
 clip_children = 2
 layout_mode = 2
@@ -894,7 +900,7 @@ fit_content = true
 scroll_active = false
 horizontal_alignment = 1
 
-[node name="text_grad" type="PanelContainer" parent="Screen/Map_info_menu/bg/v_box_container/scroll_container/v_box_container/map_index" unique_id=48835100]
+[node name="text_grad" type="PanelContainer" parent="Screen/Map_info_menu/bg/v_box_container/info_scroll/v_box_container/map_index" unique_id=48835100]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -903,12 +909,12 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_w2s06")
 
-[node name="pic_marg" type="MarginContainer" parent="Screen/Map_info_menu/bg/v_box_container/scroll_container/v_box_container" unique_id=1084074776]
+[node name="pic_marg" type="MarginContainer" parent="Screen/Map_info_menu/bg/v_box_container/info_scroll/v_box_container" unique_id=1084074776]
 layout_mode = 2
 theme_override_constants/margin_left = 45
 theme_override_constants/margin_right = 45
 
-[node name="pic_shadow" type="TextureRect" parent="Screen/Map_info_menu/bg/v_box_container/scroll_container/v_box_container/pic_marg" unique_id=773203824]
+[node name="pic_shadow" type="TextureRect" parent="Screen/Map_info_menu/bg/v_box_container/info_scroll/v_box_container/pic_marg" unique_id=773203824]
 modulate = Color(1, 1, 1, 0.7490196)
 layout_mode = 2
 offset_transform_enabled = true
@@ -917,7 +923,7 @@ texture = ExtResource("4_ho31i")
 expand_mode = 3
 stretch_mode = 3
 
-[node name="pic_panel" type="PanelContainer" parent="Screen/Map_info_menu/bg/v_box_container/scroll_container/v_box_container/pic_marg" unique_id=2038849813]
+[node name="pic_panel" type="PanelContainer" parent="Screen/Map_info_menu/bg/v_box_container/info_scroll/v_box_container/pic_marg" unique_id=2038849813]
 clip_children = 2
 custom_minimum_size = Vector2(180, 180)
 custom_maximum_size = Vector2(180, 180)
@@ -926,13 +932,13 @@ size_flags_horizontal = 4
 size_flags_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_lvqvi")
 
-[node name="info_pic" type="TextureRect" parent="Screen/Map_info_menu/bg/v_box_container/scroll_container/v_box_container/pic_marg/pic_panel" unique_id=997540586]
+[node name="info_pic" type="TextureRect" parent="Screen/Map_info_menu/bg/v_box_container/info_scroll/v_box_container/pic_marg/pic_panel" unique_id=997540586]
 unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("5_6xxex")
 stretch_mode = 6
 
-[node name="load_bar" type="ProgressBar" parent="Screen/Map_info_menu/bg/v_box_container/scroll_container/v_box_container/pic_marg" unique_id=1117530827]
+[node name="load_bar" type="ProgressBar" parent="Screen/Map_info_menu/bg/v_box_container/info_scroll/v_box_container/pic_marg" unique_id=1117530827]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -944,7 +950,31 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_3121i")
 max_value = 1.0
 step = 0.001
 
-[node name="info_name" type="RichTextLabel" parent="Screen/Map_info_menu/bg/v_box_container/scroll_container/v_box_container" unique_id=1752175214]
+[node name="margin_container" type="MarginContainer" parent="Screen/Map_info_menu/bg/v_box_container/info_scroll/v_box_container/pic_marg" unique_id=1793212249]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 140
+theme_override_constants/margin_top = 140
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="saved_picture" type="TextureRect" parent="Screen/Map_info_menu/bg/v_box_container/info_scroll/v_box_container/pic_marg/margin_container" unique_id=193751169]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+tooltip_text = "saved locally"
+texture = ExtResource("13_3121i")
+expand_mode = 1
+
+[node name="sync_picture" type="TextureRect" parent="Screen/Map_info_menu/bg/v_box_container/info_scroll/v_box_container/pic_marg/margin_container" unique_id=1690067933]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+tooltip_text = "update available"
+texture = ExtResource("14_18kgm")
+expand_mode = 1
+
+[node name="info_name" type="RichTextLabel" parent="Screen/Map_info_menu/bg/v_box_container/info_scroll/v_box_container" unique_id=1752175214]
 unique_name_in_owner = true
 clip_children = 2
 layout_mode = 2
@@ -955,7 +985,7 @@ fit_content = true
 scroll_active = false
 horizontal_alignment = 1
 
-[node name="text_grad" type="PanelContainer" parent="Screen/Map_info_menu/bg/v_box_container/scroll_container/v_box_container/info_name" unique_id=1932665412]
+[node name="text_grad" type="PanelContainer" parent="Screen/Map_info_menu/bg/v_box_container/info_scroll/v_box_container/info_name" unique_id=1932665412]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -964,7 +994,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_w2s06")
 
-[node name="info_author" type="RichTextLabel" parent="Screen/Map_info_menu/bg/v_box_container/scroll_container/v_box_container" unique_id=2010994985]
+[node name="info_author" type="RichTextLabel" parent="Screen/Map_info_menu/bg/v_box_container/info_scroll/v_box_container" unique_id=2010994985]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/default_color = Color(0.35686275, 0.35686275, 0.35686275, 1)
@@ -978,13 +1008,13 @@ scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="desc_marg" type="MarginContainer" parent="Screen/Map_info_menu/bg/v_box_container/scroll_container/v_box_container" unique_id=300218092]
+[node name="desc_marg" type="MarginContainer" parent="Screen/Map_info_menu/bg/v_box_container/info_scroll/v_box_container" unique_id=300218092]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 10
 
-[node name="info_desc" type="RichTextLabel" parent="Screen/Map_info_menu/bg/v_box_container/scroll_container/v_box_container/desc_marg" unique_id=1592429264]
+[node name="info_desc" type="RichTextLabel" parent="Screen/Map_info_menu/bg/v_box_container/info_scroll/v_box_container/desc_marg" unique_id=1592429264]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/default_color = Color(0.3968896, 0.39688912, 0.39688924, 1)
@@ -996,6 +1026,19 @@ theme_override_fonts/normal_font = ExtResource("4_rx0mi")
 theme_override_font_sizes/normal_font_size = 18
 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus tristique dapibus blandit. Aliquam sodales non erat sed facilisis. Sed eu lacus eget augue ultrices aliquet a sit amet sem. Donec sollicitudin convallis eros, in euismod turpis ornare non. Vestibulum vehicula a justo at tempor. Nam ut hendrerit mi. Cras lobortis sollicitudin ante, eget imperdiet odio tincidunt ut. Nam vulputate convallis sem, in tincidunt libero sollicitudin quis. Fusce efficitur, elit sed scelerisque eleifend, neque dolor vehicula nibh, sed volutpat orci mauris sed purus. Maecenas tempus elit id nisi tempor, a tincidunt enim ultrices. Morbi finibus tellus non luctus volutpat. Donec consequat felis sem, a elementum nibh varius id. Nam interdum, ipsum quis tempor blandit, eros urna dignissim nisi, ut efficitur tortor nisl et lacus. Curabitur condimentum venenatis tincidunt. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; "
 fit_content = true
+
+[node name="scroll_hint_margin" type="MarginContainer" parent="Screen/Map_info_menu/bg" unique_id=2141169819]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_top = 260
+
+[node name="scroll_hint" type="TextureRect" parent="Screen/Map_info_menu/bg/scroll_hint_margin" unique_id=1199473370]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.7058824)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("15_8l21y")
+expand_mode = 1
 
 [node name="after_image" type="TextureRect" parent="Screen" unique_id=171210019]
 unique_name_in_owner = true

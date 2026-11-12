@@ -3,7 +3,7 @@
 [ext_resource type="Theme" uid="uid://bvgch2a5gbyiw" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/mp3_theme.tres" id="1_oinl1"]
 [ext_resource type="Texture2D" uid="uid://bejaojg1u4qek" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/pic_shadow.png" id="2_padl8"]
 [ext_resource type="Script" uid="uid://bnaxcttfiieip" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/map_select_button.gd" id="2_qjhq8"]
-[ext_resource type="Texture2D" uid="uid://dnjfoppx16g2f" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/test_pic.png" id="3_qjhq8"]
+[ext_resource type="Texture2D" uid="uid://dnjfoppx16g2f" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/no_pic.png" id="3_qjhq8"]
 [ext_resource type="Texture2D" uid="uid://bgg7xmx582il5" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/person.png" id="4_mvwsd"]
 [ext_resource type="FontFile" uid="uid://dho0yytyts0c3" path="res://resource/font/menu_large.ttf" id="4_padl8"]
 [ext_resource type="Texture2D" uid="uid://dyfeqb2idlcvo" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/star.png" id="5_v7xvp"]

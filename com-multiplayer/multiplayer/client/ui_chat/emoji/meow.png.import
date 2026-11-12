@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/meow.png-e1c94c221c73d6f3f00dbdae9e1d42fd.cte
 
 [params]
 
-compress/mode=1
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=1.0
 compress/uastc_level=0

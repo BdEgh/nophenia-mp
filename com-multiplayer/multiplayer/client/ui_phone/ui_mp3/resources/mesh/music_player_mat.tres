@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://ckty8lln57ym4" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/mesh/music_player_music_player_texture2.png" id="1_5fo7p"]
 
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ls2ip"]
 render_priority = 1
 transparency = 1

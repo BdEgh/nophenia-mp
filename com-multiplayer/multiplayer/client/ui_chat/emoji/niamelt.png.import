@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/niamelt.png-05b9cd69fb25e278c27fe4ba1475d425.
 
 [params]
 
-compress/mode=1
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=1.0
 compress/uastc_level=0

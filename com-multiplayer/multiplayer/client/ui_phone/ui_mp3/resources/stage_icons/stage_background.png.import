@@ -2,22 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cdb8767sfeldi"
-path.s3tc="res://.godot/imported/stage_background.png-657cb51d768ef15f065c6200fe8727be.s3tc.ctex"
-path.etc2="res://.godot/imported/stage_background.png-657cb51d768ef15f065c6200fe8727be.etc2.ctex"
+uid="uid://b71vlcje2l1im"
+path="res://.godot/imported/stage_background.png-657cb51d768ef15f065c6200fe8727be.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc", "etc2_astc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/stage_icons/stage_background.png"
-dest_files=["res://.godot/imported/stage_background.png-657cb51d768ef15f065c6200fe8727be.s3tc.ctex", "res://.godot/imported/stage_background.png-657cb51d768ef15f065c6200fe8727be.etc2.ctex"]
+dest_files=["res://.godot/imported/stage_background.png-657cb51d768ef15f065c6200fe8727be.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=1
 compress/high_quality=false
 compress/lossy_quality=1.0
 compress/uastc_level=0
@@ -39,4 +37,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cexxuhvo0cm16" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_chat/clear_button.png" id="3_yxpje"]
 [ext_resource type="BitMap" uid="uid://bp4cmjqwcn8m0" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_chat/clear_button_b.png" id="4_ynkhd"]
 
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_chat_input"]
 bg_color = Color(0, 0, 0, 0.7019608)
 border_width_left = 4

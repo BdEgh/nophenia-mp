@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/emiwa_shovel.png-d0e02293a92268dae0b95268a97b
 
 [params]
 
-compress/mode=1
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=1.0
 compress/uastc_level=0

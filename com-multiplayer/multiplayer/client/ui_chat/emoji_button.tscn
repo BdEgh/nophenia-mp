@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://cuwyft8cd41ok" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_chat/emoji/emiwa_cheeky.png" id="1_36hm3"]
 [ext_resource type="Theme" uid="uid://bfv6vl85m3t5q" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_cus/ui_theme.tres" id="1_gmveh"]
 
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ojvuv"]
 bg_color = Color(0.11372549, 0.101960786, 0.105882354, 1)
 border_width_left = 2

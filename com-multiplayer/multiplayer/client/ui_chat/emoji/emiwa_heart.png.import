@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/emiwa_heart.png-98b589d56d7a781f93f0989895789
 
 [params]
 
-compress/mode=1
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=1.0
 compress/uastc_level=0

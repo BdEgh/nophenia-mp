@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://detcdm64sv41t" path="res://mods-unpacked/com-multiplayer/multiplayer/client/puppet_patcher.gd" id="1_evxye"]
 
+
 [node name="Pup" type="Node" unique_id=305554034]
 script = ExtResource("1_evxye")
 

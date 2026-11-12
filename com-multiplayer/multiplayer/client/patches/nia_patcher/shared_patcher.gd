@@ -7,7 +7,7 @@ var seal_attachment_scene = load(get_script().resource_path.get_base_dir() + "/i
 var seal_scene = load(get_script().resource_path.get_base_dir() + "/items/seal/seal.tscn")
 var eye_fix_material = load(get_script().resource_path.get_base_dir() + "/player_mat_with_vertex_color_fix.tres")
 var items_glb = load(get_script().resource_path.get_base_dir() + "/items/1420-MHz/items/items_model.glb")
-var heads_glb = load(get_script().resource_path.get_base_dir() + "/items/1420-MHz/items/heads.glb")
+#var heads_glb = load(get_script().resource_path.get_base_dir() + "/items/1420-MHz/items/heads.glb")
 var bell_scene = load(get_script().resource_path.get_base_dir() + "/items/1420-MHz/bell/bell_scene.tscn")
 var bell_bone_attachment_scene = load(get_script().resource_path.get_base_dir() + "/items/1420-MHz/bell/bell_bone_attachment.tscn")
 var items_cloth_sound = load(get_script().resource_path.get_base_dir() + "/items/1420-MHz/sfx/items_cloth.ogg")
@@ -77,13 +77,11 @@ func _ready() -> void:
     ahoge_coverage_nodes.append(seal)
     var seal_att = seal_attachment_scene.instantiate()
     skeleton.add_child(seal_att)
-    #var seal_rt: RemoteTransform3D = seal_att.get_node("remote_transform_3d")
-    #seal_rt.remote_path = seal_rt.get_path_to(seal)
     
     var items_root: Node3D = items_glb.instantiate()
     var items_skel = items_root.get_node("Armature/Skeleton3D")
-    var heads_root: Node3D = heads_glb.instantiate()
-    var heads_skel = heads_root.get_node("Armature/Skeleton3D")
+    #var heads_root: Node3D = heads_glb.instantiate()
+    #var heads_skel = heads_root.get_node("Armature/Skeleton3D")
     
     ahoge_idx = skeleton.find_bone("Hair_Ahoge")
     ahoge_default_pos = skeleton.get_bone_pose_position(ahoge_idx)
@@ -107,20 +105,20 @@ func _ready() -> void:
         new_mesh.skeleton = new_mesh.get_path_to(skeleton)
         item_meshes.append(new_mesh)
     
-    for child: MeshInstance3D in heads_skel.get_children():
-        var new_mesh = child.duplicate()
-        if new_mesh.name != "Short hair head":
-            continue
-        heads[new_mesh.name] = new_mesh
-        skeleton.add_child(new_mesh)
-        new_mesh.skeleton = new_mesh.get_path_to(skeleton)
-        new_mesh.visible = false
-        item_meshes.append(new_mesh)
+    #for child: MeshInstance3D in heads_skel.get_children():
+        #var new_mesh = child.duplicate()
+        #if new_mesh.name != "Short hair head":
+            #continue
+        #heads[new_mesh.name] = new_mesh
+        #skeleton.add_child(new_mesh)
+        #new_mesh.skeleton = new_mesh.get_path_to(skeleton)
+        #new_mesh.visible = false
+        #item_meshes.append(new_mesh)
     for v in heads.values():
         v.visibility_changed.connect(_on_head_visibility_changed.bind(v))
     
     items_root.queue_free()
-    heads_root.queue_free()
+    #heads_root.queue_free()
     
     bell = bell_scene.instantiate()
     model.add_child(bell)

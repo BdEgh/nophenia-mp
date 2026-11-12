@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/emiwa_nuggie.png-bea55dfbca4cf8074da9a059367c
 
 [params]
 
-compress/mode=1
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=1.0
 compress/uastc_level=0

@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://2d2njus0v3n0" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_cus/textures/feet.png" id="8_ofib8"]
 [ext_resource type="Texture2D" uid="uid://f67bl34qbbt2" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_cus/textures/accessories.png" id="9_le4ep"]
 
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3ahtj"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 corner_radius_top_left = 5

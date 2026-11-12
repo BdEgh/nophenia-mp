@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dnjfoppx16g2f"
-path="res://.godot/imported/test_pic.png-fa381f34a746e8a94a60b3530fd9fc03.ctex"
+uid="uid://dquy628vkln3n"
+path="res://.godot/imported/scroll_hint.png-a6a7418c179d206c8a17c0f9f3419433.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/test_pic.png"
-dest_files=["res://.godot/imported/test_pic.png-fa381f34a746e8a94a60b3530fd9fc03.ctex"]
+source_file="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_phone/ui_mp3/resources/ui_textures/scroll_hint.png"
+dest_files=["res://.godot/imported/scroll_hint.png-a6a7418c179d206c8a17c0f9f3419433.ctex"]
 
 [params]
 

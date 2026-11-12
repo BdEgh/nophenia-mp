@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/niayay.png-a9d8e3c2459cd5543345803ccead177f.c
 
 [params]
 
-compress/mode=1
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=1.0
 compress/uastc_level=0

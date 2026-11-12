@@ -5,6 +5,7 @@
 [ext_resource type="Shader" uid="uid://cwl71jfhkvigs" path="res://gdshader/ui_invert.gdshader" id="3_r6pw4"]
 [ext_resource type="FontFile" uid="uid://dho0yytyts0c3" path="res://resource/font/menu_large.ttf" id="3_ruvke"]
 
+
 [sub_resource type="ButtonGroup" id="ButtonGroup_3t52j"]
 resource_local_to_scene = false
 

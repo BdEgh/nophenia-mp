@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bguul73l3eo3o" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_cus/textures/shadow.png" id="2_dxvyo"]
 [ext_resource type="PackedScene" uid="uid://ceirguiinoeii" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_cus/item_preview.tscn" id="4_8mpfp"]
 
+
 [node name="ItemMargin" type="MarginContainer" unique_id=397330868]
 offset_right = 38.0
 offset_bottom = 92.145

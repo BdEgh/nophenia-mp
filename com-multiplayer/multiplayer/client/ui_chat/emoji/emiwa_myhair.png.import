@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/emiwa_myhair.png-3307d0457dd1b657c790d187b28b
 
 [params]
 
-compress/mode=1
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=1.0
 compress/uastc_level=0

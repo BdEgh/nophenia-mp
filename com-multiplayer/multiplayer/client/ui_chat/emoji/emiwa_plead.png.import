@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/emiwa_plead.png-51bb1bf328c32a086d4f49d71540c
 
 [params]
 
-compress/mode=1
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=1.0
 compress/uastc_level=0

@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/nianope.png-074691b1cab9c456a76fa351f2a0cb1f.
 
 [params]
 
-compress/mode=1
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=1.0
 compress/uastc_level=0

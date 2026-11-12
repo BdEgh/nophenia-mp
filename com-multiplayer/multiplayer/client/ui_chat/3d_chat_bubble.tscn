@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://j6qvnuf45ky5" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_chat/3d_chat_bubble.gd" id="1_qhtkx"]
 
+
 [sub_resource type="ViewportTexture" id="ViewportTexture_rxdc6"]
 viewport_path = NodePath("Sprite/sub_viewport")
 

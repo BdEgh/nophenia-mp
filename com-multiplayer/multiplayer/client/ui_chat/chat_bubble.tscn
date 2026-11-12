@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://u06mawgaym0g" path="res://mods-unpacked/com-multiplayer/multiplayer/client/ui_chat/chat_bubble.gd" id="1_vdvln"]
 
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qmu22"]
 bg_color = Color(0.9372549, 0.8509804, 0.6745098, 0.85490197)
 border_width_left = 8

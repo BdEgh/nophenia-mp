@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/emiwa_loaf.png-8e93c2668c1f6a4a06484cee9b13f1
 
 [params]
 
-compress/mode=1
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=1.0
 compress/uastc_level=0

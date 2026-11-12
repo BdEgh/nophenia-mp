@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/niagrab.png-b4bfa87b63c94caa9dec1a69d9b9798e.
 
 [params]
 
-compress/mode=1
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=1.0
 compress/uastc_level=0

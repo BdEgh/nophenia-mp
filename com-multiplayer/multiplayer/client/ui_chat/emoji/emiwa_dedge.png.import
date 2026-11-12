@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/emiwa_dedge.png-3667e92fb4ca4ff70591978bf34ce
 
 [params]
 
-compress/mode=1
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=1.0
 compress/uastc_level=0

@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/niahugseal.png-d5adfcd06f8a17b74988f818985f43
 
 [params]
 
-compress/mode=1
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=1.0
 compress/uastc_level=0

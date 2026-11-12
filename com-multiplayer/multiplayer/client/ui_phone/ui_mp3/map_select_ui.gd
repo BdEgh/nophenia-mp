@@ -17,10 +17,13 @@ extends Control
 @onready var load_bar: ProgressBar = %load_bar
 @onready var map_index: RichTextLabel = %map_index
 @onready var options_button: Button = %options_button
-
+@onready var saved_picture: TextureRect = %saved_picture
+@onready var sync_picture: TextureRect = %sync_picture
 @onready var name_button: CheckBox = %name_button
 @onready var author_button: CheckBox = %author_button
 @onready var saved_button: CheckBox = %saved_button
+@onready var scroll_hint: TextureRect = %scroll_hint
+@onready var info_scroll: ScrollContainer = %info_scroll
 
 var maps := {}
 var default_picture: Texture2D
@@ -32,6 +35,18 @@ func _ready() -> void:
     var remote_loader = get_tree().get_first_node_in_group("mp").remote_loader
     remote_loader.download_progress.connect(_update_load_progress)
     sort_buttons = { Sorts.Name: name_button, Sorts.Author: author_button, Sorts.Saved: saved_button }
+    var scroll: VScrollBar = info_scroll.get_v_scroll_bar()
+    scroll.value_changed.connect(_update_scroll_hint)
+    scroll.changed.connect(_update_scroll_hint)
+
+func _update_scroll_hint(_value: int = 0) -> void:
+    #print("x: ", info_scroll.get_v_scroll_bar().value)
+    #print("y: ", info_scroll.get_v_scroll_bar().max_value)
+    #print("z: ", _value)
+    if info_scroll.get_v_scroll_bar().value >= info_scroll.get_v_scroll_bar().max_value - info_scroll.size.y:
+        scroll_hint.visible = false
+    else:
+        scroll_hint.visible = true
 
 func _update_load_progress(value: float):
     load_bar.visible = true
@@ -105,9 +120,6 @@ func show_map_info():
     map_info_menu.visible = true
     load_bar.visible = false
 
-func show_map_raw(_stage: String):
-    pass
-
 var last_selected: Button
 func show_map(map_button: Button):
     last_selected = map_button
@@ -116,10 +128,11 @@ func show_map(map_button: Button):
     else:
         info_pic.texture = default_picture
     info_name.text = map_button.name
-    if map_button.data.has("md5") and map_button.data.has("local_md5") and map_button.data["md5"] != map_button.data["local_md5"]:
-        info_name.text += " 🗘"
-    elif map_button.data.has("local_md5"):
-        info_name.text += " 💾"
+    sync_picture.visible = map_button.data.has("md5") and map_button.data.has("local_md5") and map_button.data["md5"] != map_button.data["local_md5"]
+    if not sync_picture.visible:
+        saved_picture.visible = map_button.data.has("local_md5")
+    else:
+        saved_picture.visible = false
     info_author.text = map_button.author
     info_desc.text = map_button.description
     
@@ -182,7 +195,7 @@ func add_ghosting():
     %after_image.texture = _capture
     _afterimage_tween = game.tween(_afterimage_tween)
     #create_tween().tween_property( %bg.material, "shader_parameter/saturation", 0.3, 0.4).from(0.6)
-    await _afterimage_tween.tween_property( %after_image, "modulate:a", 0.25, 0.3).from(1.0).set_trans(Tween.TRANS_CUBIC).finished
+    await _afterimage_tween.tween_property( %after_image, "modulate:a", 0.15, 0.25).from(0.4).set_trans(Tween.TRANS_CUBIC).finished
     _cd_ghosting = false
     _afterimage_tween = game.tween(_afterimage_tween)
     _afterimage_tween.tween_property( %after_image, "modulate:a", 0.0, randf_range(0.3, 0.4)).set_trans(Tween.TRANS_SINE)
@@ -238,7 +251,7 @@ func chat_share() -> void:
 func _on_reload_button_pressed() -> void:
     on_button_pressed()
     queue_free_maps()
-    mp3.fill_maps()
+    mp3.add_maps()
     update_sort_pressed()
 
 func _on_home_button_pressed() -> void:
