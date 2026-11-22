@@ -6,7 +6,7 @@ var paths := {}
 var regex := RegEx.new()
 
 func _init(emoji_dir: String) -> void:
-    regex.compile(":([a-z_]+):")
+    regex.compile(":([a-z0-9_]+):")
     var dir := DirAccess.open(emoji_dir)
     if not dir:
         return

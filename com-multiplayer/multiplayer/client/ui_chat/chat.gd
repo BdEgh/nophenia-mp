@@ -30,7 +30,7 @@ func _ready() -> void:
     emoji_timer.one_shot = true
     emoji_timer.timeout.connect(_on_emoji_timer_timeout)
     add_child(emoji_timer)
-    emoji_prefix_regex.compile(":([a-z_]*)$")
+    emoji_prefix_regex.compile(":([a-z0-9_]*)$")
     message_input.text_changed.connect(_on_input_changed)
     visible = false
 
@@ -46,7 +46,7 @@ func _disconnect_client() -> void:
 
 func _trailing_prefix():
     var m = emoji_prefix_regex.search(message_input.text)
-    return m.get_string(1) if m else null
+    return m.get_string(1) if m != null else null
 
 func _on_emoji_timer_timeout() -> void:
     if _trailing_prefix() == emoji_prefix:
@@ -77,7 +77,7 @@ func _open_emoji_window(prefix: String) -> void:
     var paths = emoji.paths
     var names := []
     for emoji_name in paths:
-        if emoji_name.begins_with(prefix):
+        if emoji_name.contains(prefix) or prefix.length() == 0:
             names.append(emoji_name)
     if names.is_empty():
         return

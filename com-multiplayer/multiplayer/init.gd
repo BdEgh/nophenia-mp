@@ -234,7 +234,8 @@ func _on_stage_title(stage_title: Node3D) -> void:
     var button: Button = mp_control.get_node("button")
     button.visible = false
     canvas.add_child(mp_control)
-    canvas.move_child(mp_control, stage_title.get_node("canvas_layer/info_version").get_index() + 1)
+    if stage_title.has_node("canvas_layer/info_version"):
+        canvas.move_child(mp_control, stage_title.get_node("canvas_layer/info_version").get_index() + 1)
     
     if not menu_http:
         menu_http = HTTPRequest.new()
